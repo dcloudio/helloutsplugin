@@ -1,0 +1,57 @@
+type NoParamOptions = {
+  success: (res: string) => void;
+  fail: (res: string) => void;
+  complete: (res: string) => void;
+};
+
+type StringParamOptions = {
+  input:string;
+  success: (res: string) => void;
+  fail: (res: string) => void;
+  complete: (res: string) => void;
+};
+
+
+type inputJSON = {
+	inputText:string,
+	errCode:number
+}
+type JsonParamOptions = {
+  input:inputJSON;
+  success: (res: string) => void;
+  fail: (res: string) => void;
+  complete: (res: string) => void;
+};
+
+
+/**
+ * 导出一个带callback的同步方法
+ * @param opts
+ */
+export function callWithoutParam(opts: NoParamOptions) {
+	setTimeout(function() {
+		opts.success();
+	}, 1000);
+  
+  return { name: "doSthWithCallback" };
+}
+
+export function callWithStringParam(opts: StringParamOptions) {
+	setTimeout(function() {
+		opts.success(opts.input);
+	}, 1000);
+  
+  return { name: "doSthWithCallback" };
+}
+
+
+export function callWithJSONParam(opts: JsonParamOptions) {
+	opts.input.errCode = 10;
+	setTimeout(function() {
+		opts.success(opts.input);
+	}, 1000);
+  
+  return { name: "doSthWithCallback" };
+}
+
+

@@ -1,0 +1,82 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		
+	    {
+            "path" : "pages/tabBar/Primer/Primer",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+        {
+            "path" : "pages/tabBar/Advance/Advance",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+		{
+		    "path" : "pages/tabBar/SystemAPI/SystemAPI",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/tabBar/SDKIntegration/SDKIntegration",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		}
+    ],
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#007AFF",
+		"borderStyle": "black",
+		"backgroundColor": "#F8F8F8",
+		"list": [{
+				"pagePath": "pages/tabBar/Primer/Primer",
+				"iconPath": "static/tabbar_easy.png",
+				"selectedIconPath": "static/tabbar_easy_select.png",
+				"text": "入门"
+			},
+			{
+				"pagePath": "pages/tabBar/Advance/Advance",
+				"iconPath": "static/tabbar_high.png",
+				"selectedIconPath": "static/tabbar_high_select.png",
+				"text": "进阶"
+			}, {
+				"pagePath": "pages/tabBar/SystemAPI/SystemAPI",
+				"iconPath": "static/tabbar_api.png",
+				"selectedIconPath": "static/tabbar_api_select.png",
+				"text": "系统API"
+			}, {
+				"pagePath": "pages/tabBar/SDKIntegration/SDKIntegration",
+				"iconPath": "static/tabbar_sdk.png",
+				"selectedIconPath": "static/tabbar_sdk_select.png",
+				"text": "三方SDK"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}
