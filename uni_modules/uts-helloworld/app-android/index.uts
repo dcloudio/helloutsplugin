@@ -31,7 +31,7 @@ type JsonParamOptions = {
 export function callWithoutParam(opts: NoParamOptions) {
 	setTimeout(function() {
 		opts.success();
-	}, 1000);
+	}, 500);
   
   return { name: "doSthWithCallback" };
 }
@@ -39,7 +39,7 @@ export function callWithoutParam(opts: NoParamOptions) {
 export function callWithStringParam(opts: StringParamOptions) {
 	setTimeout(function() {
 		opts.success(opts.input);
-	}, 1000);
+	}, 500);
   
   return { name: "doSthWithCallback" };
 }
@@ -49,7 +49,7 @@ export function callWithJSONParam(opts: JsonParamOptions) {
 	opts.input.errCode = 10;
 	setTimeout(function() {
 		opts.success(opts.input);
-	}, 1000);
+	}, 500);
   
   return { name: "doSthWithCallback" };
 }
