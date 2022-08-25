@@ -12,7 +12,7 @@ fun getBatteryCapacity(): String {
     if (context != null) {
         val manager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager;
         val currentLevel: Number = manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
-        return "" + currentLevel + "**456464%";
+        return "" + currentLevel + "%";
     }
     return "0%";
 }

@@ -37,15 +37,15 @@
 				});
 			},
 			testDoSthWithString: function () {
-				callWithStringParam({
-					input:this.stringParam,
-					success:function(response){
+				callWithStringParam(
+					this.stringParam,
+					function(response){
 						uni.showToast({
 							title:'uts插件uts-helloworld的callWithStringParam方法收到了你输入的字符串：'+response,
 							icon:'none'
 						});
 					},
-				});
+				);
 			},
 			testDoSthWithJSON: function () {
 				console.log(this.jsonParam);

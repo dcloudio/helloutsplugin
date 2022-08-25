@@ -34,9 +34,9 @@ fun callWithoutParam(opts: NoParamOptions): UtsJSONObject {
         var name = "doSthWithCallback"
     };
 }
-fun callWithStringParam(opts: StringParamOptions): UtsJSONObject {
+fun callWithStringParam(input: String, success: (res: String) -> Unit): UtsJSONObject {
     setTimeout(fun() {
-        opts.success(opts.input);
+        success(input);
     }
     , 500);
     return object : UtsJSONObject() {

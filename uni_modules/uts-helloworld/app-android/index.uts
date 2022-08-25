@@ -36,9 +36,12 @@ export function callWithoutParam(opts: NoParamOptions) {
   return { name: "doSthWithCallback" };
 }
 
-export function callWithStringParam(opts: StringParamOptions) {
+
+  
+export function callWithStringParam(input:string,success: (res: string) => void) {
+	
 	setTimeout(function() {
-		opts.success(opts.input);
+		success(input);
 	}, 500);
   
   return { name: "doSthWithCallback" };

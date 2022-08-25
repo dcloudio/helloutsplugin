@@ -199,14 +199,11 @@ if (uni.restoreGlobal) {
         });
       },
       testDoSthWithString: function() {
-        callWithStringParam({
-          input: this.stringParam,
-          success: function(response) {
-            uni.showToast({
-              title: "uts\u63D2\u4EF6uts-helloworld\u7684callWithStringParam\u65B9\u6CD5\u6536\u5230\u4E86\u4F60\u8F93\u5165\u7684\u5B57\u7B26\u4E32\uFF1A" + response,
-              icon: "none"
-            });
-          }
+        callWithStringParam(this.stringParam, function(response) {
+          uni.showToast({
+            title: "uts\u63D2\u4EF6uts-helloworld\u7684callWithStringParam\u65B9\u6CD5\u6536\u5230\u4E86\u4F60\u8F93\u5165\u7684\u5B57\u7B26\u4E32\uFF1A" + response,
+            icon: "none"
+          });
         });
       },
       testDoSthWithJSON: function() {
