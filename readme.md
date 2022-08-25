@@ -1,22 +1,14 @@
 
-## 1 前置条件
+## 1 UTS原生插件介绍
 
-+ 1 HX 3.5.6 之后版本
+### 1.1 什么是uts原生插件
 
-## 2 uts原生插件介绍
-
-### 2.1 什么是uts原生插件
-
-UTS= Uni Type Script.
-
-UTS 插件是在uni原生插件的基础上，改用UTS作为插件开发语言。
-
-进一步降低插件开发门槛，平台差异，执行效率的新型插件形式
+UTS原生插件 是用UTS作为插件开发语言的一种新型插件形式。
 
 
 ![uts插件结构](./doc/UTS结构示意图1.png)
 
-### 2.2 uts原生插件与uni原生插件的区别
+### 1.2 uts原生插件与uni原生插件的区别
 
 |-|传统原生插件|uts原生插件|
 |-|-------|--------|
@@ -32,107 +24,162 @@ UTS 插件是在uni原生插件的基础上，改用UTS作为插件开发语言�
 
 2  编译时生成原生代码，提高代码执行效率
 
-## 3 UTS语法介绍
 
 
+## 2 创建UTS插件
 
-## 4 开发UTS插件
+### 2.1 UTS插件目录结构
 
-### 4.1  uni_modules
-
-确保项目根目录存在uni_modules文件夹
+首先确保项目根目录存在uni_modules文件夹
 
 ![插件目录](./doc/uni_modules.jpg)
 
-`uni_modules`类似 NPM中的`node_modules`.是用来存放插件依赖的文件夹。
+如果不存在，需要手动创建一个。
 
-如果项目中已存在此目录，则跳过。如果不存在，在需要手动创建一个。
+[关于uni_modules的详细说明](https://uniapp.dcloud.net.cn/plugin/uni_modules.html#%E4%BB%80%E4%B9%88%E6%98%AF-uni-modules)
 
 
 
-### 4.2 新建UTS插件
+### 2.2 新建步骤拆解
 
-选中uni_modules文件夹 -->  右键新建插件
+选中**uni_modules**目录 -- 右键 -- 新建插件
 
 ![新建插件1](./doc/new_uts_plugin.jpg)
 
-选择UTS原生插件
+选择 **UTS原生插件**
 
 ![新建插件2](./doc/new_uts_plugin2.jpg)
 
-插件目录结构
+UTS插件目录结构
 
 ![新建插件3](./doc/new_uts_plugin3.jpg)
 
 
-### 4.3 清单文件package.json
+### 2.3 清单文件package.json
 
-package.json为插件的清单文件，里面说明了整个UTS插件的配置信息，下面是一个完整的示例
+package.json为插件的清单文件，这里集成了整个UTS插件的配置信息，下面是一个完整的示例
 ```
 {
   "id": "uts-helloworld",
-  "displayName": "uts-helloworld",
-  "version": "1.0.0",
-  "description": "uts-helloworld",
-  "keywords": [
-    "uts-helloworld"
-],
-  
-  
+  "displayName": "UTS插件示例",
+  "version": "0.1",
+  "description": "UTS插件示例",
+  "uni_modules": {
+    "type": "uts",
+    "uts": {
+      "android": {
+        "libs": [
+          "xxx.aar"
+        ],
+        "dependencies": [{
+          "id": "com.xxx.richtext:richtext",
+          "source": "implementation 'com.xxx.richtext:richtext:3.0.7'"
+        }],
+        "minSdkVersion": 21
+      },
+      "ios": {
+        "libs": [
+          "xxx.a"
+        ]
+      },
+      "dependencies": [
+        "xxx.uts"
+      ]
+    }
+  }
 }
 ```
 
-## 5 使用插件
 
-### 5.1 引用UTS插件
 
-uts插件import有两种方式
-import {a,b} from 'xxx'
+## 3 开发UTS原生插件
+
+以android平台获取电量为例，介绍UTS原生插件开发步骤
+
+第一步 在android平台目录下，编辑index.uts,键入以下内容
+
+![OSAPI示例](./doc/uts_osapi_demo.jpg)
+
+
+index.uts
+```
+// 引用android api
+import Context from "android.content.Context";
+import BatteryManager from "android.os.BatteryManager";
+// 引用uts环境 api
+import { getAppContext } from "io.dcloud.uts.android";
+
+export function getBatteryCapacity(): string {
+	// 获取android系统 application上下文
+    const context = getAppContext();
+    if (context != null) {
+        const manager = context.getSystemService(
+            Context.BATTERY_SERVICE
+        ) as BatteryManager;
+        const currentLevel: number = manager.getIntProperty(
+            BatteryManager.BATTERY_PROPERTY_CAPACITY
+        );
+        return '' + currentLevel + '%';
+    }
+    return "0%";
+}
 
 ```
+
+保存时，触发自动编译。
+
+
+
+至此，我们已经完成一个android平台上获取电量的原生能力封装。
+
+
+在引用了此插件的项目中，我们可以像使用普通js函数一样，使用getBatteryCapacity函数来获取设备电量
+
+
+## 4 使用插件
+
+### 4.1 引用UTS插件
+
+uts插件的引入 遵循ES6的import语法
+
+下面介绍两种常见的引入方式
+
+
+1 显性的引用
+
+```
+//引用
 import {
-  callWithoutParam,
-  callWithStringParam,
-  callWithJSONParam
+  getBatteryCapacity,
 } from "../../../uni_modules/uts-helloworld";
 
+// 使用代码
+getBatteryCapacity()
+```
+2 泛型引用
+
+```
+// 引用
+import * as UTSHello from "../../../uni_modules/uts-helloworld";
+// 使用代码
+UTSHello.getBatteryCapacity()
 ```
 
-import X from 'XXX'
 
 
-### 5.2 用法
-
-延迟操作
-```
-//执行延迟操作
-var timer = setTimeout(function, 1000);
-//取消延迟操作
-clearTimeout(timer);
-```
-定时操作
-```
-//执行定时操作
-var timer = setInterval(function, 1000);
-//取消定时操作
-clearInterval(timer);
-```
-
-## 6 测试
+## 5 测试
 
 ### 5.1 真机运行
 
-直接运行
+UTS原生插件与运行调试没有差异，可以直接运行测试。
+
+需要注意的是，如果是涉及自定义信息，需要选择自定义基座运行
 
 ### 5.2 云端打包
 
 
 
 ### 5.3 示例项目
-
-### 一个简单的示例
-### 插件目录结构
-### 插件使用方法
 
 完整的示例项目地址：
 

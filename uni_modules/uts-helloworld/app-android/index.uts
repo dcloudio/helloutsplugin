@@ -11,7 +11,6 @@ type StringParamOptions = {
   complete: (res: string) => void;
 };
 
-
 type inputJSON = {
 	inputText:string,
 	errCode:number
@@ -29,32 +28,23 @@ type JsonParamOptions = {
  * @param opts
  */
 export function callWithoutParam(opts: NoParamOptions) {
-	setTimeout(function() {
-		opts.success();
-	}, 500);
-  
+  opts.success();
   return { name: "doSthWithCallback" };
 }
 
-
   
 export function callWithStringParam(input:string,success: (res: string) => void) {
-	
-	setTimeout(function() {
-		success(input);
-	}, 500);
-  
+  success(input);
   return { name: "doSthWithCallback" };
 }
 
 
 export function callWithJSONParam(opts: JsonParamOptions) {
 	opts.input.errCode = 10;
-	setTimeout(function() {
-		opts.success(opts.input);
-	}, 500);
+	opts.success(opts.input);
   
   return { name: "doSthWithCallback" };
 }
+
 
 
