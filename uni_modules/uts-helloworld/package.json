@@ -76,16 +76,6 @@
           "联盟": "u"
         }
       }
-    },
-    "type": "uts",
-    "uts": {
-        "android": {
-            "libs": [],
-            "dependencies": []
-        },
-        "ios": {
-            "libs": []
-        }
     }
   }
 }
