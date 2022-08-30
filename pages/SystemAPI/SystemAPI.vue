@@ -9,7 +9,7 @@
 <script>
 	import {
 	  getBatteryCapacity
-	} from "../../../utssdk/uts-osapi";
+	} from "../../uni_modules/uts-osapi";
 	
 	export default {
 		data() {

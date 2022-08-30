@@ -21,7 +21,7 @@
 	  clearIntervalTask,
 	  addViewToDecorView,
 	  removeViewToDecorView
-	} from "../../../utssdk/uts-advance";
+	} from "../../uni_modules/uts-advance";
 	
 	export default {
 		data() {
