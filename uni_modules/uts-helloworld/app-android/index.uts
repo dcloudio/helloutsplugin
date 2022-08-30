@@ -1,20 +1,9 @@
-type NoParamOptions = {
-  success: (res: string) => void;
-  fail: (res: string) => void;
-  complete: (res: string) => void;
-};
-
-type StringParamOptions = {
-  input:string;
-  success: (res: string) => void;
-  fail: (res: string) => void;
-  complete: (res: string) => void;
-};
 
 type inputJSON = {
 	inputText:string,
 	errCode:number
 }
+
 type JsonParamOptions = {
   input:inputJSON;
   success: (res: string) => void;
@@ -27,8 +16,9 @@ type JsonParamOptions = {
  * 导出一个带callback的同步方法
  * @param opts
  */
-export function callWithoutParam(opts: NoParamOptions) {
-  opts.success();
+export function callWithoutParam(success:() => void) {
+  success();
+  console.log("hello ","at uniModule/a/b.js line 67");
   return { name: "doSthWithCallback" };
 }
 

@@ -1,5 +1,9 @@
-import { log } from "./utils.uts";
 
+import { getActivity } from "io.dcloud.uts.android";
+import Rect from "android.graphics.Rect";
+import Color from "android.graphics.Color";
+import TextView from "android.widget.TextView";
+import FrameLayout from "android.widget.FrameLayout";
 
 type TimerOptions = {
   start: (res: string) => void;
@@ -27,6 +31,14 @@ export function doIntervalTask(opts:TimerOptions) {
   
   return { name: "doIntervalTask",taskId:taskRet};
 }
+
+export function clearIntervalTask(taskId:number) {
+	
+	clearInterval(taskId);
+  
+  return { name: "clearIntervalTask"};
+}
+
 
 
 

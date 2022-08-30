@@ -1,17 +1,20 @@
 <template>
 	<view>
 		<page-head :title="title"></page-head>
-			<view class="uni-btn-v uni-common-mt">
-				<button type="primary"  @tap="testTimer">延迟任务</button>
-				<button type="primary"  @tap="testInterval">定时任务</button>
-				<button type="primary"  @tap="testClearInterval">关闭定时任务</button>
-			</view>
+		<view class="uni-btn-v uni-common-mt">
+			<button type="primary"  @tap="testTimer">延迟任务</button>
+			<button type="primary"  @tap="testInterval">定时任务</button>
+			<button type="primary"  @tap="testClearInterval">关闭定时任务</button>
+		</view>
+		
 	</view>
 </template>
 <script>
 	import {
 	  doTimerTask,
 	  doIntervalTask,
+	  clearIntervalTask,
+	  getDecorViewInfo
 	} from "../../../uni_modules/uts-advance";
 	
 	export default {
@@ -60,7 +63,9 @@
 			
 			testClearInterval: function () {
 				console.log(this.taskId);
+				clearIntervalTask(this.taskId);
 			},
+			
 			
 			
 		}
