@@ -7,6 +7,11 @@
 			<button type="primary"  @tap="testClearInterval">关闭定时任务</button>
 		</view>
 		
+		<view class="uni-btn-v uni-common-mt">
+			<button type="primary" @tap="testAddToDecorView">添加TextView至视图顶层</button>
+			<button type="primary" @tap="testRemoveToDecorView">移除视图顶层的TextView</button>
+		</view>
+		
 	</view>
 </template>
 <script>
@@ -14,7 +19,8 @@
 	  doTimerTask,
 	  doIntervalTask,
 	  clearIntervalTask,
-	  getDecorViewInfo
+	  addViewToDecorView,
+	  removeViewToDecorView
 	} from "../../../uni_modules/uts-advance";
 	
 	export default {
@@ -66,6 +72,13 @@
 				clearIntervalTask(this.taskId);
 			},
 			
+			testAddToDecorView: function () {
+				addViewToDecorView();
+			},
+						
+			testRemoveToDecorView: function () {
+				removeViewToDecorView();
+			},
 			
 			
 		}
