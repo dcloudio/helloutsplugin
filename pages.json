@@ -46,24 +46,16 @@
 		"backgroundColor": "#F8F8F8",
 		"list": [{
 				"pagePath": "pages/tabBar/Primer/Primer",
-				"iconPath": "static/tabbar_easy.png",
-				"selectedIconPath": "static/tabbar_easy_select.png",
 				"text": "入门"
 			},
 			{
 				"pagePath": "pages/tabBar/Advance/Advance",
-				"iconPath": "static/tabbar_high.png",
-				"selectedIconPath": "static/tabbar_high_select.png",
 				"text": "进阶"
 			}, {
 				"pagePath": "pages/tabBar/SystemAPI/SystemAPI",
-				"iconPath": "static/tabbar_api.png",
-				"selectedIconPath": "static/tabbar_api_select.png",
 				"text": "系统API"
 			}, {
 				"pagePath": "pages/tabBar/SDKIntegration/SDKIntegration",
-				"iconPath": "static/tabbar_sdk.png",
-				"selectedIconPath": "static/tabbar_sdk_select.png",
 				"text": "三方SDK"
 			}
 		]

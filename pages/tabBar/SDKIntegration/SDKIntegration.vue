@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<text>sdk集成</text>
+		<page-head :title="title"></page-head>
+			
 	</view>
 </template>
 
@@ -8,7 +9,7 @@
 	export default {
 		data() {
 			return {
-				
+				title: 'SDK集成示例',
 			}
 		},
 		methods: {
