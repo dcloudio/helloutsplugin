@@ -10,7 +10,7 @@
 	</view>
 </template>
 <script>
-	import * as UTSHello from "../../../uni_modules/uts-helloworld";
+	import * as UTSHello from "../../../utssdk/uts-helloworld";
 	
 	export default {
 		data() {

@@ -75,9 +75,7 @@ class RemoveUIRunnable extends Runnable {
         var frameContent = decorView.findViewById(android.R.id.content) as FrameLayout
 
 		var targetTV = frameContent.findViewWithTag("helloText") as TextView
-        if(targetTV != null){
-            frameContent.removeView(targetTV)
-        }
+        frameContent.removeView(targetTV)
 
 
     }
