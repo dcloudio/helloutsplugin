@@ -10,6 +10,7 @@
             }
             
         },
+		
         {
             "path" : "pages/advance/advance",
             "style" :                                                                                    
@@ -36,6 +37,33 @@
 		        "enablePullDownRefresh": false
 		    }
 		    
+		},
+		{
+		    "path" : "pages/static/static",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/lifecycle/lifecycle",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/resource/resource",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
 		}
 		
     ],
@@ -45,17 +73,17 @@
 		"borderStyle": "black",
 		"backgroundColor": "#F8F8F8",
 		"list": [{
-				"pagePath": "pages/tabBar/Primer/Primer",
+				"pagePath": "pages/index/index",
 				"text": "入门"
 			},
 			{
-				"pagePath": "pages/tabBar/Advance/Advance",
+				"pagePath": "pages/advance/advance",
 				"text": "进阶"
 			}, {
-				"pagePath": "pages/tabBar/SystemAPI/SystemAPI",
+				"pagePath":"pages/SystemAPI/SystemAPI",
 				"text": "系统API"
 			}, {
-				"pagePath": "pages/tabBar/SDKIntegration/SDKIntegration",
+				"pagePath": "pages/SDKIntegration/SDKIntegration",
 				"text": "三方SDK"
 			}
 		]

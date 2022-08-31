@@ -1,11 +1,14 @@
 
-import { getUniActivity } from "io.dcloud.uts.android";
+import { getUniActivity,getAppContext } from "io.dcloud.uts.android";
 import Rect from "android.graphics.Rect";
 import Color from "android.graphics.Color";
 import TextView from "android.widget.TextView";
 import FrameLayout from "android.widget.FrameLayout";
 import ViewGroup from "android.view.ViewGroup";
 import Gravity from "android.view.Gravity";
+import Runnable from 'java.lang.Runnable';
+import Exception from 'java.lang.Exception';
+import MediaPlayer from 'android.media.MediaPlayer';
 
 type TimerOptions = {
   start: (res: string) => void;
@@ -26,7 +29,7 @@ export function doTimerTask(opts:TimerOptions) {
 
 export function doIntervalTask(opts:TimerOptions) {
 	
-	var taskRet = setInterval(function() {
+	let taskRet = setInterval(function() {
 		opts.work("doIntervalTask work");
 	}, 2000);
 	opts.start('doIntervalTask start');
@@ -47,18 +50,18 @@ class AddUIRunnable extends Runnable {
 
     override run():void {
 		
-        var textView = TextView(getUniActivity())
-        textView.text = "HELLO WORLD"
-        textView.textSize =  30.0.toFloat();
+        let textView = new TextView(getUniActivity())
+        textView.setText("HELLO WORLD");
+        textView.textSize = 30.0.toFloat();
         textView.setBackgroundColor(Color.RED)
-        textView.tag = "helloText"
-        textView.gravity = Gravity.CENTER
+        textView.setTag("helloText")
+        textView.setGravity(Gravity.CENTER)
 
-        var decorView = getUniActivity()!.window.decorView;
+        let decorView = getUniActivity()!.window.decorView;
 
 
-        var frameContent = decorView.findViewById(android.R.id.content) as FrameLayout
-        var layoutParam = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        let frameContent = decorView.findViewById(android.R.id.content) as FrameLayout
+        let layoutParam = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParam.topMargin = 200;
 
          frameContent.addView(textView,layoutParam)
@@ -71,28 +74,75 @@ class RemoveUIRunnable extends Runnable {
 
     override run():void {
 
-        var decorView = getUniActivity()!.window.decorView;
-        var frameContent = decorView.findViewById(android.R.id.content) as FrameLayout
-
-		var targetTV = frameContent.findViewWithTag("helloText") as TextView
-        frameContent.removeView(targetTV)
-
+        let decorView = getUniActivity()!.window.decorView;
+        let frameContent = decorView.findViewById(android.R.id.content) as FrameLayout
+		
+		let targetTV = frameContent.findViewWithTag<TextView>("helloText")
+		frameContent.removeView(targetTV)
 
     }
 };
 
 
 export function addViewToDecorView() {
-    var uiRunable = AddUIRunnable();
+    let uiRunable = new AddUIRunnable();
     // 获取android环境下 宿主decorview的基本信息
     getUniActivity()!.runOnUiThread(uiRunable)
 
 }
 
 export function removeViewToDecorView() {
-    var uiRunable = RemoveUIRunnable();
+    var uiRunable = new RemoveUIRunnable();
     // 获取android环境下 宿主decorview的基本信息
     getUniActivity()!.runOnUiThread(uiRunable)
 }
 
+
+import logo from "../../static/logo.png";
+
+import {
+    onAppActivityDestroy,
+    onAppActivityPause,
+    onAppActivityResume,
+    onAppActivityBack,
+	
+} from "io.dcloud.uts.android";
+
+
+export function getLogoPath(): string {
+  return logo;
+}
+
+
+export function getAssetAPath() {
+	
+	var assetManager = getAppContext()!.getAssets();
+	var afd = assetManager.openFd("free.mp3");
+	var mediaPlayer = new MediaPlayer();
+	mediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(), afd.getLength());
+	mediaPlayer.prepare();
+	mediaPlayer.start();
+	
+}
+
+
+
+
+export function initAppLifecycle() {
+    console.log("initAppLifecycle");
+
+    onAppActivityDestroy(() => {
+        console.log("onAppActivityDestroy");
+    });
+    onAppActivityPause(() => {
+        console.log("onAppActivityPause");
+    });
+    onAppActivityResume(() => {
+        console.log("onAppActivityResume");
+    });
+    onAppActivityBack(() => {
+        console.log("onAppActivityBack");
+    });
+
+}
 

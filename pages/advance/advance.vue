@@ -10,7 +10,11 @@
 		<view class="uni-btn-v uni-common-mt">
 			<button type="primary" @tap="testAddToDecorView">添加TextView至视图顶层</button>
 			<button type="primary" @tap="testRemoveToDecorView">移除视图顶层的TextView</button>
+			<button type="primary" @tap="testLoadImage">资源加载示例</button>
+			<button type="primary" @tap="testLifecyle">activity生命周期监听</button>
 		</view>
+		
+		
 		
 	</view>
 </template>
@@ -78,6 +82,18 @@
 						
 			testRemoveToDecorView: function () {
 				removeViewToDecorView();
+			},
+			
+			testLoadImage: function () {
+				uni.navigateTo({
+					url:'/pages/resource/resource'
+				})
+			},
+			
+			testLifecyle: function () {
+				uni.navigateTo({
+					url:'/pages/lifecycle/lifecycle'
+				})
 			},
 			
 			
