@@ -9,7 +9,7 @@
 	export default {
 		data() {
 			return {
-				title: 'SDK集成示例',
+				title: 'SDK集成示例-开发中',
 			}
 		},
 		methods: {

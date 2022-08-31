@@ -60,12 +60,11 @@ class AddUIRunnable extends Runnable {
         let decorView = getUniActivity()!.window.decorView;
 
 
-        let frameContent = decorView.findViewById(android.R.id.content) as FrameLayout
+        let frameContent = decorView.findViewById<FrameLayout>(android.R.id.content)
         let layoutParam = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParam.topMargin = 200;
 
-         frameContent.addView(textView,layoutParam)
-
+        frameContent.addView(textView,layoutParam)
 
     }
 };
@@ -75,7 +74,7 @@ class RemoveUIRunnable extends Runnable {
     override run():void {
 
         let decorView = getUniActivity()!.window.decorView;
-        let frameContent = decorView.findViewById(android.R.id.content) as FrameLayout
+        let frameContent = decorView.findViewById<FrameLayout>(android.R.id.content)
 		
 		let targetTV = frameContent.findViewWithTag<TextView>("helloText")
 		frameContent.removeView(targetTV)
