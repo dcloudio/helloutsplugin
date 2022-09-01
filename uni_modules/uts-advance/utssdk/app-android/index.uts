@@ -113,15 +113,23 @@ export function getLogoPath(): string {
 }
 
 
-export function getAssetAPath() {
+export function playAssetAudio() {
 	
-	var assetManager = getAppContext()!.getAssets();
-	var afd = assetManager.openFd("free.mp3");
-	var mediaPlayer = new MediaPlayer();
+	let assetManager = getAppContext()!.getAssets();
+	let afd = assetManager.openFd("free.mp3");
+	let mediaPlayer = new MediaPlayer();
 	mediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(), afd.getLength());
 	mediaPlayer.prepare();
 	mediaPlayer.start();
 	
+}
+
+const RTEXT:number = 10020;
+
+export function getResText() :string{
+	// let text = "aaa " + com.sina.weibo.sdk.R2.string.com_sina_weibo_sdk_logout;
+	// let resText = getAppContext()!.getString(io.dcloud.uni_modules.uts_advance.R.string.dcloud_common_app_res_download_failed)
+	return "222";
 }
 
 
