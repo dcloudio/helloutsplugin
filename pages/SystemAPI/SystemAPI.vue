@@ -7,7 +7,7 @@
     </view>
 </template>
 <script>
-    import getBatteryInfo from "../../uni_modules/uts-batteryinfo";
+    import getBatteryInfo from "../../uni_modules/uni-getbatteryinfo";
 
     export default {
         data() {
@@ -17,14 +17,16 @@
         },
         onUnload: function() {},
         methods: {
-            testGetBatteryCapacity: async function() {
-                var info = await getBatteryInfo()
-                console.log(info);
-                uni.showToast({
-                    title: "当前电量：" + info.level + '%',
-                    icon: 'none'
-                });
-
+            testGetBatteryCapacity() {
+                getBatteryInfo({
+                    success(res) {
+                        console.log(res);
+                        uni.showToast({
+                            title: "当前电量：" + res.level + '%',
+                            icon: 'none'
+                        });
+                    }
+                })
             },
 
         }
