@@ -39,15 +39,6 @@
 		    
 		},
 		{
-		    "path" : "pages/static/static",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		},
-		{
 		    "path" : "pages/lifecycle/lifecycle",
 		    "style" :                                                                                    
 		    {

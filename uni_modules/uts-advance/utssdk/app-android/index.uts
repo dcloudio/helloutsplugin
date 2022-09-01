@@ -10,13 +10,18 @@ import Runnable from 'java.lang.Runnable';
 import Exception from 'java.lang.Exception';
 import MediaPlayer from 'android.media.MediaPlayer';
 
+/**
+ * 定时任务参数封装
+ */
 type TimerOptions = {
   start: (res: string) => void;
   work: (res: string) => void;
 };
 
 
-
+/**
+ * 执行延时任务
+ */
 export function doTimerTask(opts:TimerOptions) {
 	opts.start('doTimerTask start');
 	setTimeout(function() {
@@ -26,7 +31,9 @@ export function doTimerTask(opts:TimerOptions) {
   return { name: "doTimerTask" };
 }
 
-
+/**
+ * 执行周期任务
+ */
 export function doIntervalTask(opts:TimerOptions) {
 	
 	let taskRet = setInterval(function() {
@@ -37,6 +44,9 @@ export function doIntervalTask(opts:TimerOptions) {
   return { name: "doIntervalTask",taskId:taskRet};
 }
 
+/**
+ * 清除周期任务
+ */
 export function clearIntervalTask(taskId:number) {
 	
 	clearInterval(taskId);
@@ -85,14 +95,12 @@ class RemoveUIRunnable extends Runnable {
 
 export function addViewToDecorView() {
     let uiRunable = new AddUIRunnable();
-    // 获取android环境下 宿主decorview的基本信息
     getUniActivity()!.runOnUiThread(uiRunable)
 
 }
 
 export function removeViewToDecorView() {
     var uiRunable = new RemoveUIRunnable();
-    // 获取android环境下 宿主decorview的基本信息
     getUniActivity()!.runOnUiThread(uiRunable)
 }
 
@@ -124,31 +132,32 @@ export function playAssetAudio() {
 	
 }
 
-const RTEXT:number = 10020;
-
-export function getResText() :string{
-	// let text = "aaa " + com.sina.weibo.sdk.R2.string.com_sina_weibo_sdk_logout;
-	// let resText = getAppContext()!.getString(io.dcloud.uni_modules.uts_advance.R.string.dcloud_common_app_res_download_failed)
-	return "222";
-}
 
 
 
 
-export function initAppLifecycle() {
-    console.log("initAppLifecycle");
+export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 
     onAppActivityDestroy(() => {
-        console.log("onAppActivityDestroy");
+		
+		let eventName = "onAppActivityDestroy - " + Date.now();
+		onLifecycleChange(eventName);
+        console.log(eventName);
     });
     onAppActivityPause(() => {
-        console.log("onAppActivityPause");
+		let eventName = "onAppActivityPause - " + Date.now();
+		onLifecycleChange(eventName);
+        console.log(eventName);
     });
     onAppActivityResume(() => {
-        console.log("onAppActivityResume");
+		let eventName = "onAppActivityResume - " + Date.now();
+		onLifecycleChange(eventName);
+        console.log(eventName);
     });
     onAppActivityBack(() => {
-        console.log("onAppActivityBack");
+		let eventName = "onAppActivityBack - " + Date.now();
+		onLifecycleChange(eventName);
+        console.log(eventName);
     });
 
 }
