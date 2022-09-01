@@ -7,7 +7,7 @@
     </view>
 </template>
 <script>
-    import getBatteryInfo from "../../uni_modules/uni-getbatteryinfo";
+    import getBatteryInfo from "@/uni_modules/uni-getbatteryinfo";
 
     export default {
         data() {
