@@ -20,8 +20,10 @@
 			testGetlocation:function(e){
 				
 				requestPremission();
-				var locationRet = getLocation();
-				console.log(locationRet);
+				var locationRet = getLocation(function(res){
+					console.log(res);
+				});
+				
 			},
 		}
 	}

@@ -62,7 +62,10 @@ export function getLocation(changeListener: (res: string) => void) {
 	
   // 获取当前的地址回调
   let mLocationManager = TencentLocationManager.getInstance(getAppContext());
-  let mLocationListener = new SingleLocationListener(changeListener);
+ 
+  let mLocationListener = new SingleLocationListener( function(newRes:string){
+	  changeListener(newRes);
+  });
   mLocationManager.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
   // 请求权限
   return { name: "getLocation"};
