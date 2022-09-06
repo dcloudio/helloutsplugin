@@ -1,5 +1,4 @@
 
-import { getUniActivity,getAppContext } from "io.dcloud.uts.android";
 import Rect from "android.graphics.Rect";
 import Color from "android.graphics.Color";
 import TextView from "android.widget.TextView";
@@ -9,6 +8,17 @@ import Gravity from "android.view.Gravity";
 import Runnable from 'java.lang.Runnable';
 import Exception from 'java.lang.Exception';
 import MediaPlayer from 'android.media.MediaPlayer';
+
+import logo from "../../static/logo.png";
+
+import {
+    onAppActivityDestroy,
+    onAppActivityPause,
+    onAppActivityResume,
+    onAppActivityBack,
+	getUniActivity,
+	getAppContext
+} from "io.dcloud.uts.android";
 
 /**
  * 定时任务参数封装
@@ -105,15 +115,7 @@ export function removeViewToDecorView() {
 }
 
 
-import logo from "../../static/logo.png";
 
-import {
-    onAppActivityDestroy,
-    onAppActivityPause,
-    onAppActivityResume,
-    onAppActivityBack,
-	
-} from "io.dcloud.uts.android";
 
 
 export function getLogoPath(): string {
@@ -139,7 +141,6 @@ export function playAssetAudio() {
 export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 
     onAppActivityDestroy(() => {
-		
 		let eventName = "onAppActivityDestroy - " + Date.now();
 		onLifecycleChange(eventName);
         console.log(eventName);

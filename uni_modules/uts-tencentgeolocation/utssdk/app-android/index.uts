@@ -1,0 +1,55 @@
+import {
+	onAppActivityPause,
+    onAppActivityRequestPermissionsResult,
+	getUniActivity,
+	getAppContext
+} from "io.dcloud.uts.android";
+
+import ActivityCompat from "androidx.core.app.ActivityCompat";
+import Manifest from "android.Manifest";
+import Looper from "android.os.Looper";
+import TencentLocationManager from "com.tencent.map.geolocation.TencentLocationManager";
+import TencentLocationListener from "com.tencent.map.geolocation.TencentLocationListener";
+import TencentLocation from "com.tencent.map.geolocation.TencentLocation";
+
+export function requestPremission() {
+	
+	// 注册一个请求回调
+	// onAppActivityRequestPermissionsResult((requestCode: number,
+ //                                                     permissions: Array<string>,
+ //                                                     grantResults: Array<number>) => {
+	// 	let eventName = "onAppActivityRequestPermissionsResult - " + Date.now();
+	//     console.log(eventName);
+	// });
+	//发起权限申请
+	// let permissions:string[] = [Manifest.permission.ACCESS_COARSE_LOCATION]
+	ActivityCompat.requestPermissions(
+	            getUniActivity()!,
+	            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1001);
+	
+  // 请求权限
+  return { name: "requestPremission"};
+}
+
+
+class SingleLocationListener extends TencentLocationListener {
+    
+	override onLocationChanged(location:TencentLocation , error:Int ,
+								  reason:string ):Unit{
+		console.log(location);
+	}
+
+	override onStatusUpdate(name:string, status:Int, desc:string ):Unit{
+		console.log(name);
+	}
+}
+
+export function getLocation() {
+	
+  // 获取当前的地址回调
+  let mLocationManager = TencentLocationManager.getInstance(getAppContext());
+  let mLocationListener = new SingleLocationListener();
+  mLocationManager.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
+  // 请求权限
+  return { name: "getLocation"};
+}
