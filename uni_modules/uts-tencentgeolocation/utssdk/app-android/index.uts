@@ -34,21 +34,35 @@ export function requestPremission() {
 
 class SingleLocationListener extends TencentLocationListener {
     
+	
+	constructor(changeListener: (res: string) => void){
+		super();
+	}
+	
 	override onLocationChanged(location:TencentLocation , error:Int ,
-								  reason:string ):Unit{
+								  reason:string ):void{
+		
+		if(error == 0){
+			let locationName = location.name;
+			let locationAddress = location.address;
+			let latitude = location.latitude;
+			let longitude = location.longitude;
+		}
 		console.log(location);
+		console.log(error);
+		console.log(reason);
 	}
 
-	override onStatusUpdate(name:string, status:Int, desc:string ):Unit{
+	override onStatusUpdate(name:string, status:Int, desc:string ):void{
 		console.log(name);
 	}
 }
 
-export function getLocation() {
+export function getLocation(changeListener: (res: string) => void) {
 	
   // 获取当前的地址回调
   let mLocationManager = TencentLocationManager.getInstance(getAppContext());
-  let mLocationListener = new SingleLocationListener();
+  let mLocationListener = new SingleLocationListener(changeListener);
   mLocationManager.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
   // 请求权限
   return { name: "getLocation"};
