@@ -1,9 +1,9 @@
 {
-	"libs": [],
 	"dependencies": [{
 		"id": "androidx.core:core",
 		"source": "implementation 'androidx.core:core:1.0.0'"
-	}, {
+	}, 
+	{
 		"id": "com.tencent.map.geolocation:TencentLocationSdk-openplatform",
 		"source": "implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.3.0'"
 	}],

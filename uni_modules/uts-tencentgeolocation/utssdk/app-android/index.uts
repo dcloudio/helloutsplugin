@@ -11,6 +11,8 @@ import Looper from "android.os.Looper";
 import TencentLocationManager from "com.tencent.map.geolocation.TencentLocationManager";
 import TencentLocationListener from "com.tencent.map.geolocation.TencentLocationListener";
 import TencentLocation from "com.tencent.map.geolocation.TencentLocation";
+import TencentLocationRequest from "com.tencent.map.geolocation.TencentLocationRequest";
+
 
 export function requestPremission() {
 	
@@ -27,7 +29,7 @@ export function requestPremission() {
 		console.log(requestCode);
 	});
 	// 发起权限申请
-	// 参考文档:https://lbs.qq.com/mobile/androidLocationSDK/androidGeoGuide/androidGeoAdapt
+	
 	ActivityCompat.requestPermissions(
 	            getUniActivity()!,
 	            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION), 1001);
@@ -37,10 +39,23 @@ export function requestPremission() {
 }
 
 
-
+/**
+ * 定位请求参数封装
+ */
 type LocationOptions = {
-	onLocationChanged: (locationName:string,locationAddress:string ) => void;
+	geocode:boolean,
+	success: (response:LocationResponse) => void;
 };
+
+/**
+ * 定位返回结果封装
+ */
+type LocationResponse = {
+	name?:string,
+	address?:string,
+	latitude?:number,
+	longitude?:number
+}
 
 class LocationOptionsWapper{
 	
@@ -53,16 +68,25 @@ class LocationOptionsWapper{
 	onLocationChanged(location:TencentLocation , error:Int ,
 								  reason:string){
 		
-		hostOption.onLocationChanged(location.name,location.address);
+		let response = new LocationResponse();
+		response.name = location.name;
+		response.address = location.address;
+		response.latitude = location.latitude;
+		response.longitude = location.longitude;
+		this.hostOption.success(response);
 	}
 	
 	
 	onStatusUpdate(name:string, status:Int, desc:string){
+		// 定位状态发生变化
 		//hostOption.onStatusUpdate(name,status,desc);
 	}
 };
 
 
+/**
+ * Tencent 定位监听实现类
+ */
 class SingleLocationListener extends TencentLocationListener {
     
 	
@@ -75,7 +99,6 @@ class SingleLocationListener extends TencentLocationListener {
 	
 	override onLocationChanged(location:TencentLocation , error:Int ,
 								  reason:string ):void{
-		
 		this.hostOptionWraper.onLocationChanged(location,error,reason);
 	}
 
@@ -85,14 +108,25 @@ class SingleLocationListener extends TencentLocationListener {
 	
 }
 
-export function getLocation(changeListener: LocationOptions) {
+/**
+ * 腾讯地图获取定位信息
+ * 参考文档:https://lbs.qq.com/mobile/androidLocationSDK/androidGeoGuide/androidGeoAdapt
+ */
+export function getLocation(locationOptions: LocationOptions) {
 	
-  // 获取当前的地址回调
   let mLocationManager = TencentLocationManager.getInstance(getAppContext());
-  let locationOptionWrapper = new LocationOptionsWapper(changeListener);
+  // 定位监听器封装
+  let locationOptionWrapper = new LocationOptionsWapper(locationOptions);
   let mLocationListener = new SingleLocationListener(locationOptionWrapper);
-  
-  mLocationManager.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
-  // 请求权限
+  // 发起单次请求
+  let locationRequest = TencentLocationRequest.create()
+  // 是否需要逆地理编码
+  if(locationOptions.geocode){
+	  locationRequest.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
+  }else{
+	  locationRequest.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_GEO);
+  }
+
+  mLocationManager.requestSingleFreshLocation(locationRequest, mLocationListener, Looper.getMainLooper());
   return { name: "getLocation"};
 }

@@ -24,8 +24,10 @@
 			},
 			testGetlocation:function(e){
 				getLocation({
-					onLocationChanged:function(locationName,locationAddress){
-						var addressDesc = locationAddress + '-' + locationName
+					geocode:true,
+					success:function(response){
+						console.log(response);
+						var addressDesc = response.name + '-' + response.address
 						uni.showToast({
 							title:'执行结果:' + addressDesc,
 							icon:'none'
