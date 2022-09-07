@@ -15,57 +15,83 @@ import TencentLocation from "com.tencent.map.geolocation.TencentLocation";
 export function requestPremission() {
 	
 	// 注册一个请求回调
-	// onAppActivityRequestPermissionsResult((requestCode: number,
- //                                                     permissions: Array<string>,
- //                                                     grantResults: Array<number>) => {
-	// 	let eventName = "onAppActivityRequestPermissionsResult - " + Date.now();
-	//     console.log(eventName);
-	// });
-	//发起权限申请
-	// let permissions:string[] = [Manifest.permission.ACCESS_COARSE_LOCATION]
+	onAppActivityRequestPermissionsResult((requestCode: number,
+                                                     permissions: MutableList<string>,
+                                                     grantResults: MutableList<number>) => {
+		/**
+		 * 0 已同意
+		 * -1 已拒绝
+		 */
+		console.log(grantResults);
+		console.log(permissions);
+		console.log(requestCode);
+	});
+	// 发起权限申请
+	// 参考文档:https://lbs.qq.com/mobile/androidLocationSDK/androidGeoGuide/androidGeoAdapt
 	ActivityCompat.requestPermissions(
 	            getUniActivity()!,
-	            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1001);
+	            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION), 1001);
 	
   // 请求权限
   return { name: "requestPremission"};
 }
 
 
+
+type LocationOptions = {
+	onLocationChanged: (locationName:string,locationAddress:string ) => void;
+};
+
+class LocationOptionsWapper{
+	
+	hostOption:LocationOptions;
+	
+	constructor(option: LocationOptions){
+		this.hostOption = option
+	}
+	
+	onLocationChanged(location:TencentLocation , error:Int ,
+								  reason:string){
+		
+		hostOption.onLocationChanged(location.name,location.address);
+	}
+	
+	
+	onStatusUpdate(name:string, status:Int, desc:string){
+		//hostOption.onStatusUpdate(name,status,desc);
+	}
+};
+
+
 class SingleLocationListener extends TencentLocationListener {
     
 	
-	constructor(changeListener: (res: string) => void){
+	hostOptionWraper:LocationOptionsWapper;
+	
+	constructor(option: LocationOptionsWapper){
 		super();
+		this.hostOptionWraper = option
 	}
 	
 	override onLocationChanged(location:TencentLocation , error:Int ,
 								  reason:string ):void{
 		
-		if(error == 0){
-			let locationName = location.name;
-			let locationAddress = location.address;
-			let latitude = location.latitude;
-			let longitude = location.longitude;
-		}
-		console.log(location);
-		console.log(error);
-		console.log(reason);
+		this.hostOptionWraper.onLocationChanged(location,error,reason);
 	}
 
 	override onStatusUpdate(name:string, status:Int, desc:string ):void{
-		console.log(name);
+		this.hostOptionWraper.onStatusUpdate(name,status,desc);
 	}
+	
 }
 
-export function getLocation(changeListener: (res: string) => void) {
+export function getLocation(changeListener: LocationOptions) {
 	
   // 获取当前的地址回调
   let mLocationManager = TencentLocationManager.getInstance(getAppContext());
- 
-  let mLocationListener = new SingleLocationListener( function(newRes:string){
-	  changeListener(newRes);
-  });
+  let locationOptionWrapper = new LocationOptionsWapper(changeListener);
+  let mLocationListener = new SingleLocationListener(locationOptionWrapper);
+  
   mLocationManager.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
   // 请求权限
   return { name: "getLocation"};
