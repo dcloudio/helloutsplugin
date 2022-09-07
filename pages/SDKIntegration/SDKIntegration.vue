@@ -3,7 +3,7 @@
 		<page-head :title="title"></page-head>
 		<view class="uni-btn-v uni-common-mt">
 			<button type="primary"  @tap="checkLocationPermission">请求定位权限</button>
-			<button type="primary"  @tap="testGetlocation">获取定位信息（需自定义基座）</button>
+			<button type="primary"  @tap="testGetlocation">腾讯地图获取定位（需自定义基座）</button>
 		</view>
 	</view>
 </template>
