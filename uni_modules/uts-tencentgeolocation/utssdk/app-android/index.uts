@@ -99,10 +99,12 @@ class SingleLocationListener extends TencentLocationListener {
 	
 	override onLocationChanged(location:TencentLocation , error:Int ,
 								  reason:string ):void{
+		console.log(location);
 		this.hostOptionWraper.onLocationChanged(location,error,reason);
 	}
 
 	override onStatusUpdate(name:string, status:Int, desc:string ):void{
+		console.log(name);
 		this.hostOptionWraper.onStatusUpdate(name,status,desc);
 	}
 	
@@ -126,7 +128,7 @@ export function getLocation(locationOptions: LocationOptions) {
   }else{
 	  locationRequest.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_GEO);
   }
-
-  mLocationManager.requestSingleFreshLocation(locationRequest, mLocationListener, Looper.getMainLooper());
+console.log(locationRequest);
+  mLocationManager.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
   return { name: "getLocation"};
 }
