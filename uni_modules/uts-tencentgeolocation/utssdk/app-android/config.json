@@ -1,3 +1,8 @@
 {
+	"dependencies": [ 
+		{
+			"id": "com.tencent.map.geolocation:TencentLocationSdk-openplatform",
+			"source": "implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.4.9'"
+		}],
 	"minSdkVersion": 21
 }

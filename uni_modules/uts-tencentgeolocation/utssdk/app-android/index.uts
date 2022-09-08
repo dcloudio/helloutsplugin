@@ -99,6 +99,8 @@ class SingleLocationListener extends TencentLocationListener {
 	
 	override onLocationChanged(location:TencentLocation , error:Int ,
 								  reason:string ):void{
+									  console.log(error);
+									  console.log(reason);
 		console.log(location);
 		this.hostOptionWraper.onLocationChanged(location,error,reason);
 	}
