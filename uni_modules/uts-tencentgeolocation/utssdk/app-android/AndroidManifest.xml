@@ -28,7 +28,7 @@
 	
     <application>
         <!--meta-data-->
-        <meta-data android:name="TencentMapSDK" android:value="JQXBZ-GYRLK-SZLJ2-APDLD-O5QUH-YQFLH" />
+        <meta-data android:name="TencentMapSDK" android:value="申请腾讯定位appKey" />
 
     </application>
 </manifest>
