@@ -3,6 +3,14 @@
 	<view>
 		<page-head :title="title"></page-head>
 		<view class="uni-padding-wrap uni-common-mt">
+			<view class="uni-hello-text">
+				1. 当前页面已通过initAppLifecycle函数注册了生命周期监听。
+			</view>
+			<view class="uni-hello-text">
+				2. 手动切换其他APP再返回，可在控制台和界面观察事件日志
+			</view>
+		</view>
+		<view class="uni-padding-wrap uni-common-mt">
 			<view class="text-box" scroll-y="true">
 				<text>{{text}}</text>
 			</view>
@@ -20,8 +28,9 @@
 		},
 		onLoad:function(){
 			let that = this;
-			initAppLifecycle(function(name){
-				that.text = that.text += name;
+			initAppLifecycle(function(eventLog){
+				// 展示捕捉到的声明周期日志
+				that.text = that.text += eventLog;
 				that.text = that.text += '\n';
 			});
 		}
