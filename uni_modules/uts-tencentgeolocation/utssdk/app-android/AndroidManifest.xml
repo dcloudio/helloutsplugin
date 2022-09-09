@@ -26,9 +26,5 @@
 	<!-- A-GPS辅助定位权限，方便GPS快速准确定位 -->
 	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
 	
-    <application>
-        <!--meta-data-->
-        <meta-data android:name="TencentMapSDK" android:value="您申请的app key" />
-
-    </application>
+    
 </manifest>

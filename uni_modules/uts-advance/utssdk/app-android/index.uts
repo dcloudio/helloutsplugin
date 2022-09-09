@@ -20,12 +20,21 @@ import {
 	getAppContext
 } from "io.dcloud.uts.android";
 
+
 /**
  * 定时任务参数封装
  */
 type TimerOptions = {
-  start: (res: string) => void;
-  work: (res: string) => void;
+	/**
+	 * 定时任务开始的回调
+	 * @res 回调参数
+	 */
+	start: (res: string) => void;
+	/**
+	* 定时任务执行的回调
+	* @res 回调参数
+	*/
+	work: (res: string) => void;
 };
 
 
@@ -60,12 +69,14 @@ export function doIntervalTask(opts:TimerOptions) {
 export function clearIntervalTask(taskId:number) {
 	
 	clearInterval(taskId);
-  
-  return { name: "clearIntervalTask"};
+	return { name: "clearIntervalTask"};
 }
 
 
-
+/**
+ * 实现一个添加view的 Runnable类
+ * 用法说明：https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB
+ */
 class AddUIRunnable extends Runnable {
 
     override run():void {
@@ -89,6 +100,10 @@ class AddUIRunnable extends Runnable {
     }
 };
 
+/**
+ * 实现一个移除view的 Runnable类
+ * 用法说明：https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB
+ */
 class RemoveUIRunnable extends Runnable {
 
     override run():void {
@@ -102,27 +117,34 @@ class RemoveUIRunnable extends Runnable {
     }
 };
 
-
+/**
+ * 实现添加view实例至decorview
+ * 
+ */
 export function addViewToDecorView() {
     let uiRunable = new AddUIRunnable();
     getUniActivity()!.runOnUiThread(uiRunable)
 
 }
-
+/**
+ * 实现从decorview上移除指定view
+ */
 export function removeViewToDecorView() {
     var uiRunable = new RemoveUIRunnable();
     getUniActivity()!.runOnUiThread(uiRunable)
 }
 
 
-
-
-
+/**
+ * 引用资源路径
+ */
 export function getLogoPath(): string {
   return logo;
 }
 
-
+/**
+ * 播放asset资源中的音频
+ */
 export function playAssetAudio() {
 	
 	let assetManager = getAppContext()!.getAssets();
@@ -135,26 +157,43 @@ export function playAssetAudio() {
 }
 
 
-
-
-
+/**
+ * 初始化应用生命周期监听
+ * 
+ */
 export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 
+	/**
+	 * activity 销毁生命周期回调
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivitydestroy
+	 */
     onAppActivityDestroy(() => {
 		let eventName = "onAppActivityDestroy - " + Date.now();
 		onLifecycleChange(eventName);
         console.log(eventName);
     });
+	/**
+	 * activity 失去焦点生命周期回调
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivitypause
+	 */
     onAppActivityPause(() => {
 		let eventName = "onAppActivityPause - " + Date.now();
 		onLifecycleChange(eventName);
         console.log(eventName);
     });
+	/**
+	 * activity 得到焦点的周期回调
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivityresume
+	 */
     onAppActivityResume(() => {
 		let eventName = "onAppActivityResume - " + Date.now();
 		onLifecycleChange(eventName);
         console.log(eventName);
     });
+	/**
+	 * activity 回退物理按键事件回调
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivityback
+	 */
     onAppActivityBack(() => {
 		let eventName = "onAppActivityBack - " + Date.now();
 		onLifecycleChange(eventName);

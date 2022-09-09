@@ -19,9 +19,12 @@
 				stringParam:"hello world",
 			}
 		},
-		onUnload:function(){
-		},
+		
 		methods: {
+			
+			/**
+			 * 测试无参数调用
+			 */
 			testDoSthWithCallback: function () {
 				
 				UTSHello.callWithoutParam(
@@ -33,7 +36,11 @@
 					}
 				);
 			},
+			/**
+			 * 测试字符串参数回调
+			 */
 			testDoSthWithString: function () {
+				
 				UTSHello.callWithStringParam(
 					this.stringParam,
 					function(response){
@@ -44,6 +51,9 @@
 					},
 				);
 			},
+			/**
+			 * 测试json参数回调
+			 */
 			testDoSthWithJSON: function () {
 				var inputObject = {
 					inputText:this.stringParam

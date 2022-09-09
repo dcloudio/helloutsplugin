@@ -16,6 +16,12 @@ import TencentLocationRequest from "com.tencent.map.geolocation.TencentLocationR
 
 export function requestPremission() {
 	
+	/**
+	 * 同意隐私协议。重要！！
+	 * 说明文档：https://lbs.qq.com/mobile/androidLocationSDK/androidGeoGuide/agreePrivacy
+	 */
+	TencentLocationManager.setUserAgreePrivacy(true);
+	
 	// 注册一个请求回调
 	onAppActivityRequestPermissionsResult((requestCode: number,
                                                      permissions: MutableList<string>,
@@ -28,8 +34,8 @@ export function requestPremission() {
 		console.log(permissions);
 		console.log(requestCode);
 	});
-	// 发起权限申请
 	
+	// 发起权限申请
 	ActivityCompat.requestPermissions(
 	            getUniActivity()!,
 	            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION), 1001);
@@ -57,6 +63,10 @@ type LocationResponse = {
 	longitude?:number
 }
 
+
+/**
+ * 定位监听结果包装类
+ */
 class LocationOptionsWapper{
 	
 	hostOption:LocationOptions;
@@ -101,7 +111,7 @@ class SingleLocationListener extends TencentLocationListener {
 								  reason:string ):void{
 									  console.log(error);
 									  console.log(reason);
-		console.log(location);
+		console.log(error);
 		this.hostOptionWraper.onLocationChanged(location,error,reason);
 	}
 
@@ -118,6 +128,7 @@ class SingleLocationListener extends TencentLocationListener {
  */
 export function getLocation(locationOptions: LocationOptions) {
 	
+  
   let mLocationManager = TencentLocationManager.getInstance(getAppContext());
   // 定位监听器封装
   let locationOptionWrapper = new LocationOptionsWapper(locationOptions);
@@ -130,7 +141,8 @@ export function getLocation(locationOptions: LocationOptions) {
   }else{
 	  locationRequest.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_GEO);
   }
-console.log(locationRequest);
-  mLocationManager.requestSingleFreshLocation(null, mLocationListener, Looper.getMainLooper());
+  
+  mLocationManager.requestSingleFreshLocation(locationRequest, mLocationListener, Looper.getMainLooper());
+  
   return { name: "getLocation"};
 }

@@ -14,7 +14,7 @@
 		<view class="uni-btn-v uni-common-mt">
 			<button type="primary" @tap="testAddToDecorView">添加TextView至视图顶层</button>
 			<button type="primary" @tap="testRemoveToDecorView">移除视图顶层的TextView</button>
-			<button type="primary" @tap="testResource">资源加载示例</button>
+			<button type="primary" @tap="gotoResourceDemo">资源加载示例</button>
 			<button type="primary" @tap="testLifecyle">activity生命周期监听</button>
 			
 		</view>
@@ -38,9 +38,11 @@
 				taskId:0
 			}
 		},
-		onUnload:function(){
-		},
+		
 		methods: {
+			/**
+			 * 测试延迟任务
+			 */
 			testTimer: function () {
 				doTimerTask({
 					start:function(response){
@@ -57,6 +59,9 @@
 					},
 				});
 			},
+			/**
+			 * 测试周期任务
+			 */
 			testInterval: function () {
 				var ret = doIntervalTask({
 					start:function(response){
@@ -74,21 +79,31 @@
 				});
 				this.taskId = ret.taskId;
 			},
-			
+			/**
+			 * 取消周期任务
+			 */
 			testClearInterval: function () {
 				console.log(this.taskId);
 				clearIntervalTask(this.taskId);
 			},
 			
+			/**
+			 * 测试添加View实例至顶层容器
+			 */
 			testAddToDecorView: function () {
 				addViewToDecorView();
 			},
-						
+			/**
+			 * 测试移除顶层容器的View实例
+			 */		
 			testRemoveToDecorView: function () {
 				removeViewToDecorView();
 			},
 			
-			testResource: function () {
+			/**
+			 * 跳转至资源加载演示界面
+			 */
+			gotoResourceDemo: function () {
 				uni.navigateTo({
 					url:'/pages/resource/resource'
 				})
