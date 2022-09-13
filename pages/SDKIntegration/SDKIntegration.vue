@@ -38,7 +38,9 @@
 				requestPremission();
 			},
 			testGetlocation:function(e){
-				getLocation({
+				
+				
+				let startRet = getLocation({
 					geocode:true,
 					success:function(response){
 						console.log(response);
@@ -49,6 +51,13 @@
 						});
 					}
 				})
+				
+				if(!startRet){
+					uni.showToast({
+						title:'定位启动失败，请检查配置',
+						icon:'none'
+					});
+				}
 				
 			},
 		}

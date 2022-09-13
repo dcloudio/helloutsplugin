@@ -12,6 +12,7 @@ import TencentLocationManager from "com.tencent.map.geolocation.TencentLocationM
 import TencentLocationListener from "com.tencent.map.geolocation.TencentLocationListener";
 import TencentLocation from "com.tencent.map.geolocation.TencentLocation";
 import TencentLocationRequest from "com.tencent.map.geolocation.TencentLocationRequest";
+import PackageManager from "android.content.pm.PackageManager";
 
 
 export function requestPremission() {
@@ -123,11 +124,41 @@ class SingleLocationListener extends TencentLocationListener {
 }
 
 /**
+ * 检查定位的相关配置是否正确
+ */
+function checkLocationConfig():boolean{
+	
+	let packageName = getAppContext()!.getPackageName();
+	let appInfo = getAppContext()!.getPackageManager()!.getApplicationInfo(packageName,PackageManager.GET_META_DATA)
+	
+	let metaData = appInfo.metaData
+	if (metaData == null) {
+		 return false;
+	}
+	let adId = metaData.getString("TencentMapSDK")
+	let splitArray = adId!.split("-")
+	let keyCharNum = splitArray.size
+	
+	if(keyCharNum > 5){
+		// 存在超过5个-，说明是符合规则的appkey
+		return true;
+	}
+	// 不符合校验规则，打回
+	return false;
+}
+
+/**
  * 腾讯地图获取定位信息
  * 参考文档:https://lbs.qq.com/mobile/androidLocationSDK/androidGeoGuide/androidGeoAdapt
  */
-export function getLocation(locationOptions: LocationOptions) {
+export function getLocation(locationOptions: LocationOptions):boolean {
 	
+   if(!checkLocationConfig()){
+	   /**
+		* 未通过配置预校验，通常是app key 配置错误
+		*/
+		return false
+   }
   
   let mLocationManager = TencentLocationManager.getInstance(getAppContext());
   // 定位监听器封装
@@ -142,7 +173,11 @@ export function getLocation(locationOptions: LocationOptions) {
 	  locationRequest.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_GEO);
   }
   
+  console.log("requestSingleFreshLocation");
+  
   mLocationManager.requestSingleFreshLocation(locationRequest, mLocationListener, Looper.getMainLooper());
   
-  return { name: "getLocation"};
+  return true;
 }
+
+
