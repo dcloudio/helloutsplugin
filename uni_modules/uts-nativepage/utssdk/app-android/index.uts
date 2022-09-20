@@ -1,0 +1,167 @@
+import Activity from 'android.app.Activity';
+import BroadcastReceiver from 'android.content.BroadcastReceiver';
+import Notification from 'android.app.Notification';
+import Bundle from 'android.os.Bundle';
+import R from 'io.dcloud.uni_modules.uts_nativepage.R';
+import Intent from 'android.content.Intent';
+import IntentFilter from 'android.content.IntentFilter';
+
+import NotificationCompat from 'androidx.core.app.NotificationCompat';
+import NotificationManager from 'android.app.NotificationManager';
+import NotificationChannel from 'android.app.NotificationChannel';
+import Context from 'android.content.Context';
+import Button from 'android.widget.Button';
+import OnClickListener from 'android.view.View.OnClickListener';
+import View from 'android.view.View';
+import Build from 'android.os.Build';
+import IBinder from 'android.os.IBinder';
+import Toast from 'android.widget.Toast';
+
+import {
+	getUniActivity,
+	getAppContext
+} from "io.dcloud.uts.android";
+
+import Service from 'android.app.Service';
+import System from 'java.lang.System';
+
+
+class ForeService extends Service {
+
+
+
+	constructor (){
+		super();
+	}
+
+    override onCreate():void {
+        super.onCreate();
+		console.log("onCreate");
+    }
+	
+
+	override onBind(intent?: Intent): IBinder|null{
+		return null;
+    }
+	
+    override onStartCommand(intent:Intent ,flags:Int ,startId:Int ):Int {
+
+        let mBuilder = new NotificationCompat.Builder(this);
+		
+		mBuilder.setAutoCancel(true) // 点击后让通知将消失
+	    mBuilder.setContentText("测试")
+	    mBuilder.setContentTitle("测试")
+	    mBuilder.setWhen(System.currentTimeMillis()) //通知产生的时间，会在通知信息里显示
+	         
+	    mBuilder.setPriority(Notification.PRIORITY_DEFAULT) //设置该通知优先级
+	    mBuilder.setOngoing(false) //ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
+	    mBuilder.setDefaults(Notification.DEFAULT_ALL) //向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
+	          
+			   
+	   	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+	          
+			let manager =
+				getAppContext()!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+			let channelId = "channelId" + System.currentTimeMillis()
+			let channel = new NotificationChannel(
+				channelId,
+				"appName",
+				NotificationManager.IMPORTANCE_HIGH
+			)
+			manager.createNotificationChannel(channel)
+			mBuilder.setChannelId(channelId)
+		}
+	   				
+	    mBuilder.setContentIntent(null)
+	    this.startForeground(222, mBuilder.build())
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    override onDestroy():void {
+        super.onDestroy();
+        this.stopForeground(true);// 停止前台服务--参数：表示是否移除之前的通知
+    }
+
+
+}
+
+
+
+class ScreenReceiver extends BroadcastReceiver() {
+	
+    override onReceive(context: Context, intent: Intent):void {
+        if (Intent.ACTION_SCREEN_OFF == intent.action) {
+            console.log("==屏幕休眠了")
+        }
+        if (Intent.ACTION_SCREEN_ON == intent.action) {
+            console.log("==屏幕唤醒了")
+        }
+    }
+}
+
+
+class StartServiceListener extends OnClickListener{
+	
+    override onClick(v?: View):void{
+		
+		var intent = Intent(getUniActivity(), ForeService().javaClass);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			getAppContext()!.startForegroundService(intent);
+		}
+		else{
+			getAppContext()!.startService(intent);
+		}
+
+    }
+}
+
+
+class StartBroadcastListener extends OnClickListener{
+	
+    override onClick(v?: View):void{
+		
+		let myReceiver = new ScreenReceiver();
+		let filter = new IntentFilter();
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+		filter.addAction(Intent.ACTION_SCREEN_ON);
+		getUniActivity()!.registerReceiver(myReceiver, filter);
+		
+		// 提示屏幕状态监听已经注册
+		Toast.makeText(getAppContext(),"屏幕状态监听已注册，注意观察控制台日志",Toast.LENGTH_LONG).show();
+		
+    }
+}
+
+
+
+
+class DemoActivity  extends Activity(){
+	
+	
+	override onCreate(savedInstanceState?: Bundle):void {
+		super.onCreate(savedInstanceState)
+		setContentView(R.layout.demo_activity);
+		
+		
+		 let btn_start_service_front = findViewById<Button>(R.id.btn_start_service_front);
+		 btn_start_service_front.setOnClickListener(new StartServiceListener());
+		 
+		 let btn_start_screen_listen = findViewById<Button>(R.id.btn_start_screen_listen);
+		 btn_start_screen_listen.setOnClickListener(new StartBroadcastListener());
+		 
+	}
+	
+}
+
+
+export default function gotoDemoActivity() {
+  // 跳转到一个新的界面
+  let intent = new Intent(getUniActivity(),DemoActivity().javaClass);
+  getUniActivity()!.startActivity(intent);
+  
+  // var a = new DemoActivity();
+  return { name: "gotoDemoActivity"};
+}
+
+

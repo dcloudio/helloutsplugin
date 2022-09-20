@@ -5,6 +5,6 @@
     <application>
         <!--meta-data-->
         <meta-data android:name="TencentMapSDK" android:value="您申请的腾讯定位App Key" />
-
+		
     </application>
 </manifest>

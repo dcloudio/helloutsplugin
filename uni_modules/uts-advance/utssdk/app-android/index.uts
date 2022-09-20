@@ -1,4 +1,3 @@
-
 import Rect from "android.graphics.Rect";
 import Color from "android.graphics.Color";
 import TextView from "android.widget.TextView";

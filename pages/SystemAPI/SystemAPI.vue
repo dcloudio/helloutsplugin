@@ -3,12 +3,14 @@
         <page-head :title="title"></page-head>
         <view class="uni-btn-v uni-common-mt">
             <button type="primary" @tap="testGetBatteryCapacity">获取电池电量</button>
+			<button type="primary" @tap="testGotoDemoActivity">跳转至新的原生页面</button>
         </view>
     </view>
 </template>
 <script>
     import getBatteryInfo from "@/uni_modules/uni-getbatteryinfo";
-
+	import gotoDemoActivity from "@/uni_modules/uts-nativepage";
+	
     export default {
         data() {
             return {
@@ -27,6 +29,10 @@
                         });
                     }
                 })
+            },
+			
+			testGotoDemoActivity() {
+                gotoDemoActivity();
             },
 
         }
