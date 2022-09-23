@@ -24,7 +24,7 @@ import {
 
 import Service from 'android.app.Service';
 import System from 'java.lang.System';
-
+import WindowManager from 'android.view.WindowManager';
 
 class ForeService extends Service {
 
