@@ -55,7 +55,6 @@ const KEYWORDS = arrayOf(
  */
 let mScreenRealSize: Point|null = getRealScreenSize();
 let mHasCallbackPaths: ArrayList<string> = new ArrayList()
-let mListener: OnScreenShotListener|null = null;
 let mStartListenTime: number = 0;
 let mUiHandler: Handler = Handler(Looper.getMainLooper())
 /**
@@ -120,7 +119,6 @@ let mExternalObserver: MediaContentObserver|null = null;
 
 		// 清空数据
 		mStartListenTime = 0
-		mListener = null
 	}
 
 	/**
@@ -129,8 +127,6 @@ let mExternalObserver: MediaContentObserver|null = null;
 	function handleMediaContentChange(contentUri: Uri) {
 		let cursor: Cursor|null = null;
 		try {
-			console.log(getUniActivity());
-			console.log(getUniActivity()!.contentResolver);
 			cursor = getUniActivity()!.contentResolver.query(
 				contentUri,
 				MEDIA_PROJECTIONS_API_16,
@@ -138,7 +134,6 @@ let mExternalObserver: MediaContentObserver|null = null;
 				MediaStore.Images.ImageColumns.DATE_ADDED + " desc limit 1"
 			)!
 			
-			console.log(cursor);
 
 			if (cursor == null) {
 				return
@@ -195,9 +190,10 @@ let mExternalObserver: MediaContentObserver|null = null;
 	 * 处理获取到的一行数据
 	 */
 	function handleMediaRowData(data: String, dateTaken: Long, width: Int, height: Int) {
+		
 		if (checkScreenShot(data, dateTaken, width, height)) {
 			if (!checkCallback(data)) {
-				console.log(data);
+				listenOption!.onImageCatchChange(data)
 			}
 		} else {
 			// 如果在观察区间媒体数据库有数据改变，又不符合截屏规则，则输出到 log 待分析
@@ -294,23 +290,10 @@ class MediaContentObserver extends ContentObserver {
 		
 	override onChange(selfChange: Boolean) {
 		super.onChange(selfChange)
-		console.log("111222");
 		handleMediaContentChange(contentUri)
 	}
 }
 
-/**
-* 截屏监听接口
-*/
-type OnScreenShotListener = {
-	onScreenShot: (picPath: string) => void;
-}
-
-class OnScreenShotListenerImpl extends OnScreenShotListener(){
-	onScreenShot(picPath: string){
-		console.log(picPath);
-	}
-}
 
 
 /**
@@ -328,24 +311,29 @@ export function requestPremission() {
 	return { name: "requestPremission" };
 }
 
+type onImageCatchOptions = {
+	onImageCatchChange: (res: string) => void;
+};
 
+let listenOption:onImageCatchOptions|null = null;
 
 /**
  * 初始化生命周期监听
  */
-export function initAppLifecycle() {
-
-	
+export function initAppLifecycle(option:onImageCatchOptions) {
+	// onImageCatchListener = onImageCatch;
+	listenOption = option;
+	startListener()
 
 	onAppActivityPause(() => {
-		stopScreenShotListen() 
+		stopListener()
 	});
 	/**
 	 * activity 得到焦点的周期回调
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivityresume
 	 */
 	onAppActivityResume(() => {
-		startScreenShotListen()
+		startListener()
 	});
 
 
@@ -355,20 +343,7 @@ export function initAppLifecycle() {
 
 
 
-/**
- * 开启屏幕监听
- */
-function startScreenShotListen() {
 
-		mListener = new OnScreenShotListenerImpl();
-		startListener()
-}
-/**
- * 关闭
- */
-function stopScreenShotListen() {
-		stopListener()
-}
 
 
 
