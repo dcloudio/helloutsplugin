@@ -10,7 +10,7 @@ type inputJSON = {
  */
 type JsonParamOptions = {
 	input: inputJSON;
-	success: (res: string) => void;
+	success: (res: inputJSON) => void;
 	fail: (res: string) => void;
 	complete: (res: string) => void;
 };
