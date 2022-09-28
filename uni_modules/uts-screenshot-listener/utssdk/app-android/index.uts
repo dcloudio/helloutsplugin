@@ -213,7 +213,7 @@ function checkScreenShot(data?: string, dateTaken: Long, width: Int, height: Int
 
 	let lowerData = data.lowercase(Locale.getDefault())
 	// 判断图片路径是否含有指定的关键字之一, 如果有, 则认为当前截屏了
-	for (keyWork in KEYWORDS) {
+	for (let keyWork in KEYWORDS) {
 		if (lowerData.contains(keyWork)) {
 			return true
 		}
