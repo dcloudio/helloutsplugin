@@ -309,8 +309,8 @@ export function onUserCaptureScreen(success: (res: string) => void) {
 
 		var directory_pictures = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES);
 		var directory_dcim = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DCIM);
-
-		if (Build.MANUFACTURER.equals("Xiaomi", ignoreCase = true)) {
+		
+		if (Build.MANUFACTURER.equals("Xiaomi", true)) {
 			directory_screenshot = File(directory_dcim, "Screenshots");
 		} else {
 			directory_screenshot = File(directory_pictures, "Screenshots");
