@@ -26,7 +26,10 @@ import BitmapFactory from "android.graphics.BitmapFactory";
 import Display from "android.view.Display";
 import Locale from "java.util.Locale";
 import WindowManager from "android.view.WindowManager";
-
+import FileObserver from "android.os.FileObserver";
+import File from "java.io.File";
+import RequiresApi from "androidx.annotation.RequiresApi";
+import Environment from "android.os.Environment";
 
 /**
  * 读取媒体数据库时需要读取的列，其中 width、height 字段在 API 16 之后才有
@@ -49,245 +52,226 @@ const KEYWORDS = arrayOf(
 
 
 
+/**
+ * android 10版本以上通过文件监听实现
+ */
+@RequiresApi(Build.VERSION_CODES.Q)
+class ScreenFileObserver extends FileObserver {
+
+	allScreen: File;
+
+	constructor(screenFile: File) {
+		super(screenFile)
+		this.allScreen = screenFile;
+	}
+
+	override onEvent(event: Int, path?: String): void {
+		if (event == FileObserver.CREATE) {
+			var newPath: string = new File(allScreen, path).path;
+			let currentTime = System.currentTimeMillis();
+
+			if ((currentTime - lastFileObserverTime) < 1000) {
+				// 本地截屏行为比上一次超过1000ms,才认为是一个有效的时间
+				return;
+			}
+			lastFileObserverTime = System.currentTimeMillis()
+			listenOption!.onImageCatchChange(newPath)
+		}
+	}
+}
+
 
 /**
  * 屏幕尺寸
  */
-let mScreenRealSize: Point|null = getRealScreenSize();
+let mScreenRealSize: Point | null = getRealScreenSize();
 let mHasCallbackPaths: ArrayList<string> = new ArrayList()
 let mStartListenTime: number = 0;
 let mUiHandler: Handler = Handler(Looper.getMainLooper())
 /**
- * 内部文件监听器
+ * 内部媒体文件监听器
  */
-let mInternalObserver: MediaContentObserver|null = null;
+let mInternalObserver: MediaContentObserver | null = null;
 /**
- * 外部文件监听器
+ * 外部媒体文件监听器
  */
-let mExternalObserver: MediaContentObserver|null = null;
-	
-	
+let mExternalObserver: MediaContentObserver | null = null;
 /**
-	 * 开启监听
-	 */
-	function startListener(): void {
+ * android 10 版本使用的文件监听器
+ */
+let screenOB: ScreenFileObserver | null = null;
 
-		// 记录开始监听的时间戳
-		mStartListenTime = System.currentTimeMillis()
+type onImageCatchOptions = {
+	onImageCatchChange: (res: string) => void;
+};
 
-		// 创建内容观察者
-		mInternalObserver =
-			MediaContentObserver(MediaStore.Images.Media.INTERNAL_CONTENT_URI, mUiHandler)
-		mExternalObserver =
-			MediaContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, mUiHandler)
+let listenOption: onImageCatchOptions = new onImageCatchOptions();
 
-		// 注册内容观察者
-		getUniActivity()!.contentResolver.registerContentObserver(
-			MediaStore.Images.Media.INTERNAL_CONTENT_URI,
-			false,
-			mInternalObserver!
-		)
-		getUniActivity()!.contentResolver.registerContentObserver(
-			MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-			false,
-			mExternalObserver!
-		)
-	}
+let lastFileObserverTime: number = 0;
 
-	/**
-	 * 停止监听
-	 */
-	function stopListener() {
+/**
+ * 处理媒体数据库的内容改变
+ */
+function handleMediaContentChange(contentUri: Uri) {
+	let cursor: Cursor | null = null;
+	try {
+		cursor = getUniActivity()!.contentResolver.query(
+			contentUri,
+			MEDIA_PROJECTIONS_API_16,
+			null, null,
+			MediaStore.Images.ImageColumns.DATE_ADDED + " desc limit 1"
+		)!
 
-		// 注销内容观察者
-		if (mInternalObserver != null) {
-			try {
-				getUniActivity()!.contentResolver.unregisterContentObserver(mInternalObserver!)
-			} catch (e) {
-				e.printStackTrace()
-			}
-			mInternalObserver = null
-		}
-		if (mExternalObserver != null) {
-			try {
-				getUniActivity()!.contentResolver.unregisterContentObserver(mExternalObserver!)
-			} catch (e) {
-				e.printStackTrace()
-			}
-			mExternalObserver = null
+
+		if (cursor == null) {
+			return
 		}
 
-		// 清空数据
-		mStartListenTime = 0
-	}
-
-	/**
-	 * 处理媒体数据库的内容改变
-	 */
-	function handleMediaContentChange(contentUri: Uri) {
-		let cursor: Cursor|null = null;
-		try {
-			cursor = getUniActivity()!.contentResolver.query(
-				contentUri,
-				MEDIA_PROJECTIONS_API_16,
-				null, null,
-				MediaStore.Images.ImageColumns.DATE_ADDED + " desc limit 1"
-			)!
-			
-
-			if (cursor == null) {
-				return
-			}
-
-			if (!cursor.moveToFirst()) {
-				return
-			}
-
-			// 获取各列的索引
-			let dataIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-			let dateTakenIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATE_TAKEN)
-			var widthIndex = -1
-			var heightIndex = -1
-			if (Build.VERSION.SDK_INT >= 16) {
-				widthIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.WIDTH)
-				heightIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.HEIGHT)
-			}
-
-			// 获取行数据
-			let data = cursor.getString(dataIndex)
-			let dateTaken = cursor.getLong(dateTakenIndex)
-			var width = 0
-			var height = 0
-			if (widthIndex >= 0 && heightIndex >= 0) {
-				width = cursor.getInt(widthIndex)
-				height = cursor.getInt(heightIndex)
-			} else {
-				let size = getImageSize(data)
-				width = size.x
-				height = size.y
-			}
-
-			// 处理获取到的第一行数据
-			handleMediaRowData(data, dateTaken, width, height)
-		} catch (e) {
-			console.log(e);
-			e.printStackTrace()
-		} finally {
-			if (cursor != null && !cursor.isClosed) {
-				cursor.close()
-			}
+		if (!cursor.moveToFirst()) {
+			return
 		}
-	}
 
-	function getImageSize(imagePath: string): Point {
-		let options = BitmapFactory.Options()
-		options.inJustDecodeBounds = true
-		BitmapFactory.decodeFile(imagePath, options)
-		return Point(options.outWidth, options.outHeight)
-	}
+		// 获取各列的索引
+		let dataIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+		let dateTakenIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATE_TAKEN)
+		let widthIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.WIDTH)
+		let heightIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.HEIGHT)
 
-	/**
-	 * 处理获取到的一行数据
-	 */
-	function handleMediaRowData(data: String, dateTaken: Long, width: Int, height: Int) {
-		
-		if (checkScreenShot(data, dateTaken, width, height)) {
-			if (!checkCallback(data)) {
-				listenOption!.onImageCatchChange(data)
-			}
+		// 获取行数据
+		let data = cursor.getString(dataIndex)
+		let dateTaken = cursor.getLong(dateTakenIndex)
+		let width = 0;
+		let height = 0;
+		if (widthIndex >= 0 && heightIndex >= 0) {
+			width = cursor.getInt(widthIndex)
+			height = cursor.getInt(heightIndex)
 		} else {
-			// 如果在观察区间媒体数据库有数据改变，又不符合截屏规则，则输出到 log 待分析
+			let size = getImageSize(data)
+			width = size.x
+			height = size.y
+		}
+
+		// 处理获取到的第一行数据
+		handleMediaRowData(data, dateTaken, width, height)
+	} catch (e) {
+		e.printStackTrace()
+	} finally {
+		if (cursor != null && !cursor.isClosed) {
+			cursor.close()
 		}
 	}
+}
 
-	/**
-	 * 判断指定的数据行是否符合截屏条件
-	 */
-	function checkScreenShot(data?: string, dateTaken: Long, width: Int, height: Int): boolean {
-		// 判断依据一: 时间判断
-		// 如果加入数据库的时间在开始监听之前, 或者与当前时间相差大于10秒, 则认为当前没有截屏
-		if (dateTaken < mStartListenTime || System.currentTimeMillis() - dateTaken > 10 * 1000) {
-			return false
-		}
+/**
+ * 获取媒体库内置图像的大小
+ */
+function getImageSize(imagePath: string): Point {
+	let options = BitmapFactory.Options()
+	options.inJustDecodeBounds = true
+	BitmapFactory.decodeFile(imagePath, options)
+	return Point(options.outWidth, options.outHeight)
+}
 
-		// 判断依据二: 尺寸判断
-		if (mScreenRealSize != null) {
-			// 如果图片尺寸超出屏幕, 则认为当前没有截屏
-			if (!(width <= mScreenRealSize!.x && height <= mScreenRealSize!.y)
-				|| (height <= mScreenRealSize!.x && width <= mScreenRealSize!.y)
-			) {
-				return false
-			}
-		}
+/**
+ * 处理获取到的一行数据
+ */
+function handleMediaRowData(data: String, dateTaken: Long, width: Int, height: Int) {
 
-		// 判断依据三: 路径判断
-		if (data == null) {
-			return false
+	if (checkScreenShot(data, dateTaken, width, height)) {
+		if (!checkCallback(data)) {
+			listenOption!.onImageCatchChange(data)
 		}
+	} else {
+		// 如果在观察区间媒体数据库有数据改变，又不符合截屏规则
+	}
+}
 
-		let lowerData = data.lowercase(Locale.getDefault())
-		// 判断图片路径是否含有指定的关键字之一, 如果有, 则认为当前截屏了
-		for (keyWork in KEYWORDS) {
-			if (lowerData.contains(keyWork)) {
-				return true
-			}
-		}
+/**
+ * 判断指定的数据行是否符合截屏条件
+ */
+function checkScreenShot(data?: string, dateTaken: Long, width: Int, height: Int): boolean {
+	// 判断依据一: 时间判断
+	// 如果加入数据库的时间在开始监听之前, 或者与当前时间相差大于10秒, 则认为当前没有截屏
+	if (dateTaken < mStartListenTime || System.currentTimeMillis() - dateTaken > 10 * 1000) {
 		return false
 	}
 
-	/**
-	 * 判断是否已回调过, 某些手机ROM截屏一次会发出多次内容改变的通知; <br></br>
-	 * 删除一个图片也会发通知, 同时防止删除图片时误将上一张符合截屏规则的图片当做是当前截屏.
-	 */
-	function checkCallback(imagePath: String): boolean {
+	// 判断依据二: 尺寸判断
+	if (mScreenRealSize != null) {
+		// 如果图片尺寸超出屏幕, 则认为当前没有截屏
+		if (!(width <= mScreenRealSize!.x && height <= mScreenRealSize!.y)
+			|| (height <= mScreenRealSize!.x && width <= mScreenRealSize!.y)
+		) {
+			return false
+		}
+	}
 
-		if (mHasCallbackPaths.contains(imagePath)) {
+	// 判断依据三: 路径判断
+	if (data == null) {
+		return false
+	}
+
+	let lowerData = data.lowercase(Locale.getDefault())
+	// 判断图片路径是否含有指定的关键字之一, 如果有, 则认为当前截屏了
+	for (keyWork in KEYWORDS) {
+		if (lowerData.contains(keyWork)) {
 			return true
 		}
-		// 大概缓存15~20条记录便可
-		if (mHasCallbackPaths.size >= 20) {
-			// for (i of 4) {
-			// 	mHasCallbackPaths.removeAt(0)
-			// }
-		}
-		mHasCallbackPaths.add(imagePath)
-		return false
+	}
+	return false
+}
+
+/**
+ * 判断是否已回调过, 某些手机ROM截屏一次会发出多次内容改变的通知; <br></br>
+ * 删除一个图片也会发通知, 同时防止删除图片时误将上一张符合截屏规则的图片当做是当前截屏.
+ */
+function checkCallback(imagePath: String): boolean {
+
+	if (mHasCallbackPaths.contains(imagePath)) {
+		return true
+	}
+	// 大概缓存15~20条记录便可
+	if (mHasCallbackPaths.size >= 20) {
+		// for (i of 4) {
+		// 	mHasCallbackPaths.removeAt(0)
+		// }
+	}
+	mHasCallbackPaths.add(imagePath)
+	return false
+}
+
+/**
+ * 获取屏幕分辨率
+ */
+function getRealScreenSize(): Point | null {
+	let screenSize: Point = Point();
+	try {
+		let windowManager = getUniActivity()!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+		let defaultDisplay = windowManager.defaultDisplay
+		defaultDisplay.getRealSize(screenSize)
+	} catch (e) {
+		e.printStackTrace()
 	}
 
-	/**
-	 * 获取屏幕分辨率
-	 */
-	function getRealScreenSize(): Point | null {
-		let screenSize:Point = Point();
-		try {
-			let windowManager = getUniActivity()!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-			let defaultDisplay = windowManager.defaultDisplay
-			defaultDisplay.getRealSize(screenSize)
-		} catch (e) {
-			e.printStackTrace()
-		}
+	return screenSize
+}
 
-		return screenSize
-	}
-
-
-	
 
 
 /**
  * 媒体内容观察者
  */
 class MediaContentObserver extends ContentObserver {
-	
+
 	contentUri: Uri;
 	handler: Handler;
-	
-	constructor(contentUri: Uri, handler: Handler){
+
+	constructor(contentUri: Uri, handler: Handler) {
 		super(handler)
 		this.contentUri = contentUri
 		this.handler = handler
 	}
-		
+
 	override onChange(selfChange: Boolean) {
 		super.onChange(selfChange)
 		handleMediaContentChange(contentUri)
@@ -311,35 +295,91 @@ export function requestPremission() {
 	return { name: "requestPremission" };
 }
 
-type onImageCatchOptions = {
-	onImageCatchChange: (res: string) => void;
-};
 
-let listenOption:onImageCatchOptions|null = null;
 
 /**
- * 初始化生命周期监听
+ * 开启截图监听
  */
-export function initAppLifecycle(option:onImageCatchOptions) {
-	// onImageCatchListener = onImageCatch;
-	listenOption = option;
-	startListener()
+export function onUserCaptureScreen(success: (res: string) => void) {
+	listenOption.onImageCatchChange = success;
 
-	onAppActivityPause(() => {
-		stopListener()
-	});
-	/**
-	 * activity 得到焦点的周期回调
-	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivityresume
-	 */
-	onAppActivityResume(() => {
-		startListener()
-	});
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+		// android 10 以上版本，使用监听文件的方式，更加可靠
+		var directory_screenshot: File;
 
+		var directory_pictures = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES);
+		var directory_dcim = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DCIM);
+
+		if (Build.MANUFACTURER.equals("Xiaomi", ignoreCase = true)) {
+			directory_screenshot = File(directory_dcim, "Screenshots");
+		} else {
+			directory_screenshot = File(directory_pictures, "Screenshots");
+		}
+		if (screenOB != null) {
+			screenOB!.stopWatching()
+		}
+		screenOB = new ScreenFileObserver(directory_screenshot)
+		screenOB!.startWatching()
+	} else {
+		// android 10 以下版本，采用监听系统媒体库的方式
+		mStartListenTime = System.currentTimeMillis()
+
+		// 创建内容观察者
+		mInternalObserver =
+			new MediaContentObserver(MediaStore.Images.Media.INTERNAL_CONTENT_URI, mUiHandler)
+		mExternalObserver =
+			new MediaContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, mUiHandler)
+
+		// 注册内容观察者
+		getUniActivity()!.getContentResolver()!.registerContentObserver(
+			MediaStore.Images.Media.INTERNAL_CONTENT_URI,
+			false,
+			mInternalObserver!
+		)
+		getUniActivity()!.getContentResolver()!.registerContentObserver(
+			MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+			false,
+			mExternalObserver!
+		)
+	}
 
 }
 
+/**
+ * 关闭截屏监听
+ */
+export function offUserCaptureScreen(success: (res: string) => void) {
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+		// android 10以上，关闭监听通过移除文件监听器实现
+		if (screenOB != null) {
+			screenOB!.stopWatching()
+			screenOB = null
+		}
+		lastFileObserverTime = 0;
+	} else {
+		// android 10以下，注销内容观察者
+		if (mInternalObserver != null) {
+			try {
+				getUniActivity()!.contentResolver.unregisterContentObserver(mInternalObserver!)
+			} catch (e) {
+				e.printStackTrace()
+			}
+			mInternalObserver = null
+		}
+		if (mExternalObserver != null) {
+			try {
+				getUniActivity()!.contentResolver.unregisterContentObserver(mExternalObserver!)
+			} catch (e) {
+				e.printStackTrace()
+			}
+			mExternalObserver = null
+		}
 
+		// 清空数据
+		mStartListenTime = 0
+	}
+	success("");
+}
 
 
 
