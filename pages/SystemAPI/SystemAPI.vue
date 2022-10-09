@@ -7,7 +7,7 @@
 			<button type="primary" @tap="testScreenShotPremission">准备截屏监听权限</button>
 			<button type="primary" @tap="testScreenShotListen">监听截屏事件</button>
 			<button type="primary" @tap="testScreenShotOff">关闭截屏监听</button>
-			<image :src="screenImage" class="screenImage" mode="aspectFit"></image>
+			<image :src="screenImage" class="screenImage" mode="aspectFit" ></image>
 		</view>
 	</view>
 </template>
@@ -24,7 +24,7 @@
 		data() {
 			return {
 				title: '系统API示例',
-				screenImage:"../../static/logo.png"
+				screenImage:""
 			}
 		},
 		onUnload: function() {},

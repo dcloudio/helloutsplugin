@@ -1,12 +1,7 @@
 
 
 import {
-	onAppActivityDestroy,
-	onAppActivityPause,
-	onAppActivityResume,
-	onAppActivityBack,
-	getUniActivity,
-	getAppContext
+	getUniActivity
 } from "io.dcloud.uts.android";
 
 
@@ -23,7 +18,6 @@ import Cursor from "android.database.Cursor";
 import ContentObserver from "android.database.ContentObserver";
 import Uri from "android.net.Uri";
 import BitmapFactory from "android.graphics.BitmapFactory";
-import Display from "android.view.Display";
 import Locale from "java.util.Locale";
 import WindowManager from "android.view.WindowManager";
 import FileObserver from "android.os.FileObserver";
@@ -35,7 +29,7 @@ import Environment from "android.os.Environment";
  * 读取媒体数据库时需要读取的列，其中 width、height 字段在 API 16 之后才有
  */
 const MEDIA_PROJECTIONS_API_16 = arrayOf(
-	MediaStore.Images.ImageColumns.DATA,
+	"_data",
 	MediaStore.Images.ImageColumns.DATE_TAKEN,
 	MediaStore.Images.ImageColumns.WIDTH,
 	MediaStore.Images.ImageColumns.HEIGHT
@@ -63,19 +57,24 @@ class ScreenFileObserver extends FileObserver {
 	constructor(screenFile: File) {
 		super(screenFile)
 		this.allScreen = screenFile;
+		console.log(allScreen);
 	}
 
 	override onEvent(event: Int, path?: String): void {
+		
+		
 		if (event == FileObserver.CREATE) {
-			var newPath: string = new File(allScreen, path).path;
+			let newPath: string = new File(allScreen, path!).path;
 			let currentTime = System.currentTimeMillis();
 
 			if ((currentTime - lastFileObserverTime) < 1000) {
 				// 本地截屏行为比上一次超过1000ms,才认为是一个有效的时间
 				return;
 			}
+			
+			console.log(path);
 			lastFileObserverTime = System.currentTimeMillis()
-			listenOption!.onImageCatchChange(newPath)
+			listenOption.onImageCatchChange(newPath)
 		}
 	}
 }
@@ -120,8 +119,7 @@ function handleMediaContentChange(contentUri: Uri) {
 			MEDIA_PROJECTIONS_API_16,
 			null, null,
 			MediaStore.Images.ImageColumns.DATE_ADDED + " desc limit 1"
-		)!
-
+		)
 
 		if (cursor == null) {
 			return
@@ -132,7 +130,7 @@ function handleMediaContentChange(contentUri: Uri) {
 		}
 
 		// 获取各列的索引
-		let dataIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+		let dataIndex = cursor.getColumnIndex("_data")
 		let dateTakenIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATE_TAKEN)
 		let widthIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.WIDTH)
 		let heightIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.HEIGHT)
@@ -140,8 +138,8 @@ function handleMediaContentChange(contentUri: Uri) {
 		// 获取行数据
 		let data = cursor.getString(dataIndex)
 		let dateTaken = cursor.getLong(dateTakenIndex)
-		let width = 0;
-		let height = 0;
+		let width:number;
+		let height:number;
 		if (widthIndex >= 0 && heightIndex >= 0) {
 			width = cursor.getInt(widthIndex)
 			height = cursor.getInt(heightIndex)
@@ -165,7 +163,7 @@ function handleMediaContentChange(contentUri: Uri) {
 /**
  * 获取媒体库内置图像的大小
  */
-function getImageSize(imagePath: string): Point {
+function getImageSize(imagePath: string): Point{
 	let options = BitmapFactory.Options()
 	options.inJustDecodeBounds = true
 	BitmapFactory.decodeFile(imagePath, options)
@@ -179,7 +177,7 @@ function handleMediaRowData(data: String, dateTaken: Long, width: Int, height: I
 
 	if (checkScreenShot(data, dateTaken, width, height)) {
 		if (!checkCallback(data)) {
-			listenOption!.onImageCatchChange(data)
+			listenOption.onImageCatchChange(data)
 		}
 	} else {
 		// 如果在观察区间媒体数据库有数据改变，又不符合截屏规则
@@ -247,8 +245,13 @@ function getRealScreenSize(): Point | null {
 	let screenSize: Point = Point();
 	try {
 		let windowManager = getUniActivity()!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-		let defaultDisplay = windowManager.defaultDisplay
-		defaultDisplay.getRealSize(screenSize)
+		screenSize.x = windowManager.currentWindowMetrics.bounds.width();
+		screenSize.y = windowManager.currentWindowMetrics.bounds.height();
+		// let defaultDisplay = windowManager.defaultDisplay
+		
+		// let defaultDisplay =  getUniActivity()!.display
+		// defaultDisplay!.getRealSize(screenSize)
+		console.log(screenSize);
 	} catch (e) {
 		e.printStackTrace()
 	}
@@ -302,13 +305,25 @@ export function requestPremission() {
  */
 export function onUserCaptureScreen(success: (res: string) => void) {
 	listenOption.onImageCatchChange = success;
+	
+	console.log(Build.VERSION.SDK_INT);
+	console.log(Build.VERSION_CODES.Q);
 
 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 		// android 10 以上版本，使用监听文件的方式，更加可靠
-		var directory_screenshot: File;
+		let directory_screenshot: File;
 
-		var directory_pictures = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES);
-		var directory_dcim = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DCIM);
+		// let directory_pictures = getUniActivity()!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+		// let directory_dcim = getUniActivity()!.getExternalFilesDir(Environment.DIRECTORY_DCIM)
+
+		let directory_pictures = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES);
+		let directory_dcim = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DCIM);
+		
+		console.log(directory_pictures);
+		console.log(directory_dcim);
+		
+		// console.log(directory_pictures2);
+		// console.log(directory_dcim2);
 		
 		if (Build.MANUFACTURER.equals("Xiaomi", true)) {
 			directory_screenshot = File(directory_dcim, "Screenshots");
@@ -349,6 +364,7 @@ export function onUserCaptureScreen(success: (res: string) => void) {
  * 关闭截屏监听
  */
 export function offUserCaptureScreen(success: (res: string) => void) {
+
 	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 		// android 10以上，关闭监听通过移除文件监听器实现
 		if (screenOB != null) {

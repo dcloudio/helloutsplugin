@@ -2,68 +2,57 @@
 	<view>
 		<page-head :title="title"></page-head>
 
-		<uni-section title="任务" type="line">
 
-			<uni-collapse>
-				<uni-collapse-item title="延迟任务">
-					<button type="primary" @tap="testTimer">延迟任务</button>
-				</uni-collapse-item>
+		<uni-collapse>
+			<uni-collapse-item title="延迟任务">
+				<button @tap="testTimer" class="itemButton">开启延迟任务</button>
+			</uni-collapse-item>
 
-				<uni-collapse-item title="定时任务">
-					<button type="primary" @tap="testInterval">定时任务</button>
-					<button type="primary" @tap="testClearInterval">关闭定时任务</button>
-				</uni-collapse-item>
+			<uni-collapse-item title="定时任务">
+				<button @tap="testInterval" class="itemButton">开启定时任务</button>
+				<button @tap="testClearInterval" class="itemButton">关闭定时任务</button>
+			</uni-collapse-item>
 
-			</uni-collapse>
-
-		</uni-section>
+		</uni-collapse>
 
 
-		<uni-section title="语法" type="line">
+		<uni-collapse>
+			<uni-collapse-item title="进阶语法示例">
+				<button type="primary" class="itemButton" @tap="testSyntax">进阶语法示例</button>
+			</uni-collapse-item>
+		</uni-collapse>
 
-			<uni-collapse>
-				<uni-collapse-item title="进阶语法示例">
-					<button type="primary" @tap="testSyntax">进阶语法示例</button>
-				</uni-collapse-item>
-			</uni-collapse>
 
-		</uni-section>
 
-		
-		<uni-section title="资源" type="line">
-		
-			<uni-collapse>
-				<uni-collapse-item title="资源加载">
-					<button type="primary" @tap="gotoResourceDemo">资源加载示例</button>
-				</uni-collapse-item>
-		
-			</uni-collapse>
-		
-		</uni-section>
 
-		<uni-section title="内置函数" type="line">
-		
-			<uni-collapse>
-				<uni-collapse-item title="生命周期">
-					<button type="primary" @tap="testLifecyle">activity生命周期监听</button>
-				</uni-collapse-item>
-		
-			</uni-collapse>
-		
-		</uni-section>
+		<uni-collapse>
+			<uni-collapse-item title="图片加载示例">
+				<button type="primary" @tap="gotoResourceDemo" class="itemButton">资源加载示例</button>
+			</uni-collapse-item>
+			<uni-collapse-item title="asset操作示例">
+				<button type="primary" class="itemButton">播放asset音频(需自定义基座)</button>
+			</uni-collapse-item>
 
-		<uni-section title="原生UI" type="line">
-		
-			<uni-collapse>
-				<uni-collapse-item title="DecorView操作示例">
-					<button type="primary" @tap="testAddToDecorView">添加TextView至视图顶层</button>
-					<button type="primary" @tap="testRemoveToDecorView">移除视图顶层的TextView</button>
-				</uni-collapse-item>
-			</uni-collapse>
-		
-		</uni-section>
 
-	
+		</uni-collapse>
+
+
+
+		<uni-collapse>
+			<uni-collapse-item title="生命周期">
+				<button type="primary" @tap="testLifecyle" class="itemButton">activity生命周期监听</button>
+			</uni-collapse-item>
+
+		</uni-collapse>
+
+
+
+		<uni-collapse>
+			<uni-collapse-item title="DecorView操作示例">
+				<button type="primary" @tap="testAddToDecorView" class="itemButton">添加TextView至视图顶层</button>
+				<button type="primary" @tap="testRemoveToDecorView" class="itemButton">移除视图顶层的TextView</button>
+			</uni-collapse-item>
+		</uni-collapse>
 
 
 	</view>
@@ -270,6 +259,10 @@
 </script>
 
 <style>
-
-
+	.itemButton {
+		margin-top: 5px;
+		margin-bottom: 5px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
 </style>

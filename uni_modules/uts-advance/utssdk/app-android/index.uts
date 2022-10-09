@@ -1,11 +1,9 @@
-import Rect from "android.graphics.Rect";
 import Color from "android.graphics.Color";
 import TextView from "android.widget.TextView";
 import FrameLayout from "android.widget.FrameLayout";
 import ViewGroup from "android.view.ViewGroup";
 import Gravity from "android.view.Gravity";
 import Runnable from 'java.lang.Runnable';
-import Exception from 'java.lang.Exception';
 import MediaPlayer from 'android.media.MediaPlayer';
 
 import logo from "../../static/logo.png";
