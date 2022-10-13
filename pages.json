@@ -64,6 +64,16 @@
 		    
 		},
 		{
+		    "path" : "pages/SystemAPI/android/screenlisten",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		
+		{
 		    "path" : "pages/SyntaxCase/index",
 		    "style" :                                                                                    
 		    {
