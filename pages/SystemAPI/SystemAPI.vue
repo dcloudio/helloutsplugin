@@ -32,13 +32,14 @@
 			testGetBatteryCapacity() {
 				getBatteryInfo({
 					success(res) {
-						console.log(res);
+						console.log("dddeee");
 						uni.showToast({
 							title: "当前电量：" + res.level + '%',
 							icon: 'none'
 						});
 					}
 				})
+				console.log("ccccc");
 			},
 			testScreenShotPremission() {
 				// 请求写入储存的权限

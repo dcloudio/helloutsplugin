@@ -4,7 +4,6 @@
 			<image :src="logo" mode="aspectFit" style="width: 100%;"></image>
 			<view class="uni-btn-v uni-common-mt">
 				<button type="primary" @tap="testLogoLoad">展示插件内置图片</button>
-				<button type="primary" @tap="testAssetLoad" >播放asset音频(需自定义基座)</button>
 			</view>
 	</view>
 </template>
@@ -24,9 +23,6 @@
 			this.logo = getLogoPath()
 		},
 		methods: {
-			testAssetLoad(){
-				playAssetAudio();
-			},
 			testLogoLoad(){
 				this.logo = getLogoPath()
 			}
