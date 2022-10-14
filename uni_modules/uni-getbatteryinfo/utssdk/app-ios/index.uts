@@ -15,10 +15,6 @@ export default function getBatteryInfo(options: GetBatteryInfoOptions) {
         level: Number(UIDevice.current.batteryLevel * 100),
         isCharging: UIDevice.current.batteryState == UIDevice.BatteryState.charging,
     };
-    if (options.success != null) {
-        options.success!(res);
-    }
-    if (options.complete != null) {
-        options.complete!(res);
-    }
+    options.success?.(res);
+    options.complete?.(res);
 }

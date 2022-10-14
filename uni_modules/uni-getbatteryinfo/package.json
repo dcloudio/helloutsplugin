@@ -31,6 +31,9 @@
     "npmurl": ""
   },
   "uni_modules": {
+    "exports": {
+      "uni": "getBatteryInfo"
+    },
     "dependencies": [],
     "encrypt": [],
     "platforms": {
