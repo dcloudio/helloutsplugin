@@ -3,63 +3,49 @@
 		<page-head :title="title" accordion></page-head>
 
 
-		<uni-collapse>
+		<uni-collapse accordion>
 			<uni-collapse-item title="延迟任务" :border="false">
 
 				<uni-list>
-					<uni-list-item @tap="testTimer" title="开启延迟任务" class="itemButton" :clickable="true">
+					<uni-list-item @tap="testTimer" title="开启延迟任务"  :clickable="true">
 					</uni-list-item>
 				</uni-list>
 			</uni-collapse-item>
 
-		</uni-collapse>
-
-
-		<uni-collapse>
 			<uni-collapse-item title="定时任务" :border="false">
 
 				<uni-list>
-					<uni-list-item @tap="testInterval" title="开启定时任务" class="itemButton" :clickable="true">
+					<uni-list-item @tap="testInterval" title="开启定时任务"  :clickable="true">
 					</uni-list-item>
-					<uni-list-item @tap="testClearInterval" title="关闭定时任务" class="itemButton" :clickable="true">
+					<uni-list-item @tap="testClearInterval" title="关闭定时任务" :clickable="true">
 					</uni-list-item>
 				</uni-list>
 			</uni-collapse-item>
-		</uni-collapse>
-
-		<uni-collapse>
 			<uni-collapse-item title="语法示例" :border="false">
 				<uni-list>
-					<uni-list-item @tap="testSyntax" title="进阶语法示例" class="itemButton" :clickable="true" link>
+					<uni-list-item @tap="testSyntax" title="进阶语法示例" :clickable="true" link>
 					</uni-list-item>
 				</uni-list>
 			</uni-collapse-item>
-		</uni-collapse>
-
-		<uni-collapse>
 			<uni-collapse-item title="资源加载示例" :border="false">
 				<uni-list>
-					<uni-list-item @tap="gotoResourceDemo" title="图片加载示例" class="itemButton" :clickable="true" link>
+					<uni-list-item @tap="gotoResourceDemo" title="图片加载示例" :clickable="true" link>
 					</uni-list-item>
 				</uni-list>
 			</uni-collapse-item>
-		</uni-collapse>
-
-
-
-		<uni-collapse>
 			<uni-collapse-item title="android平台示例" :border="false">
 
 				<uni-list>
 
-					<uni-list-item @tap="testLifecyle" title="activity生命周期监听" class="itemButton" :clickable="true" link/>
-					<uni-list-item title="操作DecorView" :clickable="true" @tap="gotoDecorView" link/>
-					<uni-list-item @tap="testAssetLoad" title="播放asset音频(需自定义基座)" class="itemButton" :clickable="true"/>
-					
+					<uni-list-item @tap="testLifecyle" title="activity生命周期监听" :clickable="true" link />
+					<uni-list-item @tap="gotoDecorView" title="操作DecorView" :clickable="true" link />
+					<uni-list-item @tap="testAssetLoad" title="播放asset音频(需自定义基座)" :clickable="true" />
+
 				</uni-list>
 
 			</uni-collapse-item>
 		</uni-collapse>
+
 
 	</view>
 </template>
@@ -129,7 +115,7 @@
 				clearIntervalTask(this.taskId);
 			},
 
-		
+
 			/**
 			 * 跳转至资源加载演示界面
 			 */
@@ -138,7 +124,7 @@
 					url: '/pages/resource/resource'
 				})
 			},
-			gotoDecorView : function() {
+			gotoDecorView: function() {
 				uni.navigateTo({
 					url: '/pages/advance/android/decorview'
 				})
@@ -163,10 +149,5 @@
 </script>
 
 <style>
-	.itemButton {
-		margin-top: 5px;
-		margin-bottom: 5px;
-		margin-right: 10px;
-		font-size: 10px;
-	}
+	
 </style>
