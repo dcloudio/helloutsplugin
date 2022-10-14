@@ -9,41 +9,27 @@ type GetBatteryInfoOptions = {
     complete?: (res: UTSJSONObject) => void
 }
 
-export default async function getBatteryInfo(options: GetBatteryInfoOptions) {
+export default function getBatteryInfo(options: GetBatteryInfoOptions) {
     const context = getAppContext();
-	console.log(context);
     if (context != null) {
         const manager = context.getSystemService(
             Context.BATTERY_SERVICE
         ) as BatteryManager;
-		console.log(manager);
         const level = manager.getIntProperty(
             BatteryManager.BATTERY_PROPERTY_CAPACITY
         );
-		
         const res = {
             errMsg: 'getBatteryInfo:ok',
             level,
             isCharging: manager.isCharging()
         }
-		console.log(res);
-        if (options.success != null) {
-            options.success!(res)
-        }
-		console.log("options.success");
-        if (options.complete != null) {
-            options.complete!(res)
-        }
-		console.log("options.complete");
+        options.success?.(res)
+        options.complete?.(res)
     } else {
         const res = {
             errMsg: 'getBatteryInfo:fail getAppContext is null'
         }
-        if (options.fail != null) {
-            options.fail!(res)
-        }
-        if (options.complete != null) {
-            options.complete!(res)
-        }
+        options.fail?.(res)
+        options.complete?.(res)
     }
 }
