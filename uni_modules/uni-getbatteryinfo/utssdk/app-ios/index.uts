@@ -12,7 +12,7 @@ export default function getBatteryInfo(options: GetBatteryInfoOptions) {
 	
     const res = {
         errMsg: "getBatteryInfo:ok",
-        level: UIDevice.current.batteryLevel * 100,
+        level: Number(UIDevice.current.batteryLevel * 100),
         isCharging: UIDevice.current.batteryState == UIDevice.BatteryState.charging,
     };
     if (options.success != null) {

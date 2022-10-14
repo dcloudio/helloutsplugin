@@ -49,6 +49,12 @@
 							title:'执行结果:' + addressDesc,
 							icon:'none'
 						});
+					},
+					fail:function(msg) {
+						uni.showToast({
+							title: msg,
+							icon:"none"
+						})
 					}
 				})
 				

@@ -1,0 +1,99 @@
+import { CLLocationManager, CLAuthorizationStatus } from "CoreLocation"
+import { TencentLBSLocationManager, TencentLBSLocation, Error, TencentLBSRequestLevel} from "TencentLBS"
+import Bundle from "Foundation"
+
+
+/**
+ * 定位请求参数封装
+ */
+type LocationOptions = {
+	geocode: boolean,
+	success: (response: LocationResponse) => void,
+	fail: (msg: string) => void
+};
+
+/**
+ * 定位返回结果封装
+ */
+type LocationResponse = {
+	name: string,
+	address: string,
+	latitude: number,
+	longitude: number
+}
+
+class LBSLocation {
+	
+	// 定义 locationManager 属性，类型为 TencentLBSLocationManager
+	static locationManager: TencentLBSLocationManager
+	
+	// 初始化 locationManager 方法
+	static configLocationManager(): boolean {
+		
+		if (this.locationManager == null) {
+			// 从 info.plist 中读取 apiKey
+			const apiKey = Bundle.main.infoDictionary?.["TencentLBSAPIKey"]
+			// infoDictionary 获取的值类型为 any？
+			if (apiKey == null) { 
+				// 如果 apiKey 为 null 返回 false
+			    return false
+			}
+			// 调用API前需要设置同意用户隐私协议
+			TencentLBSLocationManager.setUserAgreePrivacy(true)
+			// 初始化 locationManager 实例对象
+			this.locationManager = new TencentLBSLocationManager() 
+			// 设置 apiKey （因为 apiKey 是 any？类型，需要转成 string 类型赋值）
+			this.locationManager.apiKey = apiKey! as string;
+			// this.locationManager.apiKey = "LZTBZ-77PCJ-HJAFN-KWXJ2-H357V-DJBK4"
+			this.locationManager.allowsBackgroundLocationUpdates = true
+		}
+		
+		return true
+	}
+	
+	static requestPremission() {
+		
+		this.configLocationManager()
+		
+		const status = CLLocationManager.authorizationStatus()
+		if (status == CLAuthorizationStatus.notDetermined) {
+			this.locationManager.requestWhenInUseAuthorization()
+		}
+	}
+	
+	static getLocation(locationOptions: LocationOptions): boolean {
+		
+		// 初始化 locationManager 
+		if (!this.configLocationManager()) {
+			// 初始化失败返回 false
+			return false
+		}
+		
+		let requestLevel = TencentLBSRequestLevel.geo
+		if (locationOptions.geocode) {
+			requestLevel = TencentLBSRequestLevel.name
+		}
+		
+		this.locationManager.requestLocation(with = requestLevel, locationTimeout = 10, completionBlock = (location?: TencentLBSLocation, err?: Error): void => {
+			if (location != null) {
+			    let response = new LocationResponse();
+			    response.name = location!.name;
+			    response.address = location!.address;
+			    response.latitude = Number(location!.location.coordinate.latitude);
+			    response.longitude = Number(location!.location.coordinate.longitude);
+				locationOptions.success(response);
+			} else {
+				locationOptions.fail(err!.localizedDescription)
+			}
+		})
+		
+		return true
+	}
+}
+
+export function requestPremission() {
+	LBSLocation.requestPremission()
+}
+export function getLocation(locationOptions: LocationOptions): boolean {
+	return LBSLocation.getLocation(locationOptions)
+}
