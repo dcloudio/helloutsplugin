@@ -1,12 +1,15 @@
 {
-  "id": "uni-section",
-  "displayName": "uni-section 标题栏",
-  "version": "0.0.1",
-  "description": "标题栏组件",
+  "id": "uni-list",
+  "displayName": "uni-list 列表",
+  "version": "1.2.1",
+  "description": "List 组件 ，帮助使用者快速构建列表。",
   "keywords": [
+    "",
     "uni-ui",
     "uniui",
-    "标题栏"
+    "列表",
+    "",
+    "list"
 ],
   "repository": "https://github.com/dcloudio/uni-ui",
   "engines": {
@@ -40,7 +43,8 @@
   },
   "uni_modules": {
     "dependencies": [
-      "uni-scss"
+      "uni-badge",
+      "uni-icons"
     ],
     "encrypt": [],
     "platforms": {

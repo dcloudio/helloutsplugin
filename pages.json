@@ -53,7 +53,27 @@
 		        "enablePullDownRefresh": false
 		    }
 		    
-		},{
+		},
+		{
+		    "path" : "pages/advance/android/decorview",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/SystemAPI/android/screenlisten",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		
+		{
 		    "path" : "pages/SyntaxCase/index",
 		    "style" :                                                                                    
 		    {

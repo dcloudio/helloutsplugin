@@ -39,7 +39,6 @@
 			},
 			testGetlocation:function(e){
 				
-				
 				let startRet = getLocation({
 					geocode:true,
 					success:function(response){

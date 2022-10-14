@@ -1,30 +1,36 @@
 <template>
 	<view>
 		<page-head :title="title"></page-head>
-		<view class="uni-btn-v uni-common-mt">
-			<button type="primary" @tap="testGetBatteryCapacity">获取电池电量</button>
-			<button type="primary" @tap="testGotoDemoActivity">跳转至新的原生页面</button>
-			<button type="primary" @tap="testScreenShotPremission">准备截屏监听权限</button>
-			<button type="primary" @tap="testScreenShotListen">监听截屏事件</button>
-			<button type="primary" @tap="testScreenShotOff">关闭截屏监听</button>
-			<image :src="screenImage" class="screenImage" mode="aspectFit" ></image>
-		</view>
+		<uni-collapse>
+			<uni-collapse-item title="设备相关" :border="false">
+				<uni-list>
+					<uni-list-item @tap="testGetBatteryCapacity" title="获取电池电量" class="itemButton" :clickable="true"/>
+				</uni-list>
+			</uni-collapse-item>
+		</uni-collapse>
+		
+		<uni-collapse>
+			<uni-collapse-item title="android平台" :border="false">
+				<uni-list>
+					<uni-list-item @tap="testGotoDemoActivity" title="自定义activity(需自定义基座)" class="itemButton" :clickable="true" link/>
+					<uni-list-item @tap="gotoScreenListen" title="监听系统截屏" class="itemButton" :clickable="true" link/>
+				</uni-list>
+			</uni-collapse-item>
+		</uni-collapse>
+		
+		
 	</view>
 </template>
 <script>
 	import getBatteryInfo from "@/uni_modules/uni-getbatteryinfo";
 	import gotoDemoActivity from "@/uni_modules/uts-nativepage";
-	import {
-		requestPremission,
-		onUserCaptureScreen,
-		offUserCaptureScreen
-	} from "@/uni_modules/uts-screenshot-listener";
+	
 
 	export default {
 		data() {
 			return {
 				title: '系统API示例',
-				screenImage:""
+				
 			}
 		},
 		onUnload: function() {},
@@ -32,7 +38,6 @@
 			testGetBatteryCapacity() {
 				getBatteryInfo({
 					success(res) {
-						console.log(res);
 						uni.showToast({
 							title: "当前电量：" + res.level + '%',
 							icon: 'none'
@@ -40,35 +45,9 @@
 					}
 				})
 			},
-			testScreenShotPremission() {
-				// 请求写入储存的权限
-				requestPremission();
-			},
-			testScreenShotListen() {
-				var that = this;
-				onUserCaptureScreen(function(res) {
-						console.log(res);
-						that.screenImage = res
-						uni.showToast({
-							icon:"none",
-							title:'截屏捕捉成功'
-						})
-					});
-				// 提示已经开始监听,注意观察
-				uni.showToast({
-					icon:"none",
-					title:'截屏监听已开启，注意观察下方Image组件'
-				})
-			},
-			testScreenShotOff() {
-				var that = this;
-				offUserCaptureScreen(function(res) {
-						console.log(res);
-				});
-				// 提示已经开始监听,注意观察
-				uni.showToast({
-					icon:"none",
-					title:'截屏监听已关闭'
+			gotoScreenListen(){
+				uni.navigateTo({
+					url:'/pages/SystemAPI/android/screenlisten'
 				})
 			},
 
