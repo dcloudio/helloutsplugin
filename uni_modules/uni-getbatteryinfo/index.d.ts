@@ -6,7 +6,7 @@ interface GetBatteryInfoSuccessCallbackResult {
   /**
    * 设备电量，范围 1 - 100
    */
-  level: string;
+  level: number;
   errMsg: string;
 }
 
