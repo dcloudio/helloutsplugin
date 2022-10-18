@@ -1,7 +1,7 @@
 {
   "id": "uni-getbatteryinfo",
   "displayName": "uni-getbatteryinfo",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "使用uts开发，实现在多个平台获取电池电量功能",
   "keywords": [
     "battery"
@@ -50,7 +50,9 @@
           "app-android": {
             "minVersion": "21"
         },
-          "app-ios": "n"
+          "app-ios": {
+            "minVersion": "9"
+        }
         },
         "H5-mobile": {
           "Safari": "y",
@@ -67,10 +69,10 @@
         },
         "小程序": {
           "微信": "y",
-          "阿里": "u",
-          "百度": "u",
+          "阿里": "y",
+          "百度": "y",
           "字节跳动": "u",
-          "QQ": "u",
+          "QQ": "y",
           "钉钉": "u",
           "快手": "u",
           "飞书": "u",
