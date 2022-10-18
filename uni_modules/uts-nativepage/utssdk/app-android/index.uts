@@ -5,7 +5,6 @@ import Bundle from 'android.os.Bundle';
 import R from 'io.dcloud.uni_modules.uts_nativepage.R';
 import Intent from 'android.content.Intent';
 import IntentFilter from 'android.content.IntentFilter';
-
 import NotificationCompat from 'androidx.core.app.NotificationCompat';
 import NotificationManager from 'android.app.NotificationManager';
 import NotificationChannel from 'android.app.NotificationChannel';
@@ -24,6 +23,8 @@ import {
 
 import Service from 'android.app.Service';
 import System from 'java.lang.System';
+
+
 
 class ForeService extends Service {
 
@@ -47,14 +48,18 @@ class ForeService extends Service {
 
         let mBuilder = new NotificationCompat.Builder(this,"uts-test");
 		
-		mBuilder.setAutoCancel(true) // 点击后让通知将消失
+		// 点击后让通知将消失
+		mBuilder.setAutoCancel(true) 
 	    mBuilder.setContentText("测试")
 	    mBuilder.setContentTitle("测试")
-	    mBuilder.setWhen(System.currentTimeMillis()) //通知产生的时间，会在通知信息里显示
-	         
-	    mBuilder.setPriority(NotificationManager.IMPORTANCE_DEFAULT) //设置该通知优先级
-	    mBuilder.setOngoing(false) //ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
-	    mBuilder.setDefaults(Notification.DEFAULT_ALL) //向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
+		//通知产生的时间，会在通知信息里显示
+	    mBuilder.setWhen(System.currentTimeMillis()) 
+	    //设置该通知优先级
+	    mBuilder.setPriority(NotificationManager.IMPORTANCE_DEFAULT) 
+		//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
+	    mBuilder.setOngoing(false) 
+		//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
+	    mBuilder.setDefaults(Notification.DEFAULT_ALL) 
 	          
 			   
 	   	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -72,7 +77,7 @@ class ForeService extends Service {
 		}
 	   				
 	    mBuilder.setContentIntent(null)
-	    this.startForeground(222, mBuilder.build())
+	    this.startForeground(102, mBuilder.build())
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -87,9 +92,13 @@ class ForeService extends Service {
 
 
 
-class ScreenReceiver extends BroadcastReceiver() {
+class ScreenReceiver extends BroadcastReceiver{
 	
-    override onReceive(context: Context, intent: Intent):void {
+	constructor (){
+		super();
+	}
+	
+   override onReceive(context: Context, intent: Intent):void {
         if (Intent.ACTION_SCREEN_OFF == intent.action) {
             console.log("==屏幕休眠了")
         }
@@ -104,7 +113,7 @@ class StartServiceListener extends OnClickListener{
 	
     override onClick(v?: View):void{
 		
-		var intent = Intent(getUniActivity(), ForeService().javaClass);
+		var intent = new Intent(getUniActivity(), ForeService().javaClass);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			getAppContext()!.startForegroundService(intent);
 		}
@@ -135,13 +144,15 @@ class StartBroadcastListener extends OnClickListener{
 
 
 
-class DemoActivity  extends Activity(){
+class DemoActivity  extends Activity{
 	
+	constructor (){
+		super();
+	}
 	
 	override onCreate(savedInstanceState?: Bundle):void {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.demo_activity);
-		
+		this.setContentView(R.layout.demo_activity);
 		
 		 let btn_start_service_front = findViewById<Button>(R.id.btn_start_service_front);
 		 btn_start_service_front.setOnClickListener(new StartServiceListener());

@@ -12,6 +12,7 @@ import Build from "android.os.Build";
 import FileObserver from "android.os.FileObserver";
 import File from "java.io.File";
 import Environment from "android.os.Environment";
+import System from 'java.lang.System';
 
 
 
@@ -24,15 +25,10 @@ let screenOB: ScreenFileObserver | null = null;
  */
 let lastFileObserverTime: number = 0;
 /**
- * 图片捕捉定义
+ * 图片被捕获的实现
  */
-type OnImageCatchOptions = {
-	onImageCatchChange: (res: any) => void;
-};
-/**
- * 图片捕捉监听变量
- */
-let listenOption = new OnImageCatchOptions();
+let imageChange: UTSCallback | null = null;
+
 
 
 
@@ -54,12 +50,12 @@ class ScreenFileObserver extends FileObserver {
 	}
 
 
-	override onEvent(event: Int, path?: String): void {
+	override onEvent(event: Int, path?: string): void {
 		
 		// 只监听文件新增事件
 		if (event == FileObserver.CREATE) {
 			
-			let newPath: string = new File(this.allScreen, path!).path;
+			let newPath: string = new File(this.allScreen, path!).getPath();
 			let currentTime = System.currentTimeMillis();
 
 			if ((currentTime - lastFileObserverTime) < 1000) {
@@ -71,7 +67,8 @@ class ScreenFileObserver extends FileObserver {
 			let ret = {
 				image:newPath
 			}
-			listenOption.onImageCatchChange(ret)
+			
+			imageChange!(ret);
 		}
 	}
 }
@@ -99,20 +96,22 @@ export function requestPremission() {
 
 
 
+
+
 /**
  * 开启截图监听
  */
-export function onUserCaptureScreen(success: (res: any) => void) {
+export function onUserCaptureScreen(callback: (res:UTSJSONObject) => void) {
 	
-	listenOption.onImageCatchChange = success;
+	
+	imageChange = callback;
 
-	// android 10 以上版本，使用监听文件的方式，更加可靠
 	let directory_screenshot: File;
-
+	// 找到设备存放截屏文件的目录
 	let directory_pictures = new File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES);
 	let directory_dcim = new File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DCIM);
 	
-	if (Build.MANUFACTURER.equals("Xiaomi", true)) {
+	if (Build.MANUFACTURER.lowercase() === "xiaomi") {
 		directory_screenshot = new File(directory_dcim, "Screenshots");
 	} else {
 		directory_screenshot = new File(directory_pictures, "Screenshots");
@@ -121,6 +120,7 @@ export function onUserCaptureScreen(success: (res: any) => void) {
 	if (screenOB != null) {
 		screenOB!.stopWatching()
 	}
+	//开始监听
 	screenOB = new ScreenFileObserver(directory_screenshot.path)
 	screenOB!.startWatching()
 

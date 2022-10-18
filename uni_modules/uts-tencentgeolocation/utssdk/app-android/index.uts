@@ -1,5 +1,4 @@
 import {
-	onAppActivityPause,
     onAppActivityRequestPermissionsResult,
 	getUniActivity,
 	getAppContext
@@ -76,21 +75,21 @@ class LocationOptionsWapper{
 		this.hostOption = option
 	}
 	
-	onLocationChanged(location:TencentLocation , error:Int ,
-								  reason:string){
+	onLocationChanged(location:TencentLocation , _error:Int ,
+								  _reason:string){
 		
-		let response = new LocationResponse();
-		response.name = location.name;
-		response.address = location.address;
-		response.latitude = location.latitude;
-		response.longitude = location.longitude;
+		let response = {
+			name:location.name,
+			address:location.address,
+			latitude:location.latitude,
+			longitude:location.longitude
+		};
 		this.hostOption.success(response);
 	}
 	
 	
-	onStatusUpdate(name:string, status:Int, desc:string){
+	onStatusUpdate(_name:string, _status:Int, _desc:string){
 		// 定位状态发生变化
-		//hostOption.onStatusUpdate(name,status,desc);
 	}
 };
 
