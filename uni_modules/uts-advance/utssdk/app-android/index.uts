@@ -105,7 +105,7 @@ class RemoveUIRunnable extends Runnable {
 
     override run():void {
 
-        let decorView = getUniActivity()!.window.decorView;
+        let decorView = getUniActivity()!.getWindow().getDecorView();
         let frameContent = decorView.findViewById<FrameLayout>(android.R.id.content)
 		
 		let targetTV = frameContent.findViewWithTag<TextView>("helloText")

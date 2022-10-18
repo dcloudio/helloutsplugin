@@ -14,26 +14,52 @@ import File from "java.io.File";
 import Environment from "android.os.Environment";
 
 
+
 /**
- * android 10版本以上通过文件监听实现
+ * 文件监听器
+ */
+let screenOB: ScreenFileObserver | null = null;
+/**
+ * 记录文件监听器上次监听的时间戳，避免重复监听
+ */
+let lastFileObserverTime: number = 0;
+/**
+ * 图片捕捉定义
+ */
+type OnImageCatchOptions = {
+	onImageCatchChange: (res: any) => void;
+};
+/**
+ * 图片捕捉监听变量
+ */
+let listenOption = new OnImageCatchOptions();
+
+
+
+/**
+ * android 文件监听实现
  */
 
 class ScreenFileObserver extends FileObserver {
 
+	/**
+	 * 所有截屏文件的存放目录
+	 */
 	allScreen: File;
 
 	
 	constructor(screenFile: string) {
 		super(screenFile)
-		this.allScreen = File(screenFile);
-		console.log(allScreen);
+		this.allScreen = new File(screenFile);
 	}
+
 
 	override onEvent(event: Int, path?: String): void {
 		
-		
+		// 只监听文件新增事件
 		if (event == FileObserver.CREATE) {
-			let newPath: string = new File(allScreen, path!).path;
+			
+			let newPath: string = new File(this.allScreen, path!).path;
 			let currentTime = System.currentTimeMillis();
 
 			if ((currentTime - lastFileObserverTime) < 1000) {
@@ -41,29 +67,14 @@ class ScreenFileObserver extends FileObserver {
 				return;
 			}
 			
-			console.log(path);
 			lastFileObserverTime = System.currentTimeMillis()
-			listenOption.onImageCatchChange(newPath)
+			let ret = {
+				image:newPath
+			}
+			listenOption.onImageCatchChange(ret)
 		}
 	}
 }
-
-
-
-/**
- * android 10 版本使用的文件监听器
- */
-let screenOB: ScreenFileObserver | null = null;
-
-type onImageCatchOptions = {
-	onImageCatchChange: (res: string) => void;
-};
-
-let listenOption: onImageCatchOptions = new onImageCatchOptions();
-
-let lastFileObserverTime: number = 0;
-
-
 
 
 
@@ -91,24 +102,20 @@ export function requestPremission() {
 /**
  * 开启截图监听
  */
-export function onUserCaptureScreen(success: (res: string) => void) {
-	listenOption.onImageCatchChange = success;
+export function onUserCaptureScreen(success: (res: any) => void) {
 	
+	listenOption.onImageCatchChange = success;
 
 	// android 10 以上版本，使用监听文件的方式，更加可靠
 	let directory_screenshot: File;
 
-	let directory_pictures = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES);
-	let directory_dcim = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DCIM);
-	
-	console.log(directory_pictures);
-	console.log(directory_dcim);
-
+	let directory_pictures = new File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES);
+	let directory_dcim = new File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DCIM);
 	
 	if (Build.MANUFACTURER.equals("Xiaomi", true)) {
-		directory_screenshot = File(directory_dcim, "Screenshots");
+		directory_screenshot = new File(directory_dcim, "Screenshots");
 	} else {
-		directory_screenshot = File(directory_pictures, "Screenshots");
+		directory_screenshot = new File(directory_pictures, "Screenshots");
 	}
 	
 	if (screenOB != null) {
@@ -117,13 +124,13 @@ export function onUserCaptureScreen(success: (res: string) => void) {
 	screenOB = new ScreenFileObserver(directory_screenshot.path)
 	screenOB!.startWatching()
 
-
 }
+
 
 /**
  * 关闭截屏监听
  */
-export function offUserCaptureScreen(success: (res: string) => void) {
+export function offUserCaptureScreen(success: (res: any) => void) {
 
 	// android 10以上，关闭监听通过移除文件监听器实现
 	if (screenOB != null) {
@@ -132,7 +139,10 @@ export function offUserCaptureScreen(success: (res: string) => void) {
 	}
 	lastFileObserverTime = 0;
 	
-	success("");
+	let ret = {
+		
+	}
+	success(ret);
 }
 
 

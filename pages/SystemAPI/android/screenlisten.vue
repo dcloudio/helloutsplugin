@@ -37,7 +37,7 @@
 				var that = this;
 				onUserCaptureScreen(function(res) {
 						console.log(res);
-						that.screenImage = res
+						that.screenImage = res.image
 						uni.showToast({
 							icon:"none",
 							title:'截屏捕捉成功'
