@@ -10,10 +10,17 @@
 		</uni-collapse>
 		
 		<uni-collapse>
+			<uni-collapse-item title="系统事件" :border="false">
+				<uni-list>
+					<uni-list-item @tap="gotoScreenListen" title="监听系统截屏" class="itemButton" :clickable="true" link/>
+				</uni-list>
+			</uni-collapse-item>
+		</uni-collapse>
+		
+		<uni-collapse>
 			<uni-collapse-item title="android平台" :border="false">
 				<uni-list>
 					<uni-list-item @tap="testGotoDemoActivity" title="自定义activity(需自定义基座)" class="itemButton" :clickable="true" link/>
-					<uni-list-item @tap="gotoScreenListen" title="监听系统截屏" class="itemButton" :clickable="true" link/>
 				</uni-list>
 			</uni-collapse-item>
 		</uni-collapse>
@@ -46,7 +53,7 @@
 			},
 			gotoScreenListen(){
 				uni.navigateTo({
-					url:'/pages/SystemAPI/android/screenlisten'
+					url:'/pages/SystemAPI/ScreenListen/screenlisten'
 				})
 			},
 

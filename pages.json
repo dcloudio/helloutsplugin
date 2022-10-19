@@ -64,7 +64,7 @@
 		    
 		},
 		{
-		    "path" : "pages/SystemAPI/android/screenlisten",
+		    "path" : "pages/SystemAPI/ScreenListen/screenlisten",
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "",

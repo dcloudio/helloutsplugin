@@ -2,15 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
-    <key>NSLocationAlwaysUsageDescription</key>
-	<string>访问位置权限</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>使用期间获取位置权限</string>
 	<key>TencentLBSAPIKey</key>
-	<string>LZTBZ-77PCJ-HJAFN-KWXJ2-H357V-DJBK4</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
-	</array>
+	<string>您申请的Key</string>
   </dict>
 </plist>

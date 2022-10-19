@@ -3,7 +3,7 @@
 		<page-head title="监听系统截屏" accordion></page-head>
 		
 		<uni-list>
-			<uni-list-item @tap="testScreenShotPremission" title="准备截屏监听权限" class="itemButton" :clickable="true"/>
+			<uni-list-item @tap="testScreenShotPremission" title="准备截屏监听权限(仅Android)" class="itemButton" :clickable="true"/>
 			<uni-list-item @tap="testScreenShotListen" title="监听截屏事件" class="itemButton" :clickable="true"/>
 			<uni-list-item @tap="testScreenShotOff" title="关闭截屏监听" class="itemButton" :clickable="true"/>
 		</uni-list>
@@ -30,6 +30,13 @@
 		methods: {
 
 			testScreenShotPremission() {
+				if (uni.getSystemInfoSync().platform == "ios") {
+					uni.showToast({
+						icon:"none",
+						title:'iOS 平台无需请求权限'
+					})
+					return;
+				}
 				// 请求写入储存的权限
 				requestPremission();
 			},
@@ -37,16 +44,18 @@
 				var that = this;
 				onUserCaptureScreen(function(res) {
 						console.log(res);
-						that.screenImage = res.image
 						uni.showToast({
 							icon:"none",
-							title:'截屏捕捉成功'
+							title:'捕获截屏事件'
 						})
+						if (uni.getSystemInfoSync().platform == "android") {
+							that.screenImage = res.image
+						}
 					});
 				// 提示已经开始监听,注意观察
 				uni.showToast({
 					icon:"none",
-					title:'截屏监听已开启，注意观察下方Image组件'
+					title:'截屏监听已开启'
 				})
 			},
 			testScreenShotOff() {
