@@ -1,0 +1,13 @@
+{
+	// 使用NDK时支持的CPU类型，可选
+	"abis": [
+	    "arm64-v8a"
+	],
+    // 依赖的仓储配置，可选，打包时会合并到原生工程的build.gradle中
+	"dependencies": [
+		"com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.4.9"
+	],
+    // Android系统版本要求，最低Android 5.0
+	"minSdkVersion": 21
+}
+
