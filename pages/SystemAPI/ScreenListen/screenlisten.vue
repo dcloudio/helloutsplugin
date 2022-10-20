@@ -31,24 +31,41 @@
 				var that = this;
 				onUserCaptureScreen(function(res) {
 						console.log(res);
-						if(res.code == -1){
-							// 启动失败
-							return ;
-						}else if(res.code == 0){
-							uni.showToast({
-								icon:"none",
-								title:'截屏监听已开启'
-							})
-						}else {
+						
+						if (uni.getSystemInfoSync().platform == "android") {
+							// 除android 之外的平台，不需要判断返回状态码
+							if(res.code == -1){
+								// 启动失败
+								return ;
+							}else if(res.code == 0){
+								uni.showToast({
+									icon:"none",
+									title:'截屏监听已开启'
+								})
+							}else {
+								uni.showToast({
+									icon:"none",
+									title:'捕获截屏事件'
+								})
+								that.screenImage = res.image
+							}
+						}else{
+							// 除android 之外的平台，不需要判断返回状态码
 							uni.showToast({
 								icon:"none",
 								title:'捕获截屏事件'
 							})
-							if (uni.getSystemInfoSync().platform == "android") {
-								that.screenImage = res.image
-							}
 						}
+						
 					});
+					
+					if (uni.getSystemInfoSync().platform != "android") {
+						// 除android 之外的平台，直接提示监听已开启
+						uni.showToast({
+							icon:"none",
+							title:'截屏监听已开启'
+						})
+					}
 				
 			},
 			testScreenShotOff() {
