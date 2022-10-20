@@ -65,6 +65,7 @@ class ScreenFileObserver extends FileObserver {
 			
 			lastFileObserverTime = System.currentTimeMillis()
 			let ret = {
+				code:1,
 				image:newPath
 			}
 			
@@ -79,30 +80,24 @@ class ScreenFileObserver extends FileObserver {
 
 
 
-/**
- * 请求权限
- */
-export function requestPremission() {
-
-	// 注册一个请求回调
-	// 发起权限申请
-	if (ActivityCompat.checkSelfPermission(getUniActivity()!, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-		ActivityCompat.requestPermissions(getUniActivity()!, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1001)
-	}
-
-	// 请求权限
-	return { name: "requestPremission" };
-}
-
-
-
-
 
 /**
  * 开启截图监听
  */
 export function onUserCaptureScreen(callback: (res:UTSJSONObject) => void) {
 	
+	// 检查相关权限是否已经具备
+	if (ActivityCompat.checkSelfPermission(getUniActivity()!, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+		// 不具备权限，申请权限，并且告知用户监听失败
+		ActivityCompat.requestPermissions(getUniActivity()!, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1001)
+		
+		// 因权限缺失导致监听失败
+		let ret = {
+			code:-1
+		}
+		callback(ret);
+		return ;
+	}
 	
 	imageChange = callback;
 
@@ -124,6 +119,12 @@ export function onUserCaptureScreen(callback: (res:UTSJSONObject) => void) {
 	screenOB = new ScreenFileObserver(directory_screenshot.path)
 	screenOB!.startWatching()
 
+	// 监听成功
+	let ret = {
+		code:0
+	}
+	callback(ret);
+	
 }
 
 
