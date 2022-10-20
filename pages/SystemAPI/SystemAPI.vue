@@ -30,6 +30,7 @@
 </template>
 <script>
 	import gotoDemoActivity from "@/uni_modules/uts-nativepage";
+	import getBatteryInfo from "@/uni_modules/uni-getbatteryinfo";
 	
 
 	export default {
@@ -42,7 +43,7 @@
 		onUnload: function() {},
 		methods: {
 			testGetBatteryCapacity() {
-				uni.getBatteryInfo({
+				getBatteryInfo({
 					success(res) {
 						uni.showToast({
 							title: "当前电量：" + res.level + '%',
