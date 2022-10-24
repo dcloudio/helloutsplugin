@@ -40,6 +40,7 @@
 					<uni-list-item @tap="testLifecyle" title="activity生命周期监听" :clickable="true" link />
 					<uni-list-item @tap="gotoDecorView" title="操作DecorView" :clickable="true" link />
 					<uni-list-item @tap="testAssetLoad" title="播放asset音频(需自定义基座)" :clickable="true" />
+					<uni-list-item @tap="testMetaRead" title="读取meta配置(需自定义基座)" :clickable="true" />
 
 				</uni-list>
 
@@ -54,7 +55,8 @@
 		doTimerTask,
 		doIntervalTask,
 		clearIntervalTask,
-		playAssetAudio
+		playAssetAudio,
+		getMetaConfig
 	} from "../../uni_modules/uts-advance";
 
 
@@ -133,6 +135,14 @@
 				playAssetAudio();
 			},
 
+			testMetaRead() {
+				let ret = getMetaConfig();
+				uni.showToast({
+					icon:"none",
+					title: '读取成功,注意查看控制台输出'
+				});
+				console.log("meta节点['DCLOUD_READ_PHONE_STATE'] 配置的值为:" + ret);
+			},
 			testLifecyle: function() {
 				uni.navigateTo({
 					url: '/pages/lifecycle/lifecycle'

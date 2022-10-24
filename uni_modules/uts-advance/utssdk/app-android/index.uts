@@ -7,6 +7,7 @@ import Runnable from 'java.lang.Runnable';
 import MediaPlayer from 'android.media.MediaPlayer';
 
 import logo from "../../static/logo.png";
+import PackageManager from "android.content.pm.PackageManager";
 
 import {
     onAppActivityDestroy,
@@ -132,6 +133,30 @@ export function removeViewToDecorView() {
 }
 
 
+
+
+
+/**
+ * 引用资源路径
+ */
+export function getMetaConfig(): string {
+	//
+	let packageName = getAppContext()!.getPackageName();
+	let appInfo = getAppContext()!.getPackageManager()!.getApplicationInfo(packageName,PackageManager.GET_META_DATA)
+	
+	let metaData = appInfo.metaData
+	if (metaData == null) {
+		 return "";
+	}
+	let adId = metaData.getString("DCLOUD_READ_PHONE_STATE")
+	if (adId == null) {
+		 return "";
+	}
+    return adId;
+}
+
+
+
 /**
  * 引用资源路径
  */
@@ -152,6 +177,9 @@ export function playAssetAudio() {
 	mediaPlayer.start();
 	
 }
+
+
+
 
 
 /**
