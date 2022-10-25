@@ -1,0 +1,25 @@
+import {
+	getUniActivity
+} from "io.dcloud.uts.android";
+
+import XToast from "com.hjq.xtoast.XToast";
+import R from "io.dcloud.uni_modules.uts_toast.R";
+
+export function getLogoPath():string{
+	
+	// new XToast<Any>(getUniActivity())
+	//                     .setDuration(1000)
+	//                     .setContentView(R.layout.window_hint)
+	//                     .setImageDrawable(android.R.id.icon, android.R.mipmap.sym_def_app_icon)
+	//                     .setText(android.R.id.message, "一秒后自动消失")
+	//                     .show();
+						
+	XToast<XToast<Any>>(getUniActivity())
+					.setDuration(1000)
+					.setContentView(R.layout.window_hint)
+					.setImageDrawable(android.R.id.icon,  android.R.mipmap.sym_def_app_icon)
+					.setText(android.R.id.message, "一秒后自动消失")
+					.show()
+
+	return "hello toast"
+}

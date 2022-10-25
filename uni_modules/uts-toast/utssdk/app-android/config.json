@@ -2,8 +2,6 @@
 	"abis": [
 	    "arm64-v8a"
 	],
-	"dependencies": [
-	],
 	"minSdkVersion": 21
 }
 

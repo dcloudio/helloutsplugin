@@ -9,7 +9,7 @@
 </template>
 <script>
 	
-	import { getLogoPath,playAssetAudio } from '../../uni_modules/uts-advance'
+	import { getLogoPath,playAssetAudio } from '../../uni_modules/uts-toast'
 	
 	export default {
 		
@@ -21,6 +21,7 @@
 		},
 		onLoad:function(){
 			this.logo = getLogoPath()
+			console.log("getLogoPath");
 		},
 		methods: {
 			testLogoLoad(){
