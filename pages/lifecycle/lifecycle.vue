@@ -2,6 +2,8 @@
 <template>
 	<view>
 		<page-head :title="title"></page-head>
+		<button @tap="testGoOtherActivity">跳转选择界面</button>
+		<image :src="selectImage" v-if="selectImage"></image>
 		<view class="uni-padding-wrap uni-common-mt">
 			<view class="uni-hello-text">
 				1. 当前页面已通过initAppLifecycle函数注册了生命周期监听。
@@ -18,12 +20,13 @@
 	</view>
 </template>
 <script>
-	import { initAppLifecycle } from '../../uni_modules/uts-advance';
+	import { initAppLifecycle,goOtherActivity } from '../../uni_modules/uts-advance';
 	export default {
 		data() {
 			return {
 				title: '生命周期监听',
 				text: '',
+				selectImage:""
 			}
 		},
 		onLoad:function(){
@@ -33,6 +36,22 @@
 				that.text = that.text += eventLog;
 				that.text = that.text += '\n';
 			});
+		},
+		methods:{
+			testGoOtherActivity(){
+				var that = this;
+				let ret = goOtherActivity(function(file){
+					// 展示捕捉到的声明周期日志
+					console.log(file);
+					that.selectImage = "file://" + file;
+				});
+				
+				if(!ret){
+					uni.showToast({
+						title:'请授予权限后重试'
+					})
+				}
+			}
 		}
 	}
 </script>

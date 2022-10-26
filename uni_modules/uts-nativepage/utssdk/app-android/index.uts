@@ -40,7 +40,7 @@ class ForeService extends Service {
     }
 	
 
-	override onBind(intent?: Intent): IBinder|null{
+	override onBind(_intent?: Intent): IBinder|null{
 		return null;
     }
 	
@@ -98,7 +98,7 @@ class ScreenReceiver extends BroadcastReceiver{
 		super();
 	}
 	
-   override onReceive(context: Context, intent: Intent):void {
+   override onReceive(_context: Context, intent: Intent):void {
         if (Intent.ACTION_SCREEN_OFF == intent.action) {
             console.log("==屏幕休眠了")
         }

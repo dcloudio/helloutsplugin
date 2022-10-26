@@ -1,15 +1,13 @@
 <template>
 	<view>
 		<page-head :title="title"></page-head>
-			<image :src="logo" mode="aspectFit" style="width: 100%;"></image>
-			<view class="uni-btn-v uni-common-mt">
-				<button type="primary" @tap="testLogoLoad">展示插件内置图片</button>
-			</view>
+		<image :src="logo" mode="aspectFit" style="width: 100%;"></image>
+			
 	</view>
 </template>
 <script>
 	
-	import { getLogoPath,playAssetAudio } from '../../uni_modules/uts-toast'
+	import { getLogoPath } from '../../uni_modules/uts-advance'
 	
 	export default {
 		
@@ -21,13 +19,8 @@
 		},
 		onLoad:function(){
 			this.logo = getLogoPath()
-			console.log("getLogoPath");
-		},
-		methods: {
-			testLogoLoad(){
-				this.logo = getLogoPath()
-			}
 		}
+		
 	}
 </script>
 
