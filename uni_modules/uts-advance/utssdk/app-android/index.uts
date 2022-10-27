@@ -5,13 +5,11 @@ import ViewGroup from "android.view.ViewGroup";
 import Gravity from "android.view.Gravity";
 import Runnable from 'java.lang.Runnable';
 import MediaPlayer from 'android.media.MediaPlayer';
-import Log from 'android.util.Log';
 import Intent from 'android.content.Intent';
 
 import logo from "../../static/logo.png";
 import PackageManager from "android.content.pm.PackageManager";
 import MediaStore from "android.provider.MediaStore";
-import Bundle from "android.os.Bundle";
 import ActivityCompat from "androidx.core.app.ActivityCompat";
 import Manifest from "android.Manifest";
 import Activity from "android.app.Activity";
@@ -202,24 +200,24 @@ export function goOtherActivity(imageDone: (event:string) => void):boolean {
 		return false;
 	}
 	
-	// onAppActivityResult((requestCode: Int, resultCode: Int, data?: Intent) => {
-	// 	let eventName = "onAppActivityResult  -  requestCode:" + requestCode + " -resultCode:"+resultCode + " -data:"+JSON.stringify(data);
-	//     console.log(eventName);
-	// 	if ((requestCode == 1001) && (resultCode == Activity.RESULT_OK)) {
-	// 	    if (data != null) {    
-	// 		  let bundle = data.getExtras(); 
-	// 		  let mImageBitmap = bundle!.get("data") as Bitmap;
-	// 		  let bitmapPath = getUniActivity()!.getExternalCacheDir()!.getPath() + "/photo.png"
-	// 		  console.log(bitmapPath);
-	// 		  try{
-	// 			  mImageBitmap.compress(Bitmap.CompressFormat.PNG,100,new FileOutputStream(bitmapPath))
-	// 		  }catch(e){
-	// 		  }
-	// 		  imageDone(bitmapPath);
+	onAppActivityResult((requestCode: Int, resultCode: Int, data?: Intent) => {
+		let eventName = "onAppActivityResult  -  requestCode:" + requestCode + " -resultCode:"+resultCode + " -data:"+JSON.stringify(data);
+	    console.log(eventName);
+		if ((requestCode == 1001) && (resultCode == Activity.RESULT_OK)) {
+		    if (data != null) {    
+			  let bundle = data.getExtras(); 
+			  let mImageBitmap = bundle!.get("data") as Bitmap;
+			  let bitmapPath = getUniActivity()!.getExternalCacheDir()!.getPath() + "/photo.png"
+			  console.log(bitmapPath);
+			  try{
+				  mImageBitmap.compress(Bitmap.CompressFormat.PNG,100,new FileOutputStream(bitmapPath))
+			  }catch(e){
+			  }
+			  imageDone(bitmapPath);
 			 
-	// 	    }
-	// 	  }
-	// });
+		    }
+		  }
+	});
 	
 	let takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 	//resolveActivity 返回可处理 Intent 的第一个 Activity 组件
@@ -239,19 +237,25 @@ export function goOtherActivity(imageDone: (event:string) => void):boolean {
 export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 
 
+	/**
+	 * application 内存不足的回调函数
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onapptrimmemory
+	 */
+	onAppTrimMemory((level:Number) => {
+		let eventName = "onAppTrimMemory - " + level;
+		onLifecycleChange(eventName);
+	    console.log(eventName);
+	});
 	
-	// onAppTrimMemory((level:Number) => {
-	// 	let eventName = "onAppTrimMemory - " + level;
-	// 	onLifecycleChange(eventName);
-	//     console.log(eventName);
-	// });
-	
-	
-	// onAppConfigChange((ret:UTSJSONObject) => {
-	// 	let eventName = "onAppConfigChange - " + JSON.stringify(ret);
-	// 	onLifecycleChange(eventName);
-	//     console.log(eventName);
-	// });
+	/**
+	 * application 状态改变的回调函数
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onAppConfigChange
+	 */
+	onAppConfigChange((ret:UTSJSONObject) => {
+		let eventName = "onAppConfigChange - " + JSON.stringify(ret);
+		onLifecycleChange(eventName);
+	    console.log(eventName);
+	});
 	
 	
 	/**
@@ -263,7 +267,6 @@ export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 		onLifecycleChange(eventName);
         console.log(eventName);
     });
-	
 	
 	
 	/**
