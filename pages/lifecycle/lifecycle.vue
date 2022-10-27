@@ -48,6 +48,7 @@
 				
 				if(!ret){
 					uni.showToast({
+						icon:'none',
 						title:'请授予权限后重试'
 					})
 				}
