@@ -37,6 +37,24 @@
 		    
 		},
 		{
+		    "path" : "pages/SDKIntegration/TencentLocation/TencentLocation",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/SDKIntegration/XToast/XToast",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
 		    "path" : "pages/lifecycle/lifecycle",
 		    "style" :                                                                                    
 		    {
