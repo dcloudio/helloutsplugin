@@ -4,9 +4,9 @@ import { getAppContext } from "io.dcloud.uts.android";
 
 
 type GetBatteryInfoOptions = {
-    success?: (res: UTSJSONObject) => void
-    fail?: (res: UTSJSONObject) => void
-    complete?: (res: UTSJSONObject) => void
+    success?: (res: object) => void
+    fail?: (res: object) => void
+    complete?: (res: object) => void
 }
 
 export default function getBatteryInfo(options: GetBatteryInfoOptions) {

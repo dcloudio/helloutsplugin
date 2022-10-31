@@ -1,0 +1,35 @@
+
+import {
+	getUniActivity,
+} from "io.dcloud.uts.android";
+
+import Intent from 'android.content.Intent';
+import Activity from 'android.app.Activity';
+
+class TencentMapActivity  extends Activity{
+	
+	constructor (){
+		super();
+	}
+	
+	override onCreate(savedInstanceState?: Bundle):void {
+		super.onCreate(savedInstanceState)
+		this.setContentView(R.layout.demo_activity);
+		
+		 let btn_start_service_front = findViewById<Button>(R.id.btn_start_service_front);
+		 btn_start_service_front.setOnClickListener(new StartServiceListener());
+		 
+		 let btn_start_screen_listen = findViewById<Button>(R.id.btn_start_screen_listen);
+		 btn_start_screen_listen.setOnClickListener(new StartBroadcastListener());
+		 
+	}
+	
+}
+
+export default function gotoTencentMapActivity() {
+  // 跳转到一个新的界面
+  let intent = new Intent(getUniActivity(),TencentMapActivity().javaClass);
+  getUniActivity()!.startActivity(intent);
+  
+  return { name: "gotoTencentMapActivity"};
+}

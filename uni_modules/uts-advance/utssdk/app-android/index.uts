@@ -21,7 +21,6 @@ import {
     onAppActivityPause,
     onAppActivityResume,
     onAppActivityBack,
-	onAppActivityStop,
 	onAppActivityResult,
 	onAppTrimMemory,
 	onAppConfigChange,

@@ -84,7 +84,7 @@ class ScreenFileObserver extends FileObserver {
 /**
  * 开启截图监听
  */
-export function onUserCaptureScreen(callback: (res:UTSJSONObject) => void) {
+export function onUserCaptureScreen(callback: (res:object) => void) {
 	
 	// 检查相关权限是否已经具备
 	if (ActivityCompat.checkSelfPermission(getUniActivity()!, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
