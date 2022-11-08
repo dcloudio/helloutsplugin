@@ -9,12 +9,7 @@
 			<view class="uni-hello-text">
 				2. 将key配置在uts插件uts-tencentgeolocation/utssdk/app-android/AndroidManifest.xml中。
 			</view>
-			<view class="uni-hello-text">	
-				3. 打包自定义基座，注意将uts-tencentgeolocation/utssdk/app-android/libs/androix-core-1.0.0.jar先移到其他目录。
-			</view>
-			<view class="uni-hello-text">	
-				4. 打包自定义基座后将androix-core-1.0.0.jar移回原位，然后真机运行自定义基座。这个临时的移出移入问题后续会升级解决，详见uts插件开发文档的临时注意。
-			</view>
+			
 		</view>
 		<view class="uni-btn-v uni-common-mt">
 			<button type="primary"  @tap="checkLocationPermission">请求定位权限</button>
