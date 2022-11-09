@@ -5,9 +5,9 @@ import { UIDevice } from "UIKit";
  * 定义 接口参数
  */
 type GetBatteryInfoOptions = {
-    success?: (res: UTSJSONObject) => void;
-    fail?: (res: UTSJSONObject) => void;
-    complete?: (res: UTSJSONObject) => void;
+    success?: (res: object) => void;
+    fail?: (res: object) => void;
+    complete?: (res: object) => void;
 };
 
 /**
@@ -21,7 +21,7 @@ export default function getBatteryInfo(options: GetBatteryInfoOptions) {
 	// 返回数据
     const res = {
         errMsg: "getBatteryInfo:ok",
-        level: Number(UIDevice.current.batteryLevel * 100),
+        level: Number(UIDevice.current.batteryLevel * 10),
         isCharging: UIDevice.current.batteryState == UIDevice.BatteryState.charging,
     };
     options.success?.(res);
