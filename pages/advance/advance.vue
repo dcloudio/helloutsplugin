@@ -39,6 +39,7 @@
 
 					<uni-list-item @tap="testLifecyle" title="activity生命周期监听" :clickable="true" link />
 					<uni-list-item @tap="gotoDecorView" title="操作DecorView" :clickable="true" link />
+					<uni-list-item @tap="testInputDialog" title="同步获取用户输入" :clickable="true" />
 					<uni-list-item @tap="testMetaRead" title="读取meta配置" :clickable="true" />
 					<uni-list-item @tap="testAssetLoad" title="播放asset音频(需自定义基座)" :clickable="true" />
 
@@ -56,6 +57,7 @@
 		doIntervalTask,
 		clearIntervalTask,
 		playAssetAudio,
+		getUserInput,
 		getMetaConfig
 	} from "../../uni_modules/uts-advance";
 
@@ -133,6 +135,11 @@
 			},
 			testAssetLoad() {
 				playAssetAudio();
+			},
+			testInputDialog() {
+				getUserInput(function(res){
+					console.log(res);
+				});
 			},
 
 			testMetaRead() {
