@@ -51,7 +51,7 @@
     testAsync,
     Test,
   } from "../../uni_modules/uts-syntaxcase";
-  console.log("MAX", MAX);
+  
   let test
   let id = 0
   export default {
