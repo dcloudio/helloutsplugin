@@ -1,15 +1,18 @@
 <template>
-	<page-head :title="title"></page-head>
-	<view class="uni-padding-wrap uni-common-mt">
-		<view class="uni-hello-text">
-			1.需要自定义基座运行
+	<view>
+		<page-head :title="title"></page-head>
+		<view class="uni-padding-wrap uni-common-mt">
+			<view class="uni-hello-text">
+				1.需要自定义基座运行
+			</view>
+			
+			
 		</view>
-		
-		
+		<view class="uni-padding-wrap uni-common-mt">
+			<button @tap="testToastShow">调用XToast弹窗</button>
+		</view>
 	</view>
-	<view class="uni-padding-wrap uni-common-mt">
-		<button @tap="testToastShow">调用XToast弹窗</button>
-	</view>
+	
 </template>
 
 <script>

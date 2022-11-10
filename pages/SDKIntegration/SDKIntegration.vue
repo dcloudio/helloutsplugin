@@ -3,7 +3,7 @@
 		<page-head :title="title"></page-head>
 		<uni-list>
 			<uni-list-item @tap="gotoTencentLocation" title="腾讯定位sdk集成示例" class="itemButton" :clickable="true" link/>
-			<uni-list-item @tap="gotoTencentMap" title="腾讯地图sdk集成示例" class="itemButton" :clickable="true" link/>
+			<!-- <uni-list-item @tap="gotoTencentMap" title="腾讯地图sdk集成示例" class="itemButton" :clickable="true" link/> -->
 			<uni-list-item @tap="gotoXToast" title="XToast集成示例" class="itemButton" :clickable="true" link/>
 		</uni-list>
 	</view>

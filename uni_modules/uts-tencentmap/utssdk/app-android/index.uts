@@ -1,10 +1,12 @@
 
 import {
 	getUniActivity,
+	getAppContext
 } from "io.dcloud.uts.android";
 
 import Intent from 'android.content.Intent';
 import Activity from 'android.app.Activity';
+
 
 class TencentMapActivity  extends Activity{
 	
@@ -26,10 +28,12 @@ class TencentMapActivity  extends Activity{
 	
 }
 
-export default function gotoTencentMapActivity() {
-  // 跳转到一个新的界面
-  let intent = new Intent(getUniActivity(),TencentMapActivity().javaClass);
-  getUniActivity()!.startActivity(intent);
-  
-  return { name: "gotoTencentMapActivity"};
+
+
+
+export function gotoTencentMapActivity():string {
+  // 初始化打印机
+
+  return "version"
+	
 }
