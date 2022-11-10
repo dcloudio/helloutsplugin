@@ -167,7 +167,7 @@ class DemoActivity  extends Activity{
 
 export default function gotoDemoActivity() {
   // 跳转到一个新的界面
-  let intent = new Intent(getUniActivity(),DemoActivity::class.java);
+  let intent = new Intent(getUniActivity(),DemoActivity().javaclass);
   getUniActivity()!.startActivity(intent);
   
   // var a = new DemoActivity();
