@@ -5,11 +5,14 @@ import {
 import XToast from "com.hjq.xtoast.XToast";
 import R from "io.dcloud.uni_modules.uts_toast.R";
 import Runnable from 'java.lang.Runnable';
+import Class from 'java.lang.Class';
+import Exception from 'java.lang.Exception';
 
 class UIRunnable extends Runnable {
 
     override run():void {
 		
+	
        new XToast<XToast<unknown>>(getUniActivity())
        				.setDuration(1000)
        				.setContentView(R.layout.window_hint)
@@ -20,9 +23,21 @@ class UIRunnable extends Runnable {
     }
 };
 
-export function showToast(){
+export function showToast():boolean{
 	
+	let hasXToastIntegration =  true
+	try{
+		let xToastClass = Class.forName("com.hjq.xtoast.XToast")
+		console.log(xToastClass)
+	}catch(e:Exception){
+		hasXToastIntegration = false;
+	}
+	
+	if(!hasXToastIntegration){
+		return false;
+	}
+
 	let toastRunable = new UIRunnable();
 	getUniActivity()!.runOnUiThread(toastRunable)
-
+	return true
 }

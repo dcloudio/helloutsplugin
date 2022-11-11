@@ -28,7 +28,13 @@
 		},
 		methods:{
 			testToastShow(){
-				showToast();
+				let ret = showToast();
+				if(!ret){
+					uni.showToast({
+						icon:'none',
+						title:'需要在自定义基座中运行'
+					})
+				}
 			}
 		}
 		
