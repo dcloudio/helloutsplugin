@@ -152,7 +152,7 @@
 					icon:"none",
 					title: '读取成功,注意查看控制台输出'
 				});
-				console.log("meta节点['DCLOUD_READ_PHONE_STATE'] 配置的值为:" + ret);
+				console.log(ret);
 			},
 			testLifecyle: function() {
 				uni.navigateTo({
