@@ -18,6 +18,14 @@
 		</uni-collapse>
 		
 		<uni-collapse>
+			<uni-collapse-item title="Alert系统弹窗" :border="false">
+				<uni-list>
+					<uni-list-item @tap="gotoAlert" title="Alert弹窗" class="itemButton" :clickable="true" link/>
+				</uni-list>
+			</uni-collapse-item>
+		</uni-collapse>
+		
+		<uni-collapse>
 			<uni-collapse-item title="android平台" :border="false">
 				<uni-list>
 					<uni-list-item @tap="testGotoDemoActivity" title="自定义activity(需自定义基座)" class="itemButton" :clickable="true" link/>
@@ -57,11 +65,14 @@
 					url:'/pages/SystemAPI/ScreenListen/screenlisten'
 				})
 			},
-
+			gotoAlert(){
+				uni.navigateTo({
+					url:'/pages/SystemAPI/Alert/alert'
+				})
+			},
 			testGotoDemoActivity() {
 				gotoDemoActivity();
-			},
-
+			}
 		}
 	}
 </script>

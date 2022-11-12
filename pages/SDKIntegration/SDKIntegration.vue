@@ -33,8 +33,7 @@
 				uni.navigateTo({
 					url:'/pages/SDKIntegration/TencentMap/TencentMap'
 				})
-			},
-			
+			}
 		}
 	}
 </script>

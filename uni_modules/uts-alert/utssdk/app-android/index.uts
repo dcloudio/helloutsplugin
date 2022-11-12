@@ -1,0 +1,2 @@
+export function showAlert(title: string|null, message: string|null, result: (index: Number) => void) {}
+export function showPrompt(title: string|null, message: string|null,placeholder: string|null, result: (content: string)=>void) {}
