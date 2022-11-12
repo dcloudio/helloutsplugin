@@ -89,6 +89,14 @@
 		        "enablePullDownRefresh": false
 		    }
 		    
+		},{
+		    "path" : "pages/advance/android/assetaudio",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
 		},
 		{
 		    "path" : "pages/SystemAPI/ScreenListen/screenlisten",

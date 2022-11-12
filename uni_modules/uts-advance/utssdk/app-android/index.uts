@@ -149,7 +149,9 @@ export function removeViewToDecorView() {
     getUniActivity()!.runOnUiThread(uiRunable)
 }
 
-
+/**
+ * 用户输入对话框监听器
+ */
 class DialogListener extends DialogInterface.OnClickListener{
 	
 	inputET:EditText
@@ -172,7 +174,9 @@ class DialogListener extends DialogInterface.OnClickListener{
 }
 
 
-
+/**
+ * Dialog ui任务封装
+ */
 class DialogUIRunnable extends Runnable {
 
 	callback:UTSCallback
@@ -239,19 +243,38 @@ export function getLogoPath(): string {
 }
 
 /**
+ * 音频播放器对象
+ */
+let globalPlayer:MediaPlayer| null = null;
+/**
  * 播放asset资源中的音频
  */
 export function playAssetAudio() {
 	
 	let assetManager = getAppContext()!.getAssets();
 	let afd = assetManager.openFd("free.mp3");
-	let mediaPlayer = new MediaPlayer();
-	mediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(), afd.getLength());
-	mediaPlayer.prepare();
-	mediaPlayer.start();
+	
+	if(globalPlayer == null){
+		globalPlayer = new MediaPlayer();
+		globalPlayer!.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(), afd.getLength());
+		globalPlayer!.prepare();
+		globalPlayer!.start();
+	}
 	
 }
 
+
+/**
+ * 停止播放asset资源中的音频
+ */
+export function stopAssetAudio() {
+	
+	if(globalPlayer != null){
+		globalPlayer!.stop();
+		globalPlayer = null;
+	}
+	
+}
 
 export function goOtherActivity(imageDone: (event:string) => void):boolean {
 	
