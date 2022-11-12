@@ -28,6 +28,14 @@
 		    
 		},
 		{
+		    "path" : "pages/SystemAPI/Alert/alert",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": ""
+		    }
+		    
+		},
+		{
 		    "path" : "pages/SDKIntegration/SDKIntegration",
 		    "style" :                                                                                    
 		    {
