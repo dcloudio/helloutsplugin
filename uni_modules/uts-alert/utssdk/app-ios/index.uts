@@ -1,5 +1,5 @@
 import { UIAlertController , UIAlertAction , UITextField } from "UIKit"
-import { uniViewController } from "DCUTSPlugin"
+import { DCUTS } from "DCUTSFoundation"
 import { DispatchQueue } from 'Dispatch';
 
 export function showAlert(title: string|null, message: string|null, result: (index: Number) => void) {
@@ -26,7 +26,7 @@ export function showAlert(title: string|null, message: string|null, result: (ind
 		alert.addAction(cancelAction)
 		
 		// 从 uniViewController 打开 alert 弹窗
-		uniViewController().present(alert, animated= true)
+		DCUTS.getCurrentViewController().present(alert, animated= true)
 	})
 }
 
@@ -58,6 +58,6 @@ export function showPrompt(title: string|null, message: string|null,placeholder:
 		alert.addAction(okAction)
 		
 		// 从 uniViewController 打开 alert 弹窗
-		uniViewController().present(alert, animated= true)
+		DCUTS.getCurrentViewController().present(alert, animated= true)
 	})
 }

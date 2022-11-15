@@ -1,0 +1,11 @@
+import { DCUTS } from "DCUTSFoundation"
+import "ToastSwiftFramework"
+import { DispatchQueue } from 'Dispatch';
+
+export function showToast():boolean{
+	
+	DispatchQueue.main.async(execute=():void => {
+		DCUTS.getCurrentViewController().view.makeToast("这是一条提示信息")
+	})
+	return true
+}

@@ -63,7 +63,7 @@
 		    
 		},
 		{
-		    "path" : "pages/SDKIntegration/XToast/XToast",
+		    "path" : "pages/SDKIntegration/Toast/Toast",
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "",

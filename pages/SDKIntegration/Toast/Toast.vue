@@ -9,7 +9,7 @@
 			
 		</view>
 		<view class="uni-padding-wrap uni-common-mt">
-			<button @tap="testToastShow">调用XToast弹窗</button>
+			<button @tap="testToastShow">调用 Toast 弹窗</button>
 		</view>
 	</view>
 	
@@ -23,7 +23,7 @@
 		
 		data() {
 			return {
-				title:"XToast集成示例"
+				title:"Toast 示例"
 			}
 		},
 		methods:{
