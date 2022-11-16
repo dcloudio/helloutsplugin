@@ -16,6 +16,7 @@ import Build from 'android.os.Build';
 import IBinder from 'android.os.IBinder';
 import Toast from 'android.widget.Toast';
 
+
 import {
 	getUniActivity,
 	getAppContext
@@ -23,6 +24,7 @@ import {
 
 import Service from 'android.app.Service';
 import System from 'java.lang.System';
+import Looper from 'android.os.Looper';
 
 
 
@@ -141,8 +143,30 @@ class StartBroadcastListener extends OnClickListener{
     }
 }
 
+class StartThreadListener extends OnClickListener{
+	
+    override onClick(v?: View):void{
+		new CustomThread().start()
+		// 提示屏幕状态监听已经注册
+		Toast.makeText(getAppContext(),"自定义线程已开启，注意观察控制台输出",Toast.LENGTH_LONG).show();
+		
+    }
+}
 
-
+/**
+ * 自定义异步线程
+ */
+class CustomThread extends Thread{
+	
+	constructor(){
+		super();
+	}
+	
+	override run(){
+		Thread.sleep(1000)
+		console.log("CustomThread = " + Thread.currentThread().getName())
+	}
+}
 
 class DemoActivity  extends Activity{
 	
@@ -160,17 +184,25 @@ class DemoActivity  extends Activity{
 		 let btn_start_screen_listen = findViewById<Button>(R.id.btn_start_screen_listen);
 		 btn_start_screen_listen.setOnClickListener(new StartBroadcastListener());
 		 
+		 let btn_start_thread = findViewById<Button>(R.id.btn_start_thread);
+		 btn_start_thread.setOnClickListener(new StartThreadListener());
+		 
 	}
 	
 }
 
 
+class IntentRunable extends Runnable{
+	override run(){
+		console.log("IntentRunable = " + Thread.currentThread().getName())
+		let intent = new Intent(getUniActivity(),DemoActivity().javaClass);
+		getUniActivity()!.startActivity(intent);
+	}
+}
+
 export default function gotoDemoActivity() {
   // 跳转到一个新的界面
-  let intent = new Intent(getUniActivity(),DemoActivity().javaClass);
-  getUniActivity()!.startActivity(intent);
-  
-  // var a = new DemoActivity();
+  getUniActivity()!.runOnUiThread(new IntentRunable())
   return { name: "gotoDemoActivity"};
 }
 
