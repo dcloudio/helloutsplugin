@@ -38,7 +38,7 @@
 </template>
 <script>
 	import gotoDemoActivity from "@/uni_modules/uts-nativepage";
-	import getBatteryInfo from "@/uni_modules/uni-getbatteryinfo";
+	import getBatteryInfo from "@/uni_modules/uts-getbatteryinfo";
 	
 
 	export default {

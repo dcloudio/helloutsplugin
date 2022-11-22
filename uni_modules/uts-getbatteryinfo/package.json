@@ -1,6 +1,6 @@
 {
-  "id": "uni-getbatteryinfo",
-  "displayName": "uni-getbatteryinfo",
+  "id": "uts-getbatteryinfo",
+  "displayName": "uts-getbatteryinfo",
   "version": "1.2.0",
   "description": "使用uts开发，实现在多个平台获取电池电量功能",
   "keywords": [

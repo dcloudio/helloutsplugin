@@ -4,6 +4,7 @@
 		<page-head :title="title"></page-head>
 		<button @tap="testGoOtherActivity">跳转选择界面</button>
 		<image :src="selectImage" v-if="selectImage"></image>
+		<button @tap="testUnRegLifecycle">取消注册周期函数</button>
 		<view class="uni-padding-wrap uni-common-mt">
 			<view class="uni-hello-text">
 				1. 当前页面已通过initAppLifecycle函数注册了生命周期监听。
@@ -20,7 +21,7 @@
 	</view>
 </template>
 <script>
-	import { initAppLifecycle,goOtherActivity } from '../../uni_modules/uts-advance';
+	import { initAppLifecycle,unRegLifecycle,goOtherActivity } from '../../uni_modules/uts-advance';
 	export default {
 		data() {
 			return {
@@ -52,6 +53,10 @@
 						title:'请授予权限后重试'
 					})
 				}
+			},
+			testUnRegLifecycle(){
+				// 取消注册生命周期
+				unRegLifecycle();
 			}
 		}
 	}

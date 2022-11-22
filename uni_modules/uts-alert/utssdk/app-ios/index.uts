@@ -25,7 +25,7 @@ export function showAlert(title: string|null, message: string|null, result: (ind
 		alert.addAction(okAction)
 		alert.addAction(cancelAction)
 		
-		// 从 uniViewController 打开 alert 弹窗
+		// 打开 alert 弹窗
 		DCUTS.getCurrentViewController().present(alert, animated= true)
 	})
 }
@@ -57,7 +57,7 @@ export function showPrompt(title: string|null, message: string|null,placeholder:
 		// 将 UIAlertAction 添加到 alert 上
 		alert.addAction(okAction)
 		
-		// 从 uniViewController 打开 alert 弹窗
+		// 打开 alert 弹窗
 		DCUTS.getCurrentViewController().present(alert, animated= true)
 	})
 }

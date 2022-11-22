@@ -21,16 +21,21 @@ import Toast from 'android.widget.Toast';
 import AlertDialog from 'android.app.AlertDialog';
 import DialogInterface from 'android.content.DialogInterface';
 import EditText from 'android.widget.EditText';
-import R from 'io.dcloud.uni_modules.uts_advance.R';
 
 import {
     onAppActivityDestroy,
+	offAppActivityDestroy,
     onAppActivityPause,
+	offAppActivityPause,
     onAppActivityResume,
+	offAppActivityResume,
     onAppActivityBack,
+	offAppActivityBack,
 	onAppActivityResult,
 	onAppTrimMemory,
+	offAppTrimMemory,
 	onAppConfigChange,
+	offAppConfigChange,
 	getUniActivity,
 	getAppContext
 } from "io.dcloud.uts.android";
@@ -391,3 +396,40 @@ export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 
 }
 
+
+/**
+ * 取消注册生命周期函数
+ */
+export function unRegLifecycle() {
+
+
+	/**
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onapptrimmemory
+	 */
+	offAppTrimMemory();
+	
+	/**
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onAppConfigChange
+	 */
+	offAppConfigChange();
+	
+	/**
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivitydestroy
+	 */
+    offAppActivityDestroy();
+	
+	/**
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivitypause
+	 */
+    offAppActivityPause();
+	
+	/**
+	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivityresume
+	 */
+    offAppActivityResume();
+	/**
+	 * activity 回退物理按键事件回调
+	 */
+    offAppActivityBack();
+
+}
