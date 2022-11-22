@@ -20,17 +20,15 @@ class CaptureScreenTool {
 	// 捕获截屏回调的方法
 	// target-action 的方法前需要添加 @objc 前缀
 	@objc static userDidTakeScreenshot() {
-		const obj = new UTSJSONObject()
 		// 回调
-		this.listener?.(obj)
+		this.listener?.({})
 	}
 	
 	// 移除监听事件
 	static removeListen(callback?: UTSCallback) {
 		this.listener = null
 		NotificationCenter.default.removeObserver(this)
-		const obj = new UTSJSONObject()
-		callback?.(obj)
+		callback?.({})
 	}
 }
 
