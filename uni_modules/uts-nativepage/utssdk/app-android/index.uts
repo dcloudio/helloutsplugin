@@ -18,9 +18,8 @@ import Toast from 'android.widget.Toast';
 
 
 import {
-	getUniActivity,
-	getAppContext
-} from "io.dcloud.uts.android";
+	UTSAndroid
+} from "io.dcloud.uts";
 
 import Service from 'android.app.Service';
 import System from 'java.lang.System';
@@ -67,7 +66,7 @@ class ForeService extends Service {
 	   	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 	          
 			let manager =
-				getAppContext()!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+				UTSAndroid.getAppContext()!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 			let channelId = "channelId" + System.currentTimeMillis()
 			let channel = new NotificationChannel(
 				channelId,
@@ -115,12 +114,12 @@ class StartServiceListener extends OnClickListener{
 	
     override onClick(v?: View):void{
 		
-		var intent = new Intent(getUniActivity(), ForeService().javaClass);
+		var intent = new Intent(UTSAndroid.getUniActivity(), ForeService().javaClass);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			getAppContext()!.startForegroundService(intent);
+			UTSAndroid.getAppContext()!.startForegroundService(intent);
 		}
 		else{
-			getAppContext()!.startService(intent);
+			UTSAndroid.getAppContext()!.startService(intent);
 		}
 
     }
@@ -135,10 +134,10 @@ class StartBroadcastListener extends OnClickListener{
 		let filter = new IntentFilter();
 		filter.addAction(Intent.ACTION_SCREEN_OFF);
 		filter.addAction(Intent.ACTION_SCREEN_ON);
-		getUniActivity()!.registerReceiver(myReceiver, filter);
+		UTSAndroid.getUniActivity()!.registerReceiver(myReceiver, filter);
 		
 		// 提示屏幕状态监听已经注册
-		Toast.makeText(getAppContext(),"屏幕状态监听已注册，注意观察控制台日志",Toast.LENGTH_LONG).show();
+		Toast.makeText(UTSAndroid.getAppContext(),"屏幕状态监听已注册，注意观察控制台日志",Toast.LENGTH_LONG).show();
 		
     }
 }
@@ -148,7 +147,7 @@ class StartThreadListener extends OnClickListener{
     override onClick(v?: View):void{
 		new CustomThread().start()
 		// 提示屏幕状态监听已经注册
-		Toast.makeText(getAppContext(),"自定义线程已开启，注意观察控制台输出",Toast.LENGTH_LONG).show();
+		Toast.makeText(UTSAndroid.getAppContext(),"自定义线程已开启，注意观察控制台输出",Toast.LENGTH_LONG).show();
 		
     }
 }
@@ -191,18 +190,19 @@ class DemoActivity  extends Activity{
 	
 }
 
-
+@Suppress("DEPRECATION")
 class IntentRunable extends Runnable{
 	override run(){
 		console.log("IntentRunable = " + Thread.currentThread().getName())
-		let intent = new Intent(getUniActivity(),DemoActivity().javaClass);
-		getUniActivity()!.startActivity(intent);
+		let intent = new Intent(UTSAndroid.getUniActivity(),DemoActivity().javaClass);
+		UTSAndroid.getUniActivity()!.startActivity(intent);
 	}
 }
 
+@Suppress("DEPRECATION")
 export default function gotoDemoActivity() {
   // 跳转到一个新的界面
-  getUniActivity()!.runOnUiThread(new IntentRunable())
+  UTSAndroid.getUniActivity()!.runOnUiThread(new IntentRunable())
   return { name: "gotoDemoActivity"};
 }
 

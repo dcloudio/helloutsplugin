@@ -23,22 +23,9 @@ import DialogInterface from 'android.content.DialogInterface';
 import EditText from 'android.widget.EditText';
 
 import {
-    onAppActivityDestroy,
-	offAppActivityDestroy,
-    onAppActivityPause,
-	offAppActivityPause,
-    onAppActivityResume,
-	offAppActivityResume,
-    onAppActivityBack,
-	offAppActivityBack,
-	onAppActivityResult,
-	onAppTrimMemory,
-	offAppTrimMemory,
-	onAppConfigChange,
-	offAppConfigChange,
-	getUniActivity,
-	getAppContext
-} from "io.dcloud.uts.android";
+	UTSAndroid
+} from "io.dcloud.uts";
+
 
 
 /**
@@ -101,14 +88,14 @@ class AddUIRunnable extends Runnable {
 
     override run():void {
 		
-        let textView = new TextView(getUniActivity())
+        let textView = new TextView(UTSAndroid.getUniActivity())
         textView.setText("HELLO WORLD");
         textView.textSize = 30.0.toFloat();
         textView.setBackgroundColor(Color.RED)
         textView.setTag("helloText")
         textView.setGravity(Gravity.CENTER)
 
-        let decorView = getUniActivity()!.window.decorView;
+        let decorView = UTSAndroid.getUniActivity()!.window.decorView;
 
 
         let frameContent = decorView.findViewById<FrameLayout>(android.R.id.content)
@@ -128,7 +115,7 @@ class RemoveUIRunnable extends Runnable {
 
     override run():void {
 
-        let decorView = getUniActivity()!.getWindow().getDecorView();
+        let decorView = UTSAndroid.getUniActivity()!.getWindow().getDecorView();
         let frameContent = decorView.findViewById<FrameLayout>(android.R.id.content)
 		
 		let targetTV = frameContent.findViewWithTag<TextView>("helloText")
@@ -143,7 +130,7 @@ class RemoveUIRunnable extends Runnable {
  */
 export function addViewToDecorView() {
     let uiRunable = new AddUIRunnable();
-    getUniActivity()!.runOnUiThread(uiRunable)
+    UTSAndroid.getUniActivity()!.runOnUiThread(uiRunable)
 
 }
 /**
@@ -151,7 +138,7 @@ export function addViewToDecorView() {
  */
 export function removeViewToDecorView() {
     var uiRunable = new RemoveUIRunnable();
-    getUniActivity()!.runOnUiThread(uiRunable)
+    UTSAndroid.getUniActivity()!.runOnUiThread(uiRunable)
 }
 
 /**
@@ -172,7 +159,7 @@ class DialogListener extends DialogInterface.OnClickListener{
 		//数据获取
 		let input = this.inputET.getText().toString()
 		this.callback(input);
-		Toast.makeText(getUniActivity(),input,
+		Toast.makeText(UTSAndroid.getUniActivity(),input,
 				Toast.LENGTH_LONG).show();
 				
 	}
@@ -193,10 +180,10 @@ class DialogUIRunnable extends Runnable {
 
     override run():void {
 		
-		let et = new EditText(getUniActivity());
+		let et = new EditText(UTSAndroid.getUniActivity());
 		et.setText("127.0.0.1");
 		
-		new AlertDialog.Builder(getUniActivity()).setTitle("请输入IP地址")
+		new AlertDialog.Builder(UTSAndroid.getUniActivity()).setTitle("请输入IP地址")
 				.setIcon(android.R.drawable.ic_dialog_info).setView(et)
 				.setPositiveButton("确定", new DialogListener(et,this.callback))
 				.setNegativeButton("取消", null).show();
@@ -212,7 +199,7 @@ class DialogUIRunnable extends Runnable {
 export function getUserInput(success: (res: string) => void) {
 	
 	let uiRunable = new DialogUIRunnable(success);
-	getUniActivity()!.runOnUiThread(uiRunable)
+	UTSAndroid.getUniActivity()!.runOnUiThread(uiRunable)
 	
 }
 
@@ -224,8 +211,8 @@ export function getUserInput(success: (res: string) => void) {
  */
 export function getMetaConfig(): string {
 	//
-	let packageName = getAppContext()!.getPackageName();
-	let appInfo = getAppContext()!.getPackageManager()!.getApplicationInfo(packageName,PackageManager.GET_META_DATA)
+	let packageName = UTSAndroid.getAppContext()!.getPackageName();
+	let appInfo = UTSAndroid.getAppContext()!.getPackageManager()!.getApplicationInfo(packageName,PackageManager.GET_META_DATA)
 	
 	let metaData = appInfo.metaData
 	if (metaData == null) {
@@ -262,7 +249,7 @@ let globalPlayer:MediaPlayer| null = null;
  */
 export function playAssetAudio() {
 	
-	let assetManager = getAppContext()!.getAssets();
+	let assetManager = UTSAndroid.getAppContext()!.getAssets();
 	let afd = assetManager.openFd("free.mp3");
 	
 	if(globalPlayer == null){
@@ -290,21 +277,21 @@ export function stopAssetAudio() {
 export function goOtherActivity(imageDone: (event:string) => void):boolean {
 	
 	// 检查相关权限是否已经具备
-	if (ActivityCompat.checkSelfPermission(getUniActivity()!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+	if (ActivityCompat.checkSelfPermission(UTSAndroid.getUniActivity()!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 		// 不具备权限，申请权限，并且告知用户监听失败
-		ActivityCompat.requestPermissions(getUniActivity()!, arrayOf(Manifest.permission.CAMERA), 1002)
+		ActivityCompat.requestPermissions(UTSAndroid.getUniActivity()!, arrayOf(Manifest.permission.CAMERA), 1002)
 		
 		return false;
 	}
 	
-	onAppActivityResult((requestCode: Int, resultCode: Int, data?: Intent) => {
+	UTSAndroid.onAppActivityResult((requestCode: Int, resultCode: Int, data?: Intent) => {
 		let eventName = "onAppActivityResult  -  requestCode:" + requestCode + " -resultCode:"+resultCode + " -data:"+JSON.stringify(data);
 	    console.log(eventName);
 		if ((requestCode == 1001) && (resultCode == Activity.RESULT_OK)) {
 		    if (data != null) {    
 			  let bundle = data.getExtras(); 
 			  let mImageBitmap = bundle!.get("data") as Bitmap;
-			  let bitmapPath = getUniActivity()!.getExternalCacheDir()!.getPath() + "/photo.png"
+			  let bitmapPath = UTSAndroid.getUniActivity()!.getExternalCacheDir()!.getPath() + "/photo.png"
 			  console.log(bitmapPath);
 			  try{
 				  mImageBitmap.compress(Bitmap.CompressFormat.PNG,100,new FileOutputStream(bitmapPath))
@@ -318,8 +305,8 @@ export function goOtherActivity(imageDone: (event:string) => void):boolean {
 	
 	let takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 	//resolveActivity 返回可处理 Intent 的第一个 Activity 组件
-	if (takePictureIntent.resolveActivity(getUniActivity()!.getPackageManager()) != null) {
-		getUniActivity()!.startActivityForResult(takePictureIntent, 1001);
+	if (takePictureIntent.resolveActivity(UTSAndroid.getUniActivity()!.getPackageManager()) != null) {
+		UTSAndroid.getUniActivity()!.startActivityForResult(takePictureIntent, 1001);
 	}
 	
 	return true;
@@ -338,7 +325,7 @@ export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 	 * application 内存不足的回调函数
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onapptrimmemory
 	 */
-	onAppTrimMemory((level:Number) => {
+	UTSAndroid.onAppTrimMemory((level:Number) => {
 		let eventName = "onAppTrimMemory - " + level;
 		onLifecycleChange(eventName);
 	    console.log(eventName);
@@ -348,7 +335,7 @@ export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 	 * application 状态改变的回调函数
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onAppConfigChange
 	 */
-	onAppConfigChange((ret:UTSJSONObject) => {
+	UTSAndroid.onAppConfigChange((ret:UTSJSONObject) => {
 		let eventName = "onAppConfigChange - " + JSON.stringify(ret);
 		onLifecycleChange(eventName);
 	    console.log(eventName);
@@ -359,7 +346,7 @@ export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 	 * activity 销毁生命周期回调
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivitydestroy
 	 */
-    onAppActivityDestroy(() => {
+    UTSAndroid.onAppActivityDestroy(() => {
 		let eventName = "onAppActivityDestroy";
 		onLifecycleChange(eventName);
         console.log(eventName);
@@ -370,7 +357,7 @@ export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 	 * activity 失去焦点生命周期回调
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivitypause
 	 */
-    onAppActivityPause(() => {
+    UTSAndroid.onAppActivityPause(() => {
 		let eventName = "onAppActivityPause" ;
 		onLifecycleChange(eventName);
         console.log(eventName);
@@ -379,7 +366,7 @@ export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 	 * activity 得到焦点的周期回调
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivityresume
 	 */
-    onAppActivityResume(() => {
+    UTSAndroid.onAppActivityResume(() => {
 		let eventName = "onAppActivityResume";
 		onLifecycleChange(eventName);
         console.log(eventName);
@@ -388,7 +375,7 @@ export function initAppLifecycle(onLifecycleChange: (event:string) => void) {
 	 * activity 回退物理按键事件回调
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivityback
 	 */
-    onAppActivityBack(() => {
+    UTSAndroid.onAppActivityBack(() => {
 		let eventName = "onAppActivityBack";
 		onLifecycleChange(eventName);
         console.log(eventName);
@@ -406,30 +393,30 @@ export function unRegLifecycle() {
 	/**
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onapptrimmemory
 	 */
-	offAppTrimMemory();
+	UTSAndroid.offAppTrimMemory();
 	
 	/**
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onAppConfigChange
 	 */
-	offAppConfigChange();
+	UTSAndroid.offAppConfigChange();
 	
 	/**
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivitydestroy
 	 */
-    offAppActivityDestroy();
+    UTSAndroid.offAppActivityDestroy();
 	
 	/**
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivitypause
 	 */
-    offAppActivityPause();
+    UTSAndroid.offAppActivityPause();
 	
 	/**
 	 * 说明文档:https://uniapp.dcloud.net.cn/plugin/uts-plugin.html#onappactivityresume
 	 */
-    offAppActivityResume();
+    UTSAndroid.offAppActivityResume();
 	/**
 	 * activity 回退物理按键事件回调
 	 */
-    offAppActivityBack();
+    UTSAndroid.offAppActivityBack();
 
 }

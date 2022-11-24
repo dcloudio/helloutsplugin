@@ -1,6 +1,6 @@
 import {
-	getUniActivity
-} from "io.dcloud.uts.android";
+	UTSAndroid
+} from "io.dcloud.uts";
 
 import XToast from "com.hjq.xtoast.XToast";
 import R from "io.dcloud.uni_modules.uts_toast.R";
@@ -13,7 +13,7 @@ class UIRunnable extends Runnable {
     override run():void {
 		
 	
-       new XToast<XToast<unknown>>(getUniActivity())
+       new XToast<XToast<unknown>>(UTSAndroid.getUniActivity())
        				.setDuration(1000)
        				.setContentView(R.layout.window_hint)
        				.setImageDrawable(android.R.id.icon,  android.R.mipmap.sym_def_app_icon)
@@ -38,6 +38,6 @@ export function showToast():boolean{
 	}
 
 	let toastRunable = new UIRunnable();
-	getUniActivity()!.runOnUiThread(toastRunable)
+	UTSAndroid.getUniActivity()!.runOnUiThread(toastRunable)
 	return true
 }
