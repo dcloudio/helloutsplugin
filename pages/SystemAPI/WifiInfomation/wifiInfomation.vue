@@ -1,5 +1,5 @@
 <template>
-	<page-head :title="获取当前连接wifi信息" accordion></page-head>
+	<page-head title="获取当前连接wifi信息" accordion></page-head>
 	<view class="uni-padding-wrap uni-common-mt">
 		<button @tap="getLocationPromise">获取定位权限</button>
 		<button @tap="getWifiInfo">获取WiFi信息</button>
