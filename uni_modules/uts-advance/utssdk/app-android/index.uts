@@ -141,69 +141,6 @@ export function removeViewToDecorView() {
     UTSAndroid.getUniActivity()!.runOnUiThread(uiRunable)
 }
 
-/**
- * 用户输入对话框监听器
- */
-class DialogListener extends DialogInterface.OnClickListener{
-	
-	inputET:EditText
-	callback:UTSCallback
-	
-	constructor(et:EditText,cb:UTSCallback){
-		super();
-		this.callback = cb;
-		this.inputET = et;
-	}
-	
-	override onClick(_dialog:DialogInterface,_arg1:Int ):void {
-		//数据获取
-		let input = this.inputET.getText().toString()
-		this.callback(input);
-		Toast.makeText(UTSAndroid.getUniActivity(),input,
-				Toast.LENGTH_LONG).show();
-				
-	}
-}
-
-
-/**
- * Dialog ui任务封装
- */
-class DialogUIRunnable extends Runnable {
-
-	callback:UTSCallback
-
-	constructor(success:UTSCallback){
-		super();
-		this.callback = success
-	}
-
-    override run():void {
-		
-		let et = new EditText(UTSAndroid.getUniActivity());
-		et.setText("127.0.0.1");
-		
-		new AlertDialog.Builder(UTSAndroid.getUniActivity()).setTitle("请输入IP地址")
-				.setIcon(android.R.drawable.ic_dialog_info).setView(et)
-				.setPositiveButton("确定", new DialogListener(et,this.callback))
-				.setNegativeButton("取消", null).show();
-
-    }
-};
-
-
-
-/**
- * 通过对话框同步获取用户输入
- */
-export function getUserInput(success: (res: string) => void) {
-	
-	let uiRunable = new DialogUIRunnable(success);
-	UTSAndroid.getUniActivity()!.runOnUiThread(uiRunable)
-	
-}
-
-
 
 
 /**
