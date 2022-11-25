@@ -115,6 +115,15 @@
 		    }
 		    
 		},
+		{
+		    "path" : "pages/SystemAPI/WifiInfomation/wifiInfomation",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
 		
 		{
 		    "path" : "pages/SyntaxCase/index",
