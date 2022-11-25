@@ -1,3 +1,4 @@
+// HBuilder X 版本要求: 3.6.11+
 {
   "id": "uts-nativepage",
   "displayName": "uts-nativepage",
@@ -8,7 +9,7 @@
 ],
   "repository": "",
   "engines": {
-    "HBuilderX": "^3.6.0"
+    "HBuilderX": "^3.6.11"
   },
   "dcloudext": {
     "type": "uts",
