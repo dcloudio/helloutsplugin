@@ -94,11 +94,4 @@ class DialogUIRunnable extends Runnable {
 
 
 
-/**
- * 通过对话框同步获取用户输入
- */
-export function getUserInput(success: (res: string) => void) {
-	
-	
-}
 
