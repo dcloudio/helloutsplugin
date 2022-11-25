@@ -1,8 +1,6 @@
 import {
-    onAppActivityRequestPermissionsResult,
-	getUniActivity,
-	getAppContext
-} from "io.dcloud.uts.android";
+    UTSAndroid
+} from "io.dcloud.uts";
 
 import ActivityCompat from "androidx.core.app.ActivityCompat";
 import Manifest from "android.Manifest";
@@ -23,7 +21,7 @@ export function requestPremission() {
 	TencentLocationManager.setUserAgreePrivacy(true);
 	
 	// 注册一个请求回调
-	onAppActivityRequestPermissionsResult((requestCode: number,
+	UTSAndroid.onAppActivityRequestPermissionsResult((requestCode: number,
                                                      permissions: MutableList<string>,
                                                      grantResults: MutableList<number>) => {
 		/**
@@ -37,7 +35,7 @@ export function requestPremission() {
 	
 	// 发起权限申请
 	ActivityCompat.requestPermissions(
-	            getUniActivity()!,
+	            UTSAndroid.getUniActivity()!,
 	            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION), 1001);
 	
   // 请求权限
@@ -127,8 +125,8 @@ class SingleLocationListener extends TencentLocationListener {
  */
 function checkLocationConfig():boolean{
 	
-	let packageName = getAppContext()!.getPackageName();
-	let appInfo = getAppContext()!.getPackageManager()!.getApplicationInfo(packageName,PackageManager.GET_META_DATA)
+	let packageName = UTSAndroid.getAppContext()!.getPackageName();
+	let appInfo = UTSAndroid.getAppContext()!.getPackageManager()!.getApplicationInfo(packageName,PackageManager.GET_META_DATA)
 	
 	let metaData = appInfo.metaData
 	if (metaData == null) {
@@ -159,7 +157,7 @@ export function getLocation(locationOptions: LocationOptions):boolean {
 		return false
    }
   
-  let mLocationManager = TencentLocationManager.getInstance(getAppContext());
+  let mLocationManager = TencentLocationManager.getInstance(UTSAndroid.getAppContext());
   // 定位监听器封装
   let locationOptionWrapper = new LocationOptionsWapper(locationOptions);
   let mLocationListener = new SingleLocationListener(locationOptionWrapper);
@@ -179,4 +177,17 @@ export function getLocation(locationOptions: LocationOptions):boolean {
   return true;
 }
 
+/**
+ * 持续监听位置变化
+ */
+@Suppress("unuse")
+export function watchPosition(_locationOptions: LocationOptions) {
+	//todo
+}
 
+/**
+ * 关闭监听位置变化
+ */
+export function clearWatch() {
+	//todo
+}
