@@ -1,4 +1,4 @@
-import { CLLocationManager, CLAuthorizationStatus, CLLocationManagerDelegate } from 'CoreLocation';
+import { CLLocationManager, CLAuthorizationStatus, CLLocationManagerDelegate } from 'CoreLocation'
 import { CaptiveNetwork, kCNNetworkInfoKeySSID, kCNNetworkInfoKeyBSSID } from 'SystemConfiguration.CaptiveNetwork';
 import { NSArray, NSDictionary } from 'Foundation';
 import { CFString } from 'CoreFoundation';
@@ -19,9 +19,9 @@ class CurrentWifiInfo {
 class LocationPromiseService implements CLLocationManagerDelegate  {
 	static promiseCompletionHandler: UTSCallback[] = []
 	
-	manager?: CLLocationManager = null
+	manager?: CLLocationManager
 	
-	constructor(manager: CLLocationManager | null = null) {
+	constructor(manager?: CLLocationManager) {
 		this.manager = manager
 	}
 	
@@ -47,6 +47,22 @@ class LocationPromiseService implements CLLocationManagerDelegate  {
 		}
 	}   
 	
+	locationManagerDidChangeAuthorization(manager: CLLocationManager) {
+		
+	}
+	
+	locationManagerDidPauseLocationUpdates(manager: CLLocationManager) {
+		
+	}
+	
+	locationManagerDidResumeLocationUpdates(manager: CLLocationManager) {
+		
+	}
+	
+	locationManagerShouldDisplayHeadingCalibration(manager: CLLocationManager): boolean {
+		return true
+	}
+	
 	requestPromise(completion: UTSCallback) {
 		let status: CLAuthorizationStatus = CLLocationManager.authorizationStatus()
 		if (status == CLAuthorizationStatus.notDetermined) {
@@ -65,7 +81,7 @@ class LocationPromiseService implements CLLocationManagerDelegate  {
 	}
 }
 
-const locationPromiseService: LocationPromiseService = new LocationPromiseService()
+const locationPromiseService: LocationPromiseService = new LocationPromiseService(null)
 
 
 
@@ -107,3 +123,4 @@ export function getCurrentWifiInfo (): CurrentWifiInfo | null {
 	}
 	return null
 }
+

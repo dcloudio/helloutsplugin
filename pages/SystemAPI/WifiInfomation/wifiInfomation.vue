@@ -8,35 +8,35 @@
 
 <script>
 
-	// import { getCurrentWifiInfo, requestLocationPromise } from '@/uni_modules/uni-wifiinformation/utssdk/app-ios/index.uts';
+	import { getCurrentWifiInfo, requestLocationPromise } from '@/uni_modules/uni-wifiinformation';
 
 	export default {
 		 
 		methods:{
 			getLocationPromise() {
-				// requestLocationPromise((res):void => {
-				// 	console.log(res)
-				// 	uni.showToast({
-				// 		title: res["message"],
-				// 		icon: 'none'
-				// 	})
-				// })
+				requestLocationPromise(function(res){
+						console.log(res)
+						uni.showToast({
+							title: res["message"],
+							icon: 'none'
+						})
+				})
 			},
 			
 			getWifiInfo() {
 				/* iOS12之后获取wifi信息需要获取系统定位权限，否则获取到的wifi信息为空 */
-				// requestLocationPromise((res):void => {
-					// if (res["success"] == true) {
-					// 	let wifiInfo = getCurrentWifiInfo()
-					// 	if (wifiInfo != null) {
-					// 		console.log(wifiInfo)
-					// 		uni.showToast({
-					// 			title: "当前wifi信息获取成功",
-					// 			icon: 'none'
-					// 		})
-					// 	}
-					// }
-				// })
+				requestLocationPromise(function(res) {
+					if (res["success"] == true) {
+						let wifiInfo = getCurrentWifiInfo()
+						if (wifiInfo != null) {
+							console.log(wifiInfo)
+							uni.showToast({
+								title: "当前wifi信息获取成功",
+								icon: 'none'
+							})
+						}
+					}
+				})
 			},
 			
 		}
