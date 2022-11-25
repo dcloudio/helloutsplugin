@@ -1,0 +1,109 @@
+import { CLLocationManager, CLAuthorizationStatus, CLLocationManagerDelegate } from 'CoreLocation';
+import { CaptiveNetwork, kCNNetworkInfoKeySSID, kCNNetworkInfoKeyBSSID } from 'SystemConfiguration.CaptiveNetwork';
+import { NSArray, NSDictionary } from 'Foundation';
+import { CFString } from 'CoreFoundation';
+ 
+class CurrentWifiInfo {
+	
+	wifiInterface: string = ""
+	SSID: string = ""
+	BSSID: string = ""
+	
+	constructor(wifiInterface: string, ssid: string, bssid: string) {
+		this.wifiInterface = wifiInterface
+		this.SSID = ssid
+		this.BSSID = bssid
+	}
+}
+
+class LocationPromiseService implements CLLocationManagerDelegate  {
+	static promiseCompletionHandler: UTSCallback[] = []
+	
+	manager?: CLLocationManager = null
+	
+	constructor(manager: CLLocationManager | null = null) {
+		this.manager = manager
+	}
+	
+	initlizeManager(): boolean {
+		if (this.manager == null) {
+			this.manager = new CLLocationManager()
+			this.manager!.delegate = this
+		}
+		return true
+	}
+	
+	locationManager(manager: CLLocationManager, status: CLAuthorizationStatus) {
+		if (status == CLAuthorizationStatus.authorizedAlways || status == CLAuthorizationStatus.authorizedWhenInUse) {
+			LocationPromiseService.promiseCompletionHandler.forEach((handler): void => {
+				handler({success : true, message: "authorized success"})
+			})
+		} else if (status == CLAuthorizationStatus.notDetermined) { 
+			manager.requestWhenInUseAuthorization()
+		} else if (status == CLAuthorizationStatus.denied) {
+			LocationPromiseService.promiseCompletionHandler.forEach((handler): void => {
+				handler({success : false, message: "user denied"})
+			})
+		}
+	}   
+	
+	requestPromise(completion: UTSCallback) {
+		let status: CLAuthorizationStatus = CLLocationManager.authorizationStatus()
+		if (status == CLAuthorizationStatus.notDetermined) {
+			if (this.initlizeManager() == true) {
+				this.manager!.requestWhenInUseAuthorization()
+				LocationPromiseService.promiseCompletionHandler.push(completion)
+			}
+		} else if (status == CLAuthorizationStatus.authorizedAlways || status == CLAuthorizationStatus.authorizedWhenInUse) {
+			completion({success : true, message: "authorized success"})
+		} else if (status == CLAuthorizationStatus.denied) {
+			if (CLLocationManager.locationServicesEnabled() == false && this.initlizeManager() == true) {
+				this.manager!.requestWhenInUseAuthorization()
+				LocationPromiseService.promiseCompletionHandler.push(completion)
+			}
+		} 
+	}
+}
+
+const locationPromiseService: LocationPromiseService = new LocationPromiseService()
+
+
+
+export function requestLocationPromise (completion: UTSCallback) {
+	locationPromiseService.requestPromise(completion)
+}
+
+export function getCurrentWifiInfo (): CurrentWifiInfo | null {
+	let arr = CNCopySupportedInterfaces()
+	if (arr != null) {
+		let list = arr! as NSArray
+		let wifiInfo = new CurrentWifiInfo("", "", "")
+		let index = 0
+		let array = [1, 2, 3]
+		while (index < list.count) {
+			let item = list[index]
+			let interfaceName = item as string
+			let dic = CNCopyCurrentNetworkInfo(interfaceName as CFString)
+			if (dic != null) {
+				let dict = dic! as NSDictionary
+				let SSID = dict[kCNNetworkInfoKeySSID as string] 
+				let BSSID = dict[kCNNetworkInfoKeyBSSID as string]
+				
+				if (SSID != null && BSSID != null) {
+					let ssid = SSID! as string
+					let bssid = BSSID! as string
+					wifiInfo.wifiInterface = interfaceName
+					wifiInfo.SSID = ssid
+					wifiInfo.BSSID = bssid
+					break;
+				}
+			}
+			index++
+		}
+		
+		if (wifiInfo.BSSID.length > 0 && wifiInfo.SSID.length > 0) {
+			return wifiInfo
+		}
+	}
+	return null
+}
