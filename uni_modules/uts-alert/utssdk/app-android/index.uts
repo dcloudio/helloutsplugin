@@ -1,2 +1,8 @@
-export function showAlert(title: string|null, message: string|null, result: (index: Number) => void) {}
-export function showPrompt(title: string|null, message: string|null,placeholder: string|null, result: (content: string)=>void) {}
+@Suppress("unuse")
+export function showAlert(_title: string|null, _message: string|null, _result: (index: Number) => void) {
+	// todo
+}
+@Suppress("unuse")
+export function showPrompt(_title: string|null,_message: string|null,_placeholder: string|null, _result: (content: string)=>void) {
+	// todo
+}
