@@ -1,3 +1,4 @@
+<!-- HBuilder X 版本要求: 3.6.11+ -->
 <script>
 	export default {
 		onLaunch: function() {		
