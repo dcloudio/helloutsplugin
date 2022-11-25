@@ -1,8 +1,8 @@
 import { UIAlertController , UIAlertAction , UITextField } from "UIKit"
-import { DCUTS } from "DCUTSFoundation"
+import { UTSiOS } from "DCloudUTSFoundation"
 import { DispatchQueue } from 'Dispatch';
 
-export function showAlert(title: string|null, message: string|null, result: (index: Number) => void) {
+export function showAlert(title: string|null, message: string|null, result: (index: Number) => void) {	
 	// uts方法默认会在子线程中执行，涉及 UI 操作必须在主线程中运行，通过 DispatchQueue.main.async 方法可将代码在主线程中运行
 	DispatchQueue.main.async(execute=():void => {
 		
@@ -26,7 +26,7 @@ export function showAlert(title: string|null, message: string|null, result: (ind
 		alert.addAction(cancelAction)
 		
 		// 打开 alert 弹窗
-		DCUTS.getCurrentViewController().present(alert, animated= true)
+		UTSiOS.getCurrentViewController().present(alert, animated= true)
 	})
 }
 
@@ -58,6 +58,6 @@ export function showPrompt(title: string|null, message: string|null,placeholder:
 		alert.addAction(okAction)
 		
 		// 打开 alert 弹窗
-		DCUTS.getCurrentViewController().present(alert, animated= true)
+		UTSiOS.getCurrentViewController().present(alert, animated= true)
 	})
 }
