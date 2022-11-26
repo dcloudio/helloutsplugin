@@ -3,6 +3,16 @@ import { CaptiveNetwork, kCNNetworkInfoKeySSID, kCNNetworkInfoKeyBSSID } from 'S
 import { NSArray, NSDictionary } from 'Foundation';
 import { CFString } from 'CoreFoundation';
  
+
+/**
+ * 定义 接口参数
+ */
+type GetWifiInfoOptions = {
+    success?: (res: object) => void;
+    fail?: (res: object) => void;
+    complete?: (res: object) => void;
+};
+
 class CurrentWifiInfo {
 	
 	wifiInterface: string = ""
@@ -89,13 +99,12 @@ export function requestLocationPromise (completion: UTSCallback) {
 	locationPromiseService.requestPromise(completion)
 }
 
-export function getCurrentWifiInfo (): CurrentWifiInfo | null {
+export function getCurrentWifiInfo (option: GetWifiInfoOptions) {
 	let arr = CNCopySupportedInterfaces()
 	if (arr != null) {
 		let list = arr! as NSArray
-		let wifiInfo = new CurrentWifiInfo("", "", "")
 		let index = 0
-		let array = [1, 2, 3]
+		let wifiInfo = new CurrentWifiInfo("", "", "")
 		while (index < list.count) {
 			let item = list[index]
 			let interfaceName = item as string
@@ -118,9 +127,20 @@ export function getCurrentWifiInfo (): CurrentWifiInfo | null {
 		}
 		
 		if (wifiInfo.BSSID.length > 0 && wifiInfo.SSID.length > 0) {
-			return wifiInfo
+			let res = {
+				wifiInterface: wifiInfo.wifiInterface,
+				SSID: wifiInfo.SSID,
+				BSSID: wifiInfo.BSSID
+			}
+			option.success?.(res)
+			option.complete?.(res)
+		}else {
+			option.fail?.({message: "current wifi is null"})
+			option.complete?.({message: "current wifi is null"})
 		}
+	}else {
+		option.fail?.({message: "current wifi is null"})
+		option.complete?.({message: "current wifi is null"})
 	}
-	return null
 }
 

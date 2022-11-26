@@ -27,14 +27,15 @@
 				/* iOS12之后获取wifi信息需要获取系统定位权限，否则获取到的wifi信息为空 */
 				requestLocationPromise(function(res) {
 					if (res["success"] == true) {
-						let wifiInfo = getCurrentWifiInfo()
-						if (wifiInfo != null) {
-							console.log(wifiInfo)
-							uni.showToast({
-								title: "当前wifi信息获取成功",
-								icon: 'none'
-							})
-						}
+						getCurrentWifiInfo({
+							success:function(res){
+								console.log(res)
+								uni.showToast({
+									title: `当前wifi信息: interface: ${res.wifiInterface}, SSID: ${res.SSID}, BSSID: ${res.BSSID}` ,
+									icon: 'none'
+								})
+							}
+						})
 					}
 				})
 			},
