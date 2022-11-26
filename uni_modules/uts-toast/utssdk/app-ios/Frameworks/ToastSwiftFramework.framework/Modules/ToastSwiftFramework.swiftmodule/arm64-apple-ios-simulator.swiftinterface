@@ -1,23 +1,22 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.7.1 effective-4.2 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)
-// swift-module-flags: -target arm64-apple-ios8.0 -enable-objc-interop -enable-library-evolution -swift-version 4.2 -enforce-exclusivity=checked -O -module-name ToastSwiftFramework
-// swift-module-flags-ignorable: -enable-bare-slash-regex
+// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-module-flags: -target arm64-apple-ios9.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ToastSwiftFramework
 import ObjectiveC
 import Swift
+@_exported import ToastSwiftFramework
 import UIKit
 import _Concurrency
-import _StringProcessing
 extension UIKit.UIView {
   @_Concurrency.MainActor(unsafe) public func makeToast(_ message: Swift.String?, duration: Foundation.TimeInterval = ToastManager.shared.duration, position: ToastSwiftFramework.ToastPosition = ToastManager.shared.position, title: Swift.String? = nil, image: UIKit.UIImage? = nil, style: ToastSwiftFramework.ToastStyle = ToastManager.shared.style, completion: ((_ didTap: Swift.Bool) -> Swift.Void)? = nil)
-  @_Concurrency.MainActor(unsafe) public func makeToast(_ message: Swift.String?, duration: Foundation.TimeInterval = ToastManager.shared.duration, point: CoreFoundation.CGPoint, title: Swift.String?, image: UIKit.UIImage?, style: ToastSwiftFramework.ToastStyle = ToastManager.shared.style, completion: ((_ didTap: Swift.Bool) -> Swift.Void)?)
+  @_Concurrency.MainActor(unsafe) public func makeToast(_ message: Swift.String?, duration: Foundation.TimeInterval = ToastManager.shared.duration, point: CoreGraphics.CGPoint, title: Swift.String?, image: UIKit.UIImage?, style: ToastSwiftFramework.ToastStyle = ToastManager.shared.style, completion: ((_ didTap: Swift.Bool) -> Swift.Void)?)
   @_Concurrency.MainActor(unsafe) public func showToast(_ toast: UIKit.UIView, duration: Foundation.TimeInterval = ToastManager.shared.duration, position: ToastSwiftFramework.ToastPosition = ToastManager.shared.position, completion: ((_ didTap: Swift.Bool) -> Swift.Void)? = nil)
-  @_Concurrency.MainActor(unsafe) public func showToast(_ toast: UIKit.UIView, duration: Foundation.TimeInterval = ToastManager.shared.duration, point: CoreFoundation.CGPoint, completion: ((_ didTap: Swift.Bool) -> Swift.Void)? = nil)
+  @_Concurrency.MainActor(unsafe) public func showToast(_ toast: UIKit.UIView, duration: Foundation.TimeInterval = ToastManager.shared.duration, point: CoreGraphics.CGPoint, completion: ((_ didTap: Swift.Bool) -> Swift.Void)? = nil)
   @_Concurrency.MainActor(unsafe) public func hideToast()
   @_Concurrency.MainActor(unsafe) public func hideToast(_ toast: UIKit.UIView)
   @_Concurrency.MainActor(unsafe) public func hideAllToasts(includeActivity: Swift.Bool = false, clearQueue: Swift.Bool = true)
   @_Concurrency.MainActor(unsafe) public func clearToastQueue()
   @_Concurrency.MainActor(unsafe) public func makeToastActivity(_ position: ToastSwiftFramework.ToastPosition)
-  @_Concurrency.MainActor(unsafe) public func makeToastActivity(_ point: CoreFoundation.CGPoint)
+  @_Concurrency.MainActor(unsafe) public func makeToastActivity(_ point: CoreGraphics.CGPoint)
   @_Concurrency.MainActor(unsafe) public func hideToastActivity()
   @_Concurrency.MainActor(unsafe) public func toastViewForMessage(_ message: Swift.String?, title: Swift.String?, image: UIKit.UIImage?, style: ToastSwiftFramework.ToastStyle) throws -> UIKit.UIView
 }
@@ -26,17 +25,17 @@ public struct ToastStyle {
   public var backgroundColor: UIKit.UIColor
   public var titleColor: UIKit.UIColor
   public var messageColor: UIKit.UIColor
-  public var maxWidthPercentage: CoreFoundation.CGFloat {
+  public var maxWidthPercentage: CoreGraphics.CGFloat {
     get
     set
   }
-  public var maxHeightPercentage: CoreFoundation.CGFloat {
+  public var maxHeightPercentage: CoreGraphics.CGFloat {
     get
     set
   }
-  public var horizontalPadding: CoreFoundation.CGFloat
-  public var verticalPadding: CoreFoundation.CGFloat
-  public var cornerRadius: CoreFoundation.CGFloat
+  public var horizontalPadding: CoreGraphics.CGFloat
+  public var verticalPadding: CoreGraphics.CGFloat
+  public var cornerRadius: CoreGraphics.CGFloat
   public var titleFont: UIKit.UIFont
   public var messageFont: UIKit.UIFont
   public var titleAlignment: UIKit.NSTextAlignment
@@ -49,10 +48,10 @@ public struct ToastStyle {
     get
     set
   }
-  public var shadowRadius: CoreFoundation.CGFloat
-  public var shadowOffset: CoreFoundation.CGSize
-  public var imageSize: CoreFoundation.CGSize
-  public var activitySize: CoreFoundation.CGSize
+  public var shadowRadius: CoreGraphics.CGFloat
+  public var shadowOffset: CoreGraphics.CGSize
+  public var imageSize: CoreGraphics.CGSize
+  public var activitySize: CoreGraphics.CGSize
   public var fadeDuration: Swift.Double
   public var activityIndicatorColor: UIKit.UIColor
   public var activityBackgroundColor: UIKit.UIColor
