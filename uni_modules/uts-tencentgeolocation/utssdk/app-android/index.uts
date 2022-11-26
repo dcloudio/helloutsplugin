@@ -180,7 +180,7 @@ export function getLocation(locationOptions: LocationOptions):boolean {
 /**
  * 持续监听位置变化
  */
-@Suppress("unuse")
+@Suppress("UNUSED_PARAMETER")
 export function watchPosition(_locationOptions: LocationOptions) {
 	//todo
 }
@@ -188,6 +188,7 @@ export function watchPosition(_locationOptions: LocationOptions) {
 /**
  * 关闭监听位置变化
  */
+@Suppress("UNUSED_PARAMETER")
 export function clearWatch() {
 	//todo
 }
