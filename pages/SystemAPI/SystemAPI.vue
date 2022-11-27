@@ -5,6 +5,7 @@
 			<uni-collapse-item title="设备相关" :border="false">
 				<uni-list>
 					<uni-list-item @tap="testGetBatteryCapacity" title="获取电池电量" class="itemButton" :clickable="true"/>
+					<uni-list-item @tap="testGotoWifi" title="wifi功能示例" class="itemButton" :clickable="true" link/>
 				</uni-list>
 			</uni-collapse-item>
 		</uni-collapse>
@@ -30,7 +31,7 @@
 			<uni-collapse-item title="android平台" :border="false">
 				<uni-list>
 					<uni-list-item @tap="testGotoDemoActivity" title="自定义activity(需自定义基座)" class="itemButton" :clickable="true" link/>
-					<uni-list-item @tap="testGotoWifi" title="wifi功能示例" class="itemButton" :clickable="true" link/>
+					
 				</uni-list>
 			</uni-collapse-item>
 		</uni-collapse>
