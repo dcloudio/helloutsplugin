@@ -24,6 +24,10 @@ import {
 import Service from 'android.app.Service';
 import System from 'java.lang.System';
 import Looper from 'android.os.Looper';
+import Class from 'java.lang.Class';
+import Exception from 'java.lang.Exception';
+import PackageManager from 'android.content.pm.PackageManager';
+import ResolveInfo from 'android.content.pm.ResolveInfo';
 
 
 
@@ -200,10 +204,28 @@ class IntentRunable extends Runnable{
 }
 
 @Suppress("DEPRECATION")
-export default function gotoDemoActivity() {
-  // 跳转到一个新的界面
-  UTSAndroid.getUniActivity()!.runOnUiThread(new IntentRunable())
-  return { name: "gotoDemoActivity"};
+export default function gotoDemoActivity():boolean {
+	
+	let hasXActivityIntegration =  true
+	try{
+		let packageManager = UTSAndroid.getUniActivity()!.getPackageManager();
+		let intent = new Intent(UTSAndroid.getUniActivity(),DemoActivity().javaClass);
+		let resolveInfo = packageManager.queryIntentActivities(intent,0) as Array<ResolveInfo>;
+		if(resolveInfo.size == 0){
+			hasXActivityIntegration = false;
+		}
+	}catch(e:Exception){
+		console.log(e);
+		hasXActivityIntegration = false;
+	}
+	
+	if(!hasXActivityIntegration){
+		return false;
+	}
+	// 跳转到一个新的界面
+	UTSAndroid.getUniActivity()!.runOnUiThread(new IntentRunable())
+	return true;
+ 
 }
 
 
