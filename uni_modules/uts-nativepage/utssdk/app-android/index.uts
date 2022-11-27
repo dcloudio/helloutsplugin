@@ -205,12 +205,13 @@ class IntentRunable extends Runnable{
 
 @Suppress("DEPRECATION")
 export default function gotoDemoActivity():boolean {
-	
+	// 这里的逻辑是为了判断 当前的自定义activity 是否注册了，并以此为条件判断是否是自定义基座
 	let hasXActivityIntegration =  true
 	try{
 		let packageManager = UTSAndroid.getUniActivity()!.getPackageManager();
 		let intent = new Intent(UTSAndroid.getUniActivity(),DemoActivity().javaClass);
 		let resolveInfo = packageManager.queryIntentActivities(intent,0) as Array<ResolveInfo>;
+		console.log(resolveInfo.size)
 		if(resolveInfo.size == 0){
 			hasXActivityIntegration = false;
 		}

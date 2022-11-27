@@ -2,6 +2,13 @@ import { CLLocationManager, CLAuthorizationStatus } from "CoreLocation"
 import { TencentLBSLocationManager, TencentLBSLocation, Error, TencentLBSRequestLevel, TencentLBSLocationManagerDelegate} from "TencentLBS"
 import Bundle from "Foundation"
 
+/**
+ * 判断当前是否是自定义基座
+ */
+export function checkHasIntegration():boolean{
+	// todo
+	return true
+}
 
 /**
  * 定位请求参数封装

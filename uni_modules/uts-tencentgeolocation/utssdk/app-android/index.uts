@@ -10,6 +10,9 @@ import TencentLocationListener from "com.tencent.map.geolocation.TencentLocation
 import TencentLocation from "com.tencent.map.geolocation.TencentLocation";
 import TencentLocationRequest from "com.tencent.map.geolocation.TencentLocationRequest";
 import PackageManager from "android.content.pm.PackageManager";
+import Class from 'java.lang.Class';
+import Exception from 'java.lang.Exception';
+
 
 
 export function requestPremission() {
@@ -119,7 +122,25 @@ class SingleLocationListener extends TencentLocationListener {
 	}
 	
 }
-
+/**
+ * 判断当前的基座是否已经集成了sdk, 即是否是自定义基座
+ */
+export function checkHasIntegration():boolean{
+	
+	let hasIntegration =  true
+	try{
+		let xClass = Class.forName("com.tencent.map.geolocation.TencentLocationListener")
+		console.log(xClass);
+	}catch(e:Exception){
+		hasIntegration = false;
+	}
+	
+	if(!hasIntegration){
+		return false;
+	}
+	
+	return true
+}
 /**
  * 检查定位的相关配置是否正确
  */

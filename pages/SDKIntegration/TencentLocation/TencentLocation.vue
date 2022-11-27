@@ -23,6 +23,7 @@
 
 <script>
 	import {
+		checkHasIntegration,
 		requestPremission,
 		getLocation,
 		watchPosition,

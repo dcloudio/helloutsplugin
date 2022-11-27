@@ -24,7 +24,6 @@ class UIRunnable extends Runnable {
 };
 
 export function showToast():boolean{
-	
 	let hasXToastIntegration =  true
 	try{
 		let xToastClass = Class.forName("com.hjq.xtoast.XToast")
