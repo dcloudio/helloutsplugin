@@ -124,15 +124,6 @@
 		    }
 		    
 		},
-		{
-		    "path" : "pages/SystemAPI/android/wifi",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		},
 		
 		{
 		    "path" : "pages/SyntaxCase/index",

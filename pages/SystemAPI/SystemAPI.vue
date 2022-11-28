@@ -5,7 +5,6 @@
 			<uni-collapse-item title="设备相关" :border="false">
 				<uni-list>
 					<uni-list-item @tap="testGetBatteryCapacity" title="获取电池电量" class="itemButton" :clickable="true"/>
-					<uni-list-item @tap="testGotoWifi" title="wifi功能示例" class="itemButton" :clickable="true" link/>
 				</uni-list>
 			</uni-collapse-item>
 		</uni-collapse>
@@ -86,12 +85,8 @@
 						title:'需要在自定义基座中运行'
 					})
 				}
-			},
-			testGotoWifi() {
-				uni.navigateTo({
-					url:'/pages/SystemAPI/android/wifi'
-				})
-			},
+			}
+			
 		}
 	}
 </script>
