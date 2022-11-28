@@ -13,7 +13,6 @@
 			<uni-collapse-item title="系统事件" :border="false">
 				<uni-list>
 					<uni-list-item @tap="gotoScreenListen" title="监听系统截屏" class="itemButton" :clickable="true" link/>
-					<uni-list-item @tap="gotoWifiInfomation" title="获取当前wifi信息" class="itemButton" :clickable="true" link/>
 				</uni-list>
 			</uni-collapse-item>
 		</uni-collapse>
@@ -65,11 +64,6 @@
 			gotoScreenListen(){
 				uni.navigateTo({
 					url:'/pages/SystemAPI/ScreenListen/screenlisten'
-				})
-			},
-			gotoWifiInfomation(){
-				uni.navigateTo({
-					url:'/pages/SystemAPI/WifiInfomation/wifiInfomation'
 				})
 			},
 			gotoAlert(){
