@@ -530,8 +530,13 @@ export function stopWifi(option: WifiOption) {
 
 		return
 	}
-
-	UTSAndroid.getUniActivity()!.unregisterReceiver(Global.mReceiver)
+	try{
+		UTSAndroid.getUniActivity()!.unregisterReceiver(Global.mReceiver)
+	}catch(e){
+		// 可能存在重复
+		//console.log(e);
+	}
+	
 	var result = {
 		errNo: 0,
 		errCode: 0,
