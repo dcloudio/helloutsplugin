@@ -1,6 +1,6 @@
 import { CLLocationManager, CLAuthorizationStatus } from "CoreLocation"
-import { TencentLBSLocationManager, TencentLBSLocation, Error, TencentLBSRequestLevel, TencentLBSLocationManagerDelegate} from "TencentLBS"
-import Bundle from "Foundation"
+import { TencentLBSLocationManager, TencentLBSLocation, TencentLBSRequestLevel, TencentLBSLocationManagerDelegate } from "TencentLBS"
+import { NSError, Bundle } from "Foundation"
 
 /**
  * 判断当前是否是自定义基座
@@ -90,7 +90,7 @@ class LBSLocation implements TencentLBSLocationManagerDelegate {
 		}
 		
 		// 请求单次定位信息
-		this.locationManager.requestLocation(with = requestLevel, locationTimeout = 10, completionBlock = (location?: TencentLBSLocation, err?: Error): void => {
+		this.locationManager.requestLocation(with = requestLevel, locationTimeout = 10, completionBlock = (location?: TencentLBSLocation, err?: NSError): void => {
 			if (location != null) {
 			    let response = new LocationResponse();
 			    response.name = location!.name;
@@ -131,7 +131,7 @@ class LBSLocation implements TencentLBSLocationManagerDelegate {
 	}
 	
 	// 实现定位出错的 delegate 方法
-	tencentLBSLocationManager(manager: TencentLBSLocationManager, error: Error) {
+	tencentLBSLocationManager(manager: TencentLBSLocationManager, error: NSError) {
 		this.locationOptions?.fail(error.localizedDescription)
 	}
 	
