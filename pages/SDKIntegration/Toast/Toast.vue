@@ -3,7 +3,7 @@
 		<page-head :title="title"></page-head>
 		<view class="uni-padding-wrap uni-common-mt">
 			<view class="uni-hello-text">
-				1.需要自定义基座运行
+				1.Android 平台需要自定义基座运行
 			</view>
 			
 			
