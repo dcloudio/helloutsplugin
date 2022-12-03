@@ -97,7 +97,17 @@
 		        "enablePullDownRefresh": false
 		    }
 		    
-		},{
+		},
+		{
+		    "path" : "pages/advance/iOS/getResourcePath",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
 		    "path" : "pages/advance/android/assetaudio",
 		    "style" :                                                                                    
 		    {

@@ -45,6 +45,12 @@
 				</uni-list>
 
 			</uni-collapse-item>
+			
+			<uni-collapse-item title="iOS平台示例" :border="false">
+				<uni-list>
+					<uni-list-item @tap="testGetResourcePath" title="资源路径获取示例" :clickable="true" link />
+				</uni-list>
+			</uni-collapse-item>
 		</uni-collapse>
 
 
@@ -161,6 +167,11 @@
 					url: '/pages/SyntaxCase/index'
 				})
 			},
+			testGetResourcePath: function() {
+				uni.navigateTo({
+					url: '/pages/advance/iOS/getResourcePath'
+				})
+			}
 
 		}
 	}
