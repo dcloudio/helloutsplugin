@@ -8,4 +8,12 @@
 	<Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="开启前台服务(应用包活)" android:id="@+id/btn_start_service_front"/>
 	<Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="注册屏幕状态广播监听" android:id="@+id/btn_start_screen_listen"/>
 	<Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="开启异步任务" android:id="@+id/btn_start_thread"/>
+	
+	<androidx.recyclerview.widget.RecyclerView
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:id="@+id/recycler_view">
+	
+	</androidx.recyclerview.widget.RecyclerView>
+
 </LinearLayout>
