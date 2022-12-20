@@ -1,0 +1,95 @@
+<template>
+    <div>
+        <button @tap="changeHiden">测试隐藏组件</button>
+        <button @tap="updateStyle" :style="{width:widthNum+'px',height:heightNum+'px',background:yanse}">测试更新样式</button>
+        <button @tap="changeUrl">测试更新动画链接</button>
+        <button @tap="changeAutoPlay">测试AutoPlay</button>
+        <button @tap="changeLoop">测试Loop</button>
+        <button @tap="changeAction(1)">测试action play</button>
+        <button @tap="changeAction(2)">测试action pause</button>
+        <button @tap="changeAction(3)">测试action stop</button>
+        <animation-view ref="animView" :path="animUrl" :autoplay="autoplay" :loop="loop" :action="action"
+            :hidden="hidden" @bindended="testAnimEnd" @click="lottieClickTest" @longpress="lottieLongpressTest"
+            :style="{width:widthNum+'px',height:heightNum+'px',background:yanse}">
+        </animation-view>
+        
+    </div>
+</template>
+
+<script>
+  
+    export default {
+        data() {
+            return {
+                hidden: false,
+                autoplay: false,
+                action: "play",
+                loop: false,
+                yanse: "red",
+                widthNum: 200,
+                heightNum: 100,
+                comShow: true,
+                animUrl: "AndroidWave.json"
+            }
+        },
+        
+        methods: {
+
+            updateStyle: function() {
+                this.heightNum = 200
+                this.widthNum = 300
+                this.yanse = "green"
+            },
+            changeHiden: function() {
+                this.hidden = !this.hidden
+            },
+            changeAutoPlay: function() {
+                this.autoplay = !this.autoplay
+            },
+            changeUrl: function() {
+                if (this.animUrl == "zy_lottie_live.json") {
+                    this.animUrl = "AndroidWave.json"
+                } else {
+                    this.animUrl = "zy_lottie_live.json"
+                }
+            },
+
+            changeAction: function(type) {
+                if (type == 1) {
+                    this.action = "play"
+                } else if (type == 2) {
+                    this.action = "pause"
+                } else if (type == 3) {
+                    this.action = "stop"
+                }
+            },
+            changeLoop: function() {
+                this.loop = !this.loop
+            },
+            testAnimEnd: function(res) {
+                console.log("testAnimEnd");
+                console.log(res);
+            },
+
+            changeRepeat: function(res) {
+                let repeatConfig = {
+                    count: 3,
+                    mode: "restart"
+                }
+                console.log(this.$refs["animView"]);
+                this.$refs["animView"].updateRepeatConfig(repeatConfig, function(res) {
+                    console.log(res);
+                });
+
+            },
+            lottieClickTest: function(res) {
+                console.log("lottieClickTest");
+                console.log(res);
+            },
+            lottieLongpressTest: function(res) {
+                console.log("lottieClickTest");
+                console.log(res);
+            },
+        }
+    }
+</script>

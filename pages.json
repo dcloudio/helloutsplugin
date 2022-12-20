@@ -63,6 +63,15 @@
 		    
 		},
 		{
+		    "path" : "pages/SDKIntegration/Lottie/index",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
 		    "path" : "pages/SDKIntegration/Toast/Toast",
 		    "style" :                                                                                    
 		    {
