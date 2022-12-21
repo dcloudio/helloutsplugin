@@ -88,7 +88,7 @@
 
                     let lottieAnimationView = this.$el
 
-                    if (lottieAnimationView != null && !TextUtils.isEmpty(newPath)) {
+                    if (TextUtils.isEmpty(newPath)) {
                         if (newPath.startsWith("http://") || newPath.startsWith("https://")) {
                             lottieAnimationView.setAnimationFromUrl(newPath)
                         } else {
@@ -183,7 +183,7 @@
         },
         NVLoad(): LottieAnimationView { //创建原生View，必须定义返回值类型（Android需要明确知道View类型，需特殊校验）  
             //必须实现  
-            let lottieAnimationView = new LottieAnimationView(getContext())
+            let lottieAnimationView = new LottieAnimationView(this.$androidContext)
             return lottieAnimationView
         },
         NVLoaded() { //原生View已创建  
