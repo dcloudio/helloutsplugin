@@ -88,7 +88,7 @@
 
                     let lottieAnimationView = this.$el
 
-                    if (TextUtils.isEmpty(newPath)) {
+                    if (lottieAnimationView != null && !TextUtils.isEmpty(newPath)) {
                         if (newPath.startsWith("http://") || newPath.startsWith("https://")) {
                             lottieAnimationView.setAnimationFromUrl(newPath)
                         } else {
