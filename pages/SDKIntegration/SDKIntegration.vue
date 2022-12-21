@@ -33,9 +33,17 @@
 				})
 			},
 			gotoLottie:function(e){
-				uni.navigateTo({
-					url:'/pages/SDKIntegration/Lottie/index'
-				})
+				if(checkHasLottieIntegration()){
+					uni.navigateTo({
+						url:'/pages/SDKIntegration/Lottie/index'
+					})
+				}else{
+					uni.showToast({
+						icon:'none',
+						title:'需要在自定义基座中运行'
+					})
+				}
+				
 			},
 			gotoTencentLocation:function(e){
 				
