@@ -1,12 +1,6 @@
 {
 	"dependencies": [
 		"com.airbnb.android:lottie:3.4.0"
-	],
-	"components":[
-		{
-			"name":"animation-view",
-			"class":"uts.modules.modules.testComponent.AnimationView"
-		}
 	]
 }
 
