@@ -1,8 +1,8 @@
 <template>
     <div>
-        <button @tap="changeHiden">测试隐藏组件</button>
-        <button @tap="updateStyle" :style="{width:widthNum+'px',height:heightNum+'px',background:yanse}">测试更新样式</button>
-        <button @tap="changeUrl">测试更新动画链接</button>
+        <button @tap="changeUrl">播放本地动画资源</button>
+		<button @tap="changeServerUrl">播放远程动画资源</button>
+		
         <button @tap="changeAutoPlay">测试AutoPlay</button>
         <button @tap="changeLoop">测试Loop</button>
         <button @tap="changeAction(1)">测试action play</button>
@@ -26,8 +26,8 @@
                 action: "play",
                 loop: false,
                 yanse: "red",
-                widthNum: 200,
-                heightNum: 100,
+                widthNum: 375,
+                heightNum: 200,
                 comShow: true,
                 animUrl: "AndroidWave.json"
             }
@@ -35,25 +35,20 @@
         
         methods: {
 
-            updateStyle: function() {
-                this.heightNum = 200
-                this.widthNum = 300
-                this.yanse = "green"
-            },
-            changeHiden: function() {
-                this.hidden = !this.hidden
-            },
             changeAutoPlay: function() {
                 this.autoplay = !this.autoplay
             },
             changeUrl: function() {
-                if (this.animUrl == "zy_lottie_live.json") {
-                    this.animUrl = "AndroidWave.json"
+                if (this.animUrl == "anim_a.json") {
+                    this.animUrl = "anim_b.json"
                 } else {
-                    this.animUrl = "zy_lottie_live.json"
+                    this.animUrl = "anim_a.json"
                 }
             },
 
+			changeServerUrl: function() {
+                this.animUrl = "https://b.bdstatic.com/miniapp/images/lottie_example_one.json"
+            },
             changeAction: function(type) {
                 if (type == 1) {
                     this.action = "play"

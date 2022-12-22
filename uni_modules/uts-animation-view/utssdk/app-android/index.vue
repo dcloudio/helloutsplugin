@@ -86,45 +86,51 @@
             "path": {
                 handler(newPath: string) {
 
-                    let lottieAnimationView = this.$el
-
-                    if (lottieAnimationView != null && !TextUtils.isEmpty(newPath)) {
-                        if (newPath.startsWith("http://") || newPath.startsWith("https://")) {
-                            lottieAnimationView.setAnimationFromUrl(newPath)
-                        } else {
-                            // 默认是asset了
-                            lottieAnimationView.setAnimation(newPath)
-                        }
-                    }
-                    if (this.autoplay) {
-                        lottieAnimationView.playAnimation()
-                    }
+                    
+					if(this.$el != null){
+						let lottieAnimationView = this.$el
+						if (!TextUtils.isEmpty(newPath)) {
+						    if (newPath.startsWith("http://") || newPath.startsWith("https://")) {
+						        lottieAnimationView.setAnimationFromUrl(newPath)
+						    } else {
+						        // 默认是asset了
+						        lottieAnimationView.setAnimation(newPath)
+						    }
+						}
+						if (this.autoplay) {
+						    lottieAnimationView.playAnimation()
+						}
+					}
                 },
                 immediate: false //创建时是否通过此方法更新属性，默认值为false  
             },
             "loop": {
                 handler(newLoop: Boolean) {
-
-                    if (newLoop) {
-                        this.$el.repeatCount = Int.MAX_VALUE
-                    } else {
-                        // 不循环则设置成1次
-                        this.$el.repeatCount = 0
-                    }
-
-                    if (this.autoplay) {
-                        this.$el.playAnimation()
-                    }
+					if(this.$el != null){
+						if (newLoop) {
+						    this.$el.repeatCount = Int.MAX_VALUE
+						} else {
+						    // 不循环则设置成1次
+						    this.$el.repeatCount = 0
+						}
+						
+						if (this.autoplay) {
+						    this.$el.playAnimation()
+						}
+					}
+                    
                 },
                 immediate: false //创建时是否通过此方法更新属性，默认值为false  
             },
 
             "autoplay": {
                 handler(newValue: boolean) {
-
-                    if (newValue) {
-                        this.$el.playAnimation()
-                    }
+					if(this.$el != null){
+						if (newValue) {
+						    this.$el.playAnimation()
+						}
+					}
+                    
                 },
                 immediate: false //创建时是否通过此方法更新属性，默认值为false  
             },
@@ -134,15 +140,17 @@
 
                     if (newAction == "play" || newAction == "pause" || newAction == "stop") {
 
-
-                        if (this.action == "play") {
-                            this.$el.playAnimation()
-                        } else if (this.action == "play") {
-                            this.$el.pauseAnimation()
-                        } else if (this.action == "stop") {
-                            this.$el.cancelAnimation()
-                            this.$el.clearAnimation()
-                        }
+						if(this.$el != null){
+							if (this.action == "play") {
+							    this.$el.playAnimation()
+							} else if (this.action == "pause") {
+							    this.$el.pauseAnimation()
+							} else if (this.action == "stop") {
+							    this.$el.cancelAnimation()
+							    this.$el.clearAnimation()
+							}
+						}
+                        
 
                     } else {
                         // 非法入参，不管
@@ -153,12 +161,13 @@
 
             "hidden": {
                 handler(newValue: boolean) {
-                console.log('hidden',newValue)
-                    if (newValue) {
-                        this.$el.visibility = View.GONE
-                    } else {
-                        this.$el.visibility = View.VISIBLE
-                    }
+					if(this.$el != null){
+						if (newValue) {
+						    this.$el.visibility = View.GONE
+						} else {
+						    this.$el.visibility = View.VISIBLE
+						}
+					}
                 },
                 immediate: false //创建时是否通过此方法更新属性，默认值为false  
             },
@@ -166,11 +175,13 @@
         },
         methods: {
             setRepeatMode(repeat: string) {
-                if ("RESTART" == repeat) {
-                    this.$el.repeatMode = LottieDrawable.RESTART
-                } else if ("REVERSE" == repeat) {
-                    this.$el.repeatMode = LottieDrawable.RESTART
-                }
+				if(this.$el != null){
+					if ("RESTART" == repeat) {
+					    this.$el.repeatMode = LottieDrawable.RESTART
+					} else if ("REVERSE" == repeat) {
+					    this.$el.repeatMode = LottieDrawable.RESTART
+					}
+				}
             },
             privateMethod() { //如何定义不对外暴露的API？ 暂不支持，需在export外写  
             }
@@ -183,16 +194,18 @@
         },
         NVLoad(): LottieAnimationView { //创建原生View，必须定义返回值类型（Android需要明确知道View类型，需特殊校验）  
             //必须实现  
-            let lottieAnimationView = new LottieAnimationView(this.$androidContext)
+            let lottieAnimationView = new LottieAnimationView($androidContext)
             return lottieAnimationView
         },
         NVLoaded() { //原生View已创建  
-            //可选实现，这里可以做后续操作  
-            this.$el.repeatMode = LottieDrawable.RESTART;
-            this.$el.visibility = View.GONE
-            this.$el.repeatCount = 0
-            this.$el.addAnimatorListener(new CustomAnimListener(this))
-
+			//可选实现，这里可以做后续操作
+			if(this.$el != null){
+				this.$el.repeatMode = LottieDrawable.RESTART;
+				this.$el.visibility = View.GONE
+				this.$el.repeatCount = 0
+				this.$el.addAnimatorListener(new CustomAnimListener(this))
+			}
+           
         },
         NVLayouted() { //原生View布局完成  
             //可选实现，这里可以做布局后续操作  
