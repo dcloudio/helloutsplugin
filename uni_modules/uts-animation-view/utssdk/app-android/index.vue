@@ -88,7 +88,7 @@
 
                     
 					if(this.$el != null){
-						let lottieAnimationView = this.$el
+						let lottieAnimationView = this.$el!
 						if (!TextUtils.isEmpty(newPath)) {
 						    if (newPath.startsWith("http://") || newPath.startsWith("https://")) {
 						        lottieAnimationView.setAnimationFromUrl(newPath)
@@ -108,14 +108,14 @@
                 handler(newLoop: Boolean) {
 					if(this.$el != null){
 						if (newLoop) {
-						    this.$el.repeatCount = Int.MAX_VALUE
+						    this.$el!.repeatCount = Int.MAX_VALUE
 						} else {
 						    // 不循环则设置成1次
-						    this.$el.repeatCount = 0
+						    this.$el!.repeatCount = 0
 						}
 						
 						if (this.autoplay) {
-						    this.$el.playAnimation()
+						    this.$el!.playAnimation()
 						}
 					}
                     
@@ -127,7 +127,7 @@
                 handler(newValue: boolean) {
 					if(this.$el != null){
 						if (newValue) {
-						    this.$el.playAnimation()
+						    this.$el!.playAnimation()
 						}
 					}
                     
@@ -142,12 +142,12 @@
 
 						if(this.$el != null){
 							if (this.action == "play") {
-							    this.$el.playAnimation()
+							    this.$el!.playAnimation()
 							} else if (this.action == "pause") {
-							    this.$el.pauseAnimation()
+							    this.$el!.pauseAnimation()
 							} else if (this.action == "stop") {
-							    this.$el.cancelAnimation()
-							    this.$el.clearAnimation()
+							    this.$el!.cancelAnimation()
+							    this.$el!.clearAnimation()
 							}
 						}
                         
@@ -163,9 +163,9 @@
                 handler(newValue: boolean) {
 					if(this.$el != null){
 						if (newValue) {
-						    this.$el.visibility = View.GONE
+						    this.$el!.visibility = View.GONE
 						} else {
-						    this.$el.visibility = View.VISIBLE
+						    this.$el!.visibility = View.VISIBLE
 						}
 					}
                 },
@@ -177,9 +177,9 @@
             setRepeatMode(repeat: string) {
 				if(this.$el != null){
 					if ("RESTART" == repeat) {
-					    this.$el.repeatMode = LottieDrawable.RESTART
+					    this.$el!.repeatMode = LottieDrawable.RESTART
 					} else if ("REVERSE" == repeat) {
-					    this.$el.repeatMode = LottieDrawable.RESTART
+					    this.$el!.repeatMode = LottieDrawable.RESTART
 					}
 				}
             },
@@ -197,13 +197,14 @@
             let lottieAnimationView = new LottieAnimationView($androidContext)
             return lottieAnimationView
         },
+		
         NVLoaded() { //原生View已创建  
 			//可选实现，这里可以做后续操作
 			if(this.$el != null){
-				this.$el.repeatMode = LottieDrawable.RESTART;
-				this.$el.visibility = View.GONE
-				this.$el.repeatCount = 0
-				this.$el.addAnimatorListener(new CustomAnimListener(this))
+				this.$el!.repeatMode = LottieDrawable.RESTART;
+				this.$el!.visibility = View.GONE
+				this.$el!.repeatCount = 0
+				this.$el!.addAnimatorListener(new CustomAnimListener(this))
 			}
            
         },

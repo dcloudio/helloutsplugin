@@ -29,7 +29,7 @@
                 widthNum: 375,
                 heightNum: 200,
                 comShow: true,
-                animUrl: "AndroidWave.json"
+                animUrl: "anim_a.json"
             }
         },
         
