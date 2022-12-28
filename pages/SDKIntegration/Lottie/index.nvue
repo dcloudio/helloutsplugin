@@ -10,7 +10,7 @@
         <button @tap="changeAction(3)">测试action stop</button>
         <animation-view ref="animView" :path="animUrl" :autoplay="autoplay" :loop="loop" :action="action"
             :hidden="hidden" @bindended="testAnimEnd" @click="lottieClickTest" @longpress="lottieLongpressTest"
-            :style="{width:widthNum+'px',height:heightNum+'px',background:yanse}">
+            :style="{width:widthNum+'rpx',height:heightNum+'px',background:yanse}">
         </animation-view>
         
     </div>
@@ -26,7 +26,7 @@
                 action: "play",
                 loop: false,
                 yanse: "red",
-                widthNum: 375,
+                widthNum: 750,
                 heightNum: 200,
                 comShow: true,
                 animUrl: "anim_a.json"
@@ -39,10 +39,10 @@
                 this.autoplay = !this.autoplay
             },
             changeUrl: function() {
-                if (this.animUrl == "anim_a.json") {
-                    this.animUrl = "anim_b.json"
+                if (this.animUrl == "/static/anim_a.json") {
+                    this.animUrl = "/static/anim_b.json"
                 } else {
-                    this.animUrl = "anim_a.json"
+                    this.animUrl = "/static/anim_a.json"
                 }
             },
 

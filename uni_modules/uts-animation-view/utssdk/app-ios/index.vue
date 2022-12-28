@@ -16,6 +16,7 @@
 	import {
 		UIView
 	} from "UIKit"
+	import { UTSiOS } from "DCloudUTSFoundation"
 
 
 	//原生提供以下属性或方法的实现  
@@ -159,10 +160,8 @@
 				if (this.path.hasPrefix("http")) {
 					animationUrl = new URL(string = this.path)
 				} else {
-					var filePath = Bundle.main.path(forResource = this.path, ofType = null)
-					if (filePath != null) {
-						animationUrl = new URL(fileURLWithPath = filePath!)
-					}
+					const filePath = UTSiOS.getResourcePath(this.path)	
+					animationUrl = new URL(fileURLWithPath = filePath)
 				}
 
 				if (animationUrl != null) {
