@@ -29,7 +29,7 @@
                 widthNum: 750,
                 heightNum: 200,
                 comShow: true,
-                animUrl: "anim_a.json"
+                animUrl: "/static/anim_a.json"
             }
         },
         

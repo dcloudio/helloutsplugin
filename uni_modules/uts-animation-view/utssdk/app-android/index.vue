@@ -97,7 +97,7 @@
 						        lottieAnimationView.setAnimationFromUrl(newPath)
 						    } else {
 						        // 默认是static了
-								var realJsonPath = UTSAndroid.getResourcePath("static/" + newPath)
+								var realJsonPath = UTSAndroid.getResourcePath(newPath)
 						        lottieAnimationView.setAnimation(new FileInputStream(realJsonPath),newPath)
 						    }
 						}
