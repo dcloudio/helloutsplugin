@@ -16,12 +16,14 @@
 	import {
 		UIView
 	} from "UIKit"
-	import { UTSiOS } from "DCloudUTSFoundation"
+	import {
+		UTSiOS
+	} from "DCloudUTSFoundation"
 
 
 	//原生提供以下属性或方法的实现  
 	export default {
-		name: "animation-view",
+		name: "uts-animation-view",
 		/**
 		 * 当播放到末尾时触发 ended 事件（自然播放结束会触发回调，循环播放结束及手动停止动画不会触发）
 		 */
@@ -160,25 +162,25 @@
 				if (this.path.hasPrefix("http")) {
 					animationUrl = new URL(string = this.path)
 				} else {
-					const filePath = UTSiOS.getResourcePath(this.path)	
+					const filePath = UTSiOS.getResourcePath(this.path)
 					animationUrl = new URL(fileURLWithPath = filePath)
 				}
 
 				if (animationUrl != null) {
 					// 加载动画 LottieAnimation
 					LottieAnimation.loadedFrom(url = animationUrl!, closure = (animation: LottieAnimation | null):
-					void => {
-						if (animation != null) {
-							// 加载成功开始播放
-							this.$el.animation = animation
-							this.$el.play(completion = (isFinish: boolean): void => {
-								if (isFinish) {
-									// 播放完成回调事件
-									this.fireEvent("bindended")
-								}
-							})
-						}
-					})
+						void => {
+							if (animation != null) {
+								// 加载成功开始播放
+								this.$el.animation = animation
+								this.$el.play(completion = (isFinish: boolean): void => {
+									if (isFinish) {
+										// 播放完成回调事件
+										this.fireEvent("bindended")
+									}
+								})
+							}
+						})
 				} else {
 					console.log("url 构建失败，请检查 path 是否正确")
 				}
