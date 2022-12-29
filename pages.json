@@ -54,15 +54,6 @@
 		    
 		},
 		{
-		    "path" : "pages/SDKIntegration/TencentMap/TencentMap",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		},
-		{
 		    "path" : "pages/SDKIntegration/Lottie/index",
 		    "style" :                                                                                    
 		    {

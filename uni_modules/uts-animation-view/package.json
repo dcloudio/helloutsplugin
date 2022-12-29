@@ -1,10 +1,10 @@
 {
-  "id": "animation-view",
-  "displayName": "animation-view",
+  "id": "uts-animation-view",
+  "displayName": "uts-animation-view",
   "version": "1.0.0",
-  "description": "animation-view",
+  "description": "uts-animation-view",
   "keywords": [
-    "animation-view"
+    "animation-view","uts-animation-view","lottie"
 ],
   "repository": "",
   "engines": {
