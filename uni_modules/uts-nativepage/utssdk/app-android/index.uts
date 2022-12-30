@@ -33,12 +33,9 @@ import TextView from 'android.widget.TextView';
 import ViewGroup from 'android.view.ViewGroup';
 import LayoutInflater from 'android.view.LayoutInflater';
 import LinearLayoutManager from 'androidx.recyclerview.widget.LinearLayoutManager';
-
-
+export {DoAppWidget} from "./DoAppWidget.uts"
 
 class ForeService extends Service {
-
-
 
 	constructor (){
 		super();
