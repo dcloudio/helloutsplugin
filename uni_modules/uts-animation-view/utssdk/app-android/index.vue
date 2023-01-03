@@ -3,7 +3,7 @@
 
     </view>
 </template>
-<script lang="ts">
+<script lang="uts">
     import Animator from 'android.animation.Animator'
     import TextUtils from 'android.text.TextUtils'
     import View from 'android.view.View'
