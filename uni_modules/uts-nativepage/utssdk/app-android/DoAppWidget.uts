@@ -76,17 +76,14 @@ class UIRunnable extends Runnable {
     appWidgetId: Int
 ) {
 
-    let widgetText = "当前股票价格为：0.0元"
-	
 	setTimeout(function(){
 		// 模拟请求网络，这里需要替换成真正的网络请求
 		Thread.sleep(1000)
-		widgetText = "当前股票价格为：13.25元"
+		let widgetText = "当前股票价格为：13.25元"
 		let uiRunnable = new UIRunnable(context,appWidgetManager,appWidgetId,widgetText)
 		// 更新UI
 		UTSAndroid.getUniActivity()!.runOnUiThread(uiRunnable)
 		
 	},500);
-
 
 }

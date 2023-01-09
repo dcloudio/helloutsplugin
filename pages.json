@@ -36,6 +36,14 @@
 		    
 		},
 		{
+		    "path" : "pages/component/component",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
 		    "path" : "pages/SDKIntegration/SDKIntegration",
 		    "style" :                                                                                    
 		    {
