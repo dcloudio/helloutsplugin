@@ -75,7 +75,7 @@
 			 */
 			doSth(paramA: string) {
 				// 这是组件的自定义方法
-				console.log("paramA")
+				console.log("paramA = " + paramA)
 			},
 			/**
 			 * 内部使用的组件方法
@@ -136,7 +136,9 @@
 		 * 原生View将释放  
 		 * [可选实现]
 		 */
-		NVBeforeUnload() {},
+		NVBeforeUnload() {
+			
+		},
 		/**
 		 * 原生View已释放，这里可以做释放View之后的操作  
 		 * [可选实现]
@@ -148,16 +150,10 @@
 		 * 组件销毁  
 		 * [可选实现]
 		 */
-		unmounted() {}
-		// /**
-		//  * 自定组件布局尺寸 
-		//  * [可选实现]
-		//  */
-		// doMeasure(size: UTSSize): UTSSize {
-		// 	size.width = 120.0.toFloat()
-		// 	size.height = 800.0.toFloat()
-		// 	return size
-		// }
+		unmounted() {
+			
+		}
+		
 	}
 </script>
 <style>
@@ -165,6 +161,5 @@
 	.defaultStyles {
 		width: 750rpx;
 		height: 240rpx;
-		background-color: blue;
 	}
 </style>

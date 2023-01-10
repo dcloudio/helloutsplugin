@@ -1,14 +1,7 @@
 <template>
 	<div>
-		<text>UTS view组件</text>
 		<uts-hello-view buttonText="点击按钮内容" style="width:375px;height: 375px;background-color: aqua;"></uts-hello-view>
-		<!-- <text>UTS 布局组件</text>
-		<uts-hello-container buttonText="点击按钮内容" style="width:375px;height: 375px;background-color: bisque;">
-			<text solt="header">头部信息</text>
-			<text solt="footer">底部信息</text>
-		</uts-hello-container> -->
 	</div>
-	
 </template>
 
 <script>
