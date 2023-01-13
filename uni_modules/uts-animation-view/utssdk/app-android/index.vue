@@ -87,11 +87,9 @@
             "path": {
                 handler(newPath: string) {
 
-                    
 					if(this.$el != null){
 						let lottieAnimationView = this.$el!
 						if (!TextUtils.isEmpty(newPath)) {
-							
 							
 						    if (newPath.startsWith("http://") || newPath.startsWith("https://")) {
 						        lottieAnimationView.setAnimationFromUrl(newPath)
@@ -106,7 +104,7 @@
 						}
 					}
                 },
-                immediate: false //创建时是否通过此方法更新属性，默认值为false  
+                immediate: false
             },
             "loop": {
                 handler(newLoop: Boolean) {
@@ -124,7 +122,7 @@
 					}
                     
                 },
-                immediate: false //创建时是否通过此方法更新属性，默认值为false  
+                immediate: false
             },
 
             "autoplay": {
@@ -136,7 +134,7 @@
 					}
                     
                 },
-                immediate: false //创建时是否通过此方法更新属性，默认值为false  
+                immediate: false
             },
 
             "action": {
@@ -154,13 +152,12 @@
 							    this.$el!.clearAnimation()
 							}
 						}
-                        
 
                     } else {
                         // 非法入参，不管
                     }
                 },
-                immediate: false //创建时是否通过此方法更新属性，默认值为false  
+                immediate: false
             },
 
             "hidden": {
@@ -173,7 +170,7 @@
 						}
 					}
                 },
-                immediate: false //创建时是否通过此方法更新属性，默认值为false  
+                immediate: false
             },
 
         },
@@ -187,43 +184,22 @@
 					}
 				}
             },
-            privateMethod() { //如何定义不对外暴露的API？ 暂不支持，需在export外写  
-            }
         },
-        created() { //创建组件，替换created  
-
-        },
-        NVBeforeLoad() { //组件将要创建，对应前端beforeMount  
-            //可选实现，这里可以提前做一些操作  
-        },
-        NVLoad(): LottieAnimationView { //创建原生View，必须定义返回值类型（Android需要明确知道View类型，需特殊校验）  
-            //必须实现  
+        
+        NVLoad(): LottieAnimationView { 
             let lottieAnimationView = new LottieAnimationView($androidContext)
             return lottieAnimationView
         },
 		
-        NVLoaded() { //原生View已创建  
-			//可选实现，这里可以做后续操作
+        NVLoaded() { 
 			if(this.$el != null){
 				this.$el!.repeatMode = LottieDrawable.RESTART;
 				this.$el!.visibility = View.GONE
 				this.$el!.repeatCount = 0
 				this.$el!.addAnimatorListener(new CustomAnimListener(this))
 			}
-           
-        },
-        NVLayouted() { //原生View布局完成  
-            //可选实现，这里可以做布局后续操作  
-        },
-        NVBeforeUnload() { //原生View将释放  
-            //可选实现，这里可以做释放View之前的操作  
-        },
-        NVUnloaded() { //原生View已释放  
-            //可选实现，这里可以做释放View之后的操作  
-        },
-        unmounted() { //组件销毁  
-            //可选实现  
         }
+        
     }
 </script>
 <style>

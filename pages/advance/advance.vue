@@ -172,7 +172,7 @@
 			},
 			testHelloUTSComponent: function() {
 				uni.navigateTo({
-					url: '/pages/component/component'
+					url: '/pages/component/helloView'
 				})
 			},
 			testSyntax: function() {

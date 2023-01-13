@@ -67,15 +67,7 @@
             },
 
             changeRepeat: function(res) {
-                let repeatConfig = {
-                    count: 3,
-                    mode: "restart"
-                }
-                console.log(this.$refs["animView"]);
-                this.$refs["animView"].updateRepeatConfig(repeatConfig, function(res) {
-                    console.log(res);
-                });
-
+                this.$refs["animView"].updateRepeatConfig("RESTART");
             },
             lottieClickTest: function(res) {
                 console.log("lottieClickTest");
