@@ -195,10 +195,6 @@
 		created() { //创建组件，替换created  
 
 		},
-		NVMeasure(size: UTSSize): UTSSize { //测量组件大小
-			//可选实现，仅当需要原生计算组件大小时需要实现  
-			return new UTSSize(100, 100);
-		},
 		NVBeforeLoad() { //组件将要创建，对应前端beforeMount  
 			//可选实现，这里可以提前做一些操作  
 		},
