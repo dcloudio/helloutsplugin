@@ -3,7 +3,7 @@
 
 	</view>
 </template>
-<script lang="ts">
+<script lang="uts">
 	import {
 		LottieAnimationView,
 		LottieAnimation,
@@ -23,14 +23,20 @@
 
 	//原生提供以下属性或方法的实现  
 	export default {
+		/**
+		 * 组件名称，也就是开发者使用的标签
+		 */
 		name: "uts-animation-view",
 		/**
-		 * 当播放到末尾时触发 ended 事件（自然播放结束会触发回调，循环播放结束及手动停止动画不会触发）
+		 * 组件涉及的事件声明，只有声明过的事件，才能被正常发送
 		 */
-		emits: ['bindended'],
+		emits: ['bindended'], // 当播放到末尾时触发 ended 事件（自然播放结束会触发回调，循环播放结束及手动停止动画不会触发）
+		/**
+		 * 属性声明，组件的使用者会传递这些属性值到组件
+		 */
 		props: {
 			/**
-			 * 动画资源地址，目前只支持绝对路径
+			 * 动画资源地址，支持远程 URL 地址和本地绝对路径
 			 */
 			"path": {
 				type: String,
@@ -189,7 +195,7 @@
 		created() { //创建组件，替换created  
 
 		},
-		measure(size: UTSSize): UTSSize { //测量组件大小
+		NVMeasure(size: UTSSize): UTSSize { //测量组件大小
 			//可选实现，仅当需要原生计算组件大小时需要实现  
 			return new UTSSize(100, 100);
 		},
