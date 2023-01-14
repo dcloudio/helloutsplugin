@@ -23,7 +23,7 @@
         override onAnimationStart(animation: Animator | null) {}
 
         override onAnimationEnd(animation: Animator | null, isReverse: Boolean) {
-            this.comp.emit("bindended")
+            this.comp.$emit("bindended")
         }
 
         override onAnimationEnd(animation: Animator | null) {}
