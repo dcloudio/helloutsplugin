@@ -158,6 +158,23 @@ class StartThreadListener extends OnClickListener{
     }
 }
 
+
+class ActivityFinishListener extends OnClickListener{
+	
+	host:Activity
+	
+	constructor(activity:Activity){
+		super()
+		this.host = activity
+	}
+	
+    override onClick(v?: View):void{
+		Toast.makeText(UTSAndroid.getAppContext(),"手动关闭当前activity",Toast.LENGTH_LONG).show();
+		this.host.finish()
+		
+    }
+}
+
 /**
  * 自定义异步线程
  */
@@ -231,6 +248,10 @@ class DemoActivity  extends Activity{
 		 
 		 let btn_start_thread = findViewById<Button>(R.id.btn_start_thread);
 		 btn_start_thread.setOnClickListener(new StartThreadListener());
+		 
+		 let btn_finish_activity = findViewById<Button>(R.id.btn_finish_activity);
+		 btn_finish_activity.setOnClickListener(new ActivityFinishListener(this));
+		 
 		 
 		 
 		 let recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
