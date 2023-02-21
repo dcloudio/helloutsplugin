@@ -26,8 +26,8 @@
                 action: "play",
                 loop: false,
                 yanse: "red",
-                widthNum: 200,
-                heightNum: 500,
+                widthNum: 750,
+                heightNum: 200,
                 comShow: true,
                 animUrl: "/static/anim_a.json"
             }
