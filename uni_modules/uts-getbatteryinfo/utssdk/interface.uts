@@ -1,6 +1,9 @@
 type GetBatteryInfoResult = {
 	/**
 	 * 错误码
+	 * 0:成功
+	 * 1001:getAppContext is null
+	 * 1002:navigator.getBattery is unsupported
 	 */
 	errCode: number,
 	/**
@@ -25,7 +28,7 @@ interface UniError<T> {
 	/**
 	 * 错误码
 	 */
-	errCode:T,
+	errCode:number,
 	/**
 	 * 调用API的名称
 	 */
@@ -40,17 +43,6 @@ interface UniError<T> {
 	cause:any
 }
 
-/**
- * 错误码
- */
-type GetBatteryInfoErrorCode = 
-	/** 成功 */ 
-	0
-	/** getAppContext is null */
-	| 1001
-	/** navigator.getBattery is unsupported */
-	| 1002
-;
 
 
 export type GetBatteryInfoOptions = {
@@ -61,7 +53,7 @@ export type GetBatteryInfoOptions = {
 	/**
 	 * 接口调用失败的回调函数
 	 */
-    fail?: (res: UniError<GetBatteryInfoErrorCode>) => void
+    fail?: (res: UniError) => void
 	/**
 	 * 接口调用成功的回调
 	 */
