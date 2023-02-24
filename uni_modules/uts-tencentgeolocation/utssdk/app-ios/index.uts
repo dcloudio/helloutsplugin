@@ -1,6 +1,7 @@
 import { CLLocationManager, CLAuthorizationStatus } from "CoreLocation"
 import { TencentLBSLocationManager, TencentLBSLocation, TencentLBSRequestLevel, TencentLBSLocationManagerDelegate } from "TencentLBS"
 import { NSError, Bundle } from "Foundation"
+import { LocationOptions, LocationResponse } from "../interface.uts"
 
 /**
  * 判断当前是否是自定义基座
@@ -10,24 +11,6 @@ export function checkHasIntegration():boolean{
 	return true
 }
 
-/**
- * 定位请求参数封装
- */
-type LocationOptions = {
-	geocode: boolean,
-	success: (response: LocationResponse) => void,
-	fail: (msg: string) => void
-};
-
-/**
- * 定位返回结果封装
- */
-type LocationResponse = {
-	name: string,
-	address: string,
-	latitude: number,
-	longitude: number
-}
 
 /**
  * 定位 LBSLocation 类，封装定位相关方法
