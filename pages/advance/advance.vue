@@ -5,7 +5,6 @@
 
 		<uni-collapse accordion>
 			<uni-collapse-item title="延迟任务" :border="false">
-
 				<uni-list>
 					<uni-list-item @tap="testTimer" title="开启延迟任务"  :clickable="true">
 					</uni-list-item>
@@ -33,6 +32,15 @@
 					</uni-list-item>
 				</uni-list>
 			</uni-collapse-item>
+			<uni-collapse-item title="组件开发示例" :border="false">
+			
+				<uni-list>
+					<uni-list-item @tap="testHelloUTSComponent" title="Hello UTS Component" :clickable="true" link />
+			
+				</uni-list>
+			
+			</uni-collapse-item>
+			
 			<uni-collapse-item title="android平台示例" :border="false">
 
 				<uni-list>
@@ -160,6 +168,11 @@
 			testLifecyle: function() {
 				uni.navigateTo({
 					url: '/pages/lifecycle/lifecycle'
+				})
+			},
+			testHelloUTSComponent: function() {
+				uni.navigateTo({
+					url: '/pages/component/helloView'
 				})
 			},
 			testSyntax: function() {

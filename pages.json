@@ -36,6 +36,14 @@
 		    
 		},
 		{
+		    "path" : "pages/component/helloView",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		},
+		{
 		    "path" : "pages/SDKIntegration/SDKIntegration",
 		    "style" :                                                                                    
 		    {
@@ -54,7 +62,7 @@
 		    
 		},
 		{
-		    "path" : "pages/SDKIntegration/TencentMap/TencentMap",
+		    "path" : "pages/SDKIntegration/Lottie/index",
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "",

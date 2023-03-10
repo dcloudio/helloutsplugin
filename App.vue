@@ -19,4 +19,5 @@
 	/* #ifdef APP-VUE */
 	@import './common/uni.css';
 	/* #endif */
+
 </style>
