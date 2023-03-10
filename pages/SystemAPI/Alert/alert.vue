@@ -1,9 +1,12 @@
 <template>
-	<page-head :title="title"></page-head>
-	<view class="uni-padding-wrap uni-common-mt">
-		<button @tap="testShowAlert">确认框</button>
-		<button @tap="testShowPrompt">输入框</button>
+	<view>
+		<page-head :title="title"></page-head>
+		<view class="uni-padding-wrap uni-common-mt">
+			<button @tap="testShowAlert">确认框</button>
+			<button @tap="testShowPrompt">输入框</button>
+		</view>
 	</view>
+
 </template>
 
 <script>

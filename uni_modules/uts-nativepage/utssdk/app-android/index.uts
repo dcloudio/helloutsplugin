@@ -28,12 +28,14 @@ import Class from 'java.lang.Class';
 import Exception from 'java.lang.Exception';
 import PackageManager from 'android.content.pm.PackageManager';
 import ResolveInfo from 'android.content.pm.ResolveInfo';
-
-
+import RecyclerView from 'androidx.recyclerview.widget.RecyclerView';
+import TextView from 'android.widget.TextView';
+import ViewGroup from 'android.view.ViewGroup';
+import LayoutInflater from 'android.view.LayoutInflater';
+import LinearLayoutManager from 'androidx.recyclerview.widget.LinearLayoutManager';
+export {DoAppWidget} from "./DoAppWidget.uts"
 
 class ForeService extends Service {
-
-
 
 	constructor (){
 		super();
@@ -156,6 +158,23 @@ class StartThreadListener extends OnClickListener{
     }
 }
 
+
+class ActivityFinishListener extends OnClickListener{
+	
+	host:Activity
+	
+	constructor(activity:Activity){
+		super()
+		this.host = activity
+	}
+	
+    override onClick(v?: View):void{
+		Toast.makeText(UTSAndroid.getAppContext(),"手动关闭当前activity",Toast.LENGTH_LONG).show();
+		this.host.finish()
+		
+    }
+}
+
 /**
  * 自定义异步线程
  */
@@ -169,6 +188,46 @@ class CustomThread extends Thread{
 		Thread.sleep(1000)
 		console.log("CustomThread = " + Thread.currentThread().getName())
 	}
+}
+
+
+
+class FruitAdapter extends RecyclerView.Adapter<FruitAdapter.ViewHolder>{
+	
+	
+	mFruitList: Array<String>
+	
+	constructor(param:Array<String>){
+		mFruitList = param
+	}
+	
+	ViewHolder = class extends RecyclerView.ViewHolder {
+		
+		fruitName:TextView;
+		constructor(view:View) {
+			super(view);
+			fruitName = view.findViewById(R.id.fruit_name) as TextView;
+		}
+	}
+
+    override onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
+        let view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.fruit_item, parent, false)
+        return ViewHolder(view)
+    }
+
+    override onBindViewHolder(holder: ViewHolder, position: Int) {
+        let fruit: String = mFruitList[position]
+        holder.fruitName.setText(fruit)
+    }
+
+    override getItemCount(): Int {
+        return mFruitList.size
+    }
+	
 }
 
 class DemoActivity  extends Activity{
@@ -190,6 +249,16 @@ class DemoActivity  extends Activity{
 		 let btn_start_thread = findViewById<Button>(R.id.btn_start_thread);
 		 btn_start_thread.setOnClickListener(new StartThreadListener());
 		 
+		 let btn_finish_activity = findViewById<Button>(R.id.btn_finish_activity);
+		 btn_finish_activity.setOnClickListener(new ActivityFinishListener(this));
+		 
+		 
+		 
+		 let recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+		 let layoutManager = LinearLayoutManager(this);
+		 recyclerView.setLayoutManager(layoutManager);
+		 let fruitAdapter = FruitAdapter(arrayListOf("香蕉","苹果","大鸭梨"));
+		 recyclerView.setAdapter(fruitAdapter);
 	}
 	
 }

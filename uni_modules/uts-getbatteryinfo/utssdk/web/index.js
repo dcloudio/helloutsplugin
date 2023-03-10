@@ -11,6 +11,8 @@ export default function getBatteryInfo(options) {
         })
     } else {
         const res = {
+			errCode: 1002,
+			errSubject: "uni-getBatteryInfo",
             errMsg: 'getBatteryInfo:fail navigator.getBattery is unsupported'
         }
         options.fail && options.fail(res)

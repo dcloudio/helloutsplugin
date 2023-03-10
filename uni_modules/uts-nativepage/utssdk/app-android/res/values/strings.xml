@@ -11,4 +11,5 @@
     <string name="dcloud_ad_notification_pause_download">Pause</string>
     <string name="dcloud_ad_notification_delete_download">Delete</string>
     <string name="dcloud_ad_tag_ads">Ads</string>
+	<string name="app_widget_description">This is an app widget description</string>
 </resources>

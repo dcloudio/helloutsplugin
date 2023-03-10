@@ -7,5 +7,17 @@
     <application>
 	   <service android:name="uts.sdk.modules.utsNativepage.ForeService"  />
        <activity android:name="uts.sdk.modules.utsNativepage.DemoActivity"></activity>
+	   <!--桌面widget组件注册-->
+	   <receiver
+		   android:name="uts.sdk.modules.utsNativepage.DoAppWidget"
+		   android:exported="false">
+		   <intent-filter>
+			   <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+		   </intent-filter>
+
+		   <meta-data
+			   android:name="android.appwidget.provider"
+			   android:resource="@xml/do_app_widget_info" />
+	   </receiver>
     </application>
 </manifest>
