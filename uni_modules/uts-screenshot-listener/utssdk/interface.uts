@@ -16,7 +16,7 @@ export type OnUserCaptureScreenResult = {
 	/**
 		* 截屏文件路径（仅Android返回）
 		*/
-	path : string | null
+	image : string | null
 }
 
 export type UserCaptureScreenCallback = (res: OnUserCaptureScreenResult) => void
