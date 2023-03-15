@@ -1,6 +1,6 @@
 import { NotificationCenter} from 'Foundation';
 import { UIApplication } from "UIKit"
-import { OnUserCaptureScreen, OffUserCaptureScreen, UserCaptureScreenCallback } from "../interface.uts"
+import { OnUserCaptureScreen, OffUserCaptureScreen, UserCaptureScreenCallback, OnUserCaptureScreenResult } from "../interface.uts"
 
 
 /**
@@ -23,7 +23,13 @@ class CaptureScreenTool {
 	// target-action 的方法前需要添加 @objc 前缀
 	@objc static userDidTakeScreenshot() {
 		// 回调
-		this.listener?.({})
+		const res: OnUserCaptureScreenResult = {
+			errCode: 0,
+			errSubject: "uni-usercapturescreen",
+			errMsg: "onUserCaptureScreen:ok",
+			path: null
+		}
+		this.listener?.(res)
 	}
 	
 	// 移除监听事件
@@ -32,20 +38,6 @@ class CaptureScreenTool {
 		NotificationCenter.default.removeObserver(this)
 	}
 }
-
-// /**
-//  * 开启截图监听
-//  */
-// export function onUserCaptureScreen(callback?: UTSCallback) {
-// 	CaptureScreenTool.listenCaptureScreen(callback)
-// }
-
-// /**
-//  * 关闭截屏监听
-//  */
-// export function offUserCaptureScreen(callback?: UTSCallback) {
-// 	CaptureScreenTool.removeListen(callback)
-// }
 
 /**
 	* 开启截图监听

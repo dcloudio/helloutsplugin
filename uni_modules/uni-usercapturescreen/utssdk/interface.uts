@@ -1,4 +1,25 @@
-export type UserCaptureScreenCallback = (res: any) => void
+export type OnUserCaptureScreenResult = {
+	/**
+		* 错误码
+		* 0:成功
+		* -1:permission denied
+		*/
+	errCode : number,
+	/**
+		* 调用API的名称
+		*/
+	errSubject : string,
+	/**
+		* 错误的详细信息
+		*/
+	errMsg : string,
+	/**
+		* 截屏文件路径（仅Android返回）
+		*/
+	path ?: string
+}
+
+export type UserCaptureScreenCallback = (res: OnUserCaptureScreenResult) => void
 
 /**
 	* 开启截屏监听 
