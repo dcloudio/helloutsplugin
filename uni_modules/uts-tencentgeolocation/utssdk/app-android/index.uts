@@ -79,7 +79,7 @@ class LocationOptionsWapper{
 	onLocationChanged(location:TencentLocation , _error:Int ,
 								  _reason:string){
 		
-		let response = {
+		let response:LocationResponse = {
 			name:location.name,
 			address:location.address,
 			latitude:location.latitude,
