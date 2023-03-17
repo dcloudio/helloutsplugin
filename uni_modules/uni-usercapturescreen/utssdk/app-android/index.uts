@@ -84,7 +84,7 @@ export const onUserCaptureScreen : OnUserCaptureScreen = function (callback : Us
 	listener = callback;
 
 	let directory_screenshot : File;
-	if (Build.MANUFACTURER.toLowerCase() === "xiaomi") {
+	if (Build.MANUFACTURER.toLowerCase() == "xiaomi") {
 		// @Suppress("DEPRECATION")
 		directory_screenshot = new File(new File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DCIM), "Screenshots");
 	} else {
