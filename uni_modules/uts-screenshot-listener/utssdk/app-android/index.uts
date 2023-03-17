@@ -110,7 +110,7 @@ export function onUserCaptureScreen(callback: UserCaptureScreenCallback) {
 	let directory_pictures = new File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES);
 	let directory_dcim = new File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DCIM);
 	
-	if (Build.MANUFACTURER.lowercase() === "xiaomi") {
+	if (Build.MANUFACTURER.lowercase() == "xiaomi") {
 		directory_screenshot = new File(directory_dcim, "Screenshots");
 	} else {
 		directory_screenshot = new File(directory_pictures, "Screenshots");
@@ -122,15 +122,6 @@ export function onUserCaptureScreen(callback: UserCaptureScreenCallback) {
 	//开始监听
 	screenOB = new ScreenFileObserver(directory_screenshot.path)
 	screenOB!.startWatching()
-
-	// 监听成功
-	const ret: OnUserCaptureScreenResult = {
-		errCode: 0,
-		errSubject: "uni-usercapturescreen",
-		errMsg: "onUserCaptureScreen:ok",
-		image: null
-	}
-	callback(ret);
 	
 }
 
