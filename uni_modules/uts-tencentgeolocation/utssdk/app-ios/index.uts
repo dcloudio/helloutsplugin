@@ -18,7 +18,7 @@ export function checkHasIntegration():boolean{
 class LBSLocation implements TencentLBSLocationManagerDelegate {
 	
 	// 定义 locationManager 属性，类型为 TencentLBSLocationManager
-	locationManager: TencentLBSLocationManager
+	locationManager!: TencentLBSLocationManager
 	
 	locationOptions?: LocationOptions
 	
@@ -75,11 +75,12 @@ class LBSLocation implements TencentLBSLocationManagerDelegate {
 		// 请求单次定位信息
 		this.locationManager.requestLocation(with = requestLevel, locationTimeout = 10, completionBlock = (location?: TencentLBSLocation, err?: NSError): void => {
 			if (location != null) {
-			    let response = new LocationResponse();
-			    response.name = location!.name;
-			    response.address = location!.address;
-			    response.latitude = Number(location!.location.coordinate.latitude);
-			    response.longitude = Number(location!.location.coordinate.longitude);
+				let response: LocationResponse = {
+					name: location!.name,
+					address: location!.address,
+					latitude: Number(location!.location.coordinate.latitude),
+					longitude: Number(location!.location.coordinate.longitude)
+				}
 				locationOptions.success(response);
 			} else {
 				locationOptions.fail(err!.localizedDescription)
@@ -120,11 +121,12 @@ class LBSLocation implements TencentLBSLocationManagerDelegate {
 	
 	// 实现位置更新的 delegate 方法
 	tencentLBSLocationManager(manager: TencentLBSLocationManager, @argumentLabel("didUpdate") location: TencentLBSLocation) {
-		let response = new LocationResponse();
-		response.name = location.name;
-		response.address = location.address;
-		response.latitude = Number(location.location.coordinate.latitude);
-		response.longitude = Number(location.location.coordinate.longitude);
+		let response: LocationResponse = {
+			name: location.name,
+			address: location.address,
+			latitude: Number(location.location.coordinate.latitude),
+			longitude: Number(location.location.coordinate.longitude)
+		}
 		this.locationOptions?.success(response)
 	}
 	

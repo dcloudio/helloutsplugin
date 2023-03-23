@@ -4,6 +4,16 @@ type AsyncOptions = {
   fail: (res: string) => void;
   complete: (res: string) => void;
 };
+
+type SyntaxResult = {
+	name: string
+};
+
+type SyncResult = {
+	msg: string
+}
+
+
 /**
  * 导出一个属性
  */
@@ -13,11 +23,12 @@ export const MAX = 100;
  * 导出一个同步方法
  * @returns
  */
-export function testSync(msg: string) {
+export function testSync(msg: string): SyncResult {
   console.log("log test");
-  return {
-    msg: `hello ${msg}`,
-  };
+  const res: SyncResult = {
+	  msg: `hello ${msg}`
+  }
+  return res
 }
 /**
  * 导出一个同步方法（触发了数组越界异常）
@@ -37,20 +48,28 @@ export function testSyncWithCallback(opts: AsyncOptions) {
     opts.fail("fail");
   }
   opts.complete("complete");
-  return { name: "testSyncWithCallback" };
+  
+  const res: SyntaxResult = {
+	  name: "testSyncWithCallback"
+  }
+  return res
 }
 /**
  * 导出一个异步方法
  * @returns
  */
-export async function testAsync(opts: AsyncOptions) {
+export async function testAsync(opts: AsyncOptions): Promise<SyntaxResult> {
   if (opts.type == "success") {
     opts.success("success");
   } else {
     opts.fail("fail");
   }
   opts.complete("complete");
-  return { name: "testAsync" };
+  
+  const res: SyntaxResult = {
+  	  name: "testAsync"
+  }
+  return res
 }
 
 type TestOptions = {
@@ -67,17 +86,17 @@ export class Test {
     this.name = options.name;
     options.callback("Test.constructor");
   }
-  static testClassStaticSyncWithCallback(opts: AsyncOptions): UTSJSONObject {
+  static testClassStaticSyncWithCallback(opts: AsyncOptions): SyntaxResult {
     return testSyncWithCallback(opts);
   }
-  static async testClassStaticAsync(opts: AsyncOptions): Promise<UTSJSONObject> {
+  static async testClassStaticAsync(opts: AsyncOptions): Promise<SyntaxResult> {
     const res = await testAsync(opts);
     return res;
   }
-  testClassSyncWithCallback(opts: AsyncOptions): UTSJSONObject {
+  testClassSyncWithCallback(opts: AsyncOptions): SyntaxResult {
     return testSyncWithCallback(opts);
   }
-  async testClassAsync(opts: AsyncOptions): Promise<UTSJSONObject> {
+  async testClassAsync(opts: AsyncOptions): Promise<SyntaxResult> {
     const res = await testAsync(opts);
     return res;
   }

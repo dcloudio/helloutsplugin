@@ -56,7 +56,8 @@
 			 */
 			testDoSthWithJSON: function () {
 				var inputObject = {
-					inputText:this.stringParam
+					inputText:this.stringParam,
+					errCode:0
 				}
 				
 				UTSHello.callWithJSONParam({

@@ -15,7 +15,6 @@ type JsonParamOptions = {
 	complete: (res: string) => void;
 };
 
-
 /**
  * 导出无参的UTS函数
  * @param opts
