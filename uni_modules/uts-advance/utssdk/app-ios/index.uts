@@ -102,3 +102,64 @@ export function removeExampleImageView() {
 		}
 	})
 }
+
+/**
+ * add since 2023-06-19 
+ * 新增传参测试用例
+ */
+export function inputArray(input : Array<string>) : boolean {
+
+	let inputStr = JSON.stringify(input)
+
+	if ('["a","b","c"]' == inputStr) {
+		return true
+	}
+	return false
+
+}
+
+export type ParamOptions = {
+	title : string,
+	array : Array<string>
+}
+
+
+export function inputParam(option : ParamOptions) : boolean {
+	console.log(option, "传入的参数")
+	let inputStr = JSON.stringify(option)
+	console.log(inputStr, 'stringify option')
+	if ('{"array":[1,2,3],"title":"hello"}' == inputStr) {
+		return true
+	}
+	return false
+}
+
+export function returnArray() : Array<string> {
+	return ['1', '2', '3']
+}
+
+export function returnParam() : ParamOptions {
+
+	let ret : ParamOptions = {
+		title: "returnParam",
+		array: ['1', '2', '3']
+	}
+	return ret
+
+}
+
+export type ParamCallback = (res : ParamOptions) => void
+export type ArrayCallback = (res : Array<string>) => void
+
+export function callbackArray(callback : ArrayCallback) {
+	callback(['8', '8', '8'])
+}
+
+
+export function callbackParam(callback : ParamCallback) {
+	let ret : ParamOptions = {
+		title: "callbackParam",
+		array: ['4', '5', '6']
+	}
+	callback(ret)   
+}

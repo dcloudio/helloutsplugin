@@ -14,8 +14,8 @@
 		returnArray,
 		returnParam,
 		callbackArray,
-		callbackParam
-	} from '../../uni_modules/uts-advance'
+		callbackParam,
+	} from '@/uni_modules/uts-advance'
 
 
 
@@ -24,7 +24,7 @@
 			return {}
 		},
 		methods: {
-
+			
 			inputArrayTest() {
 				let ret = inputArray(['a', 'b', 'c'])
 				if (ret) {
@@ -37,7 +37,7 @@
 			inputParamTest() {
 				let ret = inputParam({
 					title: "hello",
-					array: [1, 2, 3]
+					array: ["1", "2", "3"]
 				})
 				if (ret) {
 					uni.showToast({
