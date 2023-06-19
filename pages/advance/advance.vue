@@ -24,6 +24,8 @@
 				<uni-list>
 					<uni-list-item @tap="testSyntax" title="进阶语法示例" :clickable="true" link>
 					</uni-list-item>
+					<uni-list-item @tap="testParams" title="参数传递示例" :clickable="true" link>
+					</uni-list-item>
 				</uni-list>
 			</uni-collapse-item>
 			<uni-collapse-item title="资源加载示例" :border="false">
@@ -178,6 +180,11 @@
 			testSyntax: function() {
 				uni.navigateTo({
 					url: '/pages/SyntaxCase/index'
+				})
+			},
+			testParams: function() {
+				uni.navigateTo({
+					url: '/pages/SyntaxCase/paramTest'
 				})
 			},
 			testGetResourcePath: function() {

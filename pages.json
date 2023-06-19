@@ -142,7 +142,18 @@
 		        "enablePullDownRefresh": false
 		    }
 		    
+		},
+		
+		{
+		    "path" : "pages/SyntaxCase/paramTest",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
 		}
+		
 		
     ],
 	"tabBar": {
