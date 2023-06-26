@@ -1,0 +1,22 @@
+
+export class Matchers<T> {
+    private actual: T
+    constructor(actual: T) {
+        this.actual = actual
+    }
+    toEqual(expected: T) {
+        if (JSON.stringify(expected) == JSON.stringify(this.actual)) {
+            return
+        }
+        // #ifndef APP-IOS
+        throw new Error(format(expected, this.actual))
+        // #endif
+        // #ifdef APP-IOS
+        NSException(name = NSExceptionName.internalInconsistencyException, reason = format(expected, this.actual)).raise()
+        // #endif
+    }
+}
+
+function format(expected: any | null, actual: any | null): string {
+    return `expected:<${expected}> but was:<${actual}>`
+}
