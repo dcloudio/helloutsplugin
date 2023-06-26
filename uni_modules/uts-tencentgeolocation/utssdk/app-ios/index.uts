@@ -75,9 +75,21 @@ class LBSLocation implements TencentLBSLocationManagerDelegate {
 		// 请求单次定位信息
 		this.locationManager.requestLocation(with = requestLevel, locationTimeout = 10, completionBlock = (location?: TencentLBSLocation, err?: NSError): void => {
 			if (location != null) {
+				
+				// 判断 name、address 是否有值
+				var name = ""
+				var address = ""
+				if (location!.name != null) {
+					name = location!.name!
+				}
+				
+				if (location!.address != null) {
+					address = location!.address!
+				}
+				
 				let response: LocationResponse = {
-					name: location!.name,
-					address: location!.address,
+					name: name,
+					address: address,
 					latitude: Number(location!.location.coordinate.latitude),
 					longitude: Number(location!.location.coordinate.longitude)
 				}
@@ -115,15 +127,27 @@ class LBSLocation implements TencentLBSLocationManagerDelegate {
 	}
 	
 	// 实现定位出错的 delegate 方法
-	tencentLBSLocationManager(manager: TencentLBSLocationManager, error: NSError) {
+	tencentLBSLocationManager(manager: TencentLBSLocationManager, @argumentLabel("didFailWithError") error: NSError) {
 		this.locationOptions?.fail(error.localizedDescription)
 	}
 	
 	// 实现位置更新的 delegate 方法
 	tencentLBSLocationManager(manager: TencentLBSLocationManager, @argumentLabel("didUpdate") location: TencentLBSLocation) {
+		
+		// 判断 name、address 是否有值
+		var name = ""
+		var address = ""
+		if (location.name != null) {
+			name = location.name!
+		}
+		
+		if (location.address != null) {
+			address = location.address!
+		}
+		
 		let response: LocationResponse = {
-			name: location.name,
-			address: location.address,
+			name: name,
+			address: address,
 			latitude: Number(location.location.coordinate.latitude),
 			longitude: Number(location.location.coordinate.longitude)
 		}
