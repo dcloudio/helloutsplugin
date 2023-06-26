@@ -26,6 +26,8 @@
 					</uni-list-item>
 					<uni-list-item @tap="testParams" title="参数传递示例" :clickable="true" link>
 					</uni-list-item>
+					<uni-list-item @tap="testConsole" title="日志打印示例" :clickable="true" link>
+					</uni-list-item>
 				</uni-list>
 			</uni-collapse-item>
 			<uni-collapse-item title="资源加载示例" :border="false">
@@ -51,7 +53,7 @@
 					<uni-list-item @tap="testAssetLoad" title="播放asset音频(需自定义基座)" :clickable="true" link/>
 					<uni-list-item @tap="gotoDecorView" title="操作DecorView" :clickable="true" link />
 					<uni-list-item @tap="testMetaRead" title="读取meta配置" :clickable="true" />
-
+					<uni-list-item @tap="testQuitApp" title="退出当前应用" :clickable="true" />
 				</uni-list>
 
 			</uni-collapse-item>
@@ -72,7 +74,8 @@
 		doIntervalTask,
 		clearIntervalTask,
 		playAssetAudio,
-		getMetaConfig
+		getMetaConfig,
+		quitApp
 	} from "../../uni_modules/uts-advance";
 
 
@@ -158,6 +161,9 @@
 					console.log(res);
 				});
 			},
+			testQuitApp(){
+				quitApp()
+			},
 
 			testMetaRead() {
 				let ret = getMetaConfig();
@@ -185,6 +191,11 @@
 			testParams: function() {
 				uni.navigateTo({
 					url: '/pages/SyntaxCase/paramTest'
+				})
+			},
+			testConsole: function() {
+				uni.navigateTo({
+					url: '/pages/SyntaxCase/consoleTest'
 				})
 			},
 			testGetResourcePath: function() {
