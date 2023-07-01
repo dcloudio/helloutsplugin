@@ -6,8 +6,8 @@ beforeAll(async () => {
     await program.reLaunch('/pages/test/index')
     page = await program.currentPage()
     await page.waitFor(3000);
-    const data = await page.data('result');
-    result = data
+    const data = await page.data();
+    result = data['result']
 })
 
 function getApiFailed(describe, api) {

@@ -13,7 +13,7 @@ import { testRegExp } from './RegExp.uts'
 // import { testReactiveArray } from './reactiveArray.uts'
 // import { testReactiveMap } from './ReactiveMap.uts'
 // #endif
-// export { Result } from './tests.uts'
+export { Result } from './tests.uts'
 
 // Promise、Proxy、Reflect、Weakmap、WeakSet 不支持
 export function runTests() : UTSJSONObject {
