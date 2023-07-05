@@ -1,5 +1,5 @@
 <!-- HBuilder X 版本要求: 3.6.11+ -->
-<script>
+<script lang="ts">
 export default {
   onLaunch: function () {
     console.log('App Launch');
