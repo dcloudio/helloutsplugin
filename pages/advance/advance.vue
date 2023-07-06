@@ -28,6 +28,8 @@
 					</uni-list-item>
 					<uni-list-item @tap="testConsole" title="日志打印示例" :clickable="true" link>
 					</uni-list-item>
+					<uni-list-item @tap="testInstance" title="实例测试示例" :clickable="true" link>
+					</uni-list-item>
 					<uni-list-item @tap="testGrammar" title="基础语法测试例" :clickable="true" link>
 					</uni-list-item>
 				</uni-list>
@@ -203,6 +205,11 @@
 			testGrammar: function() {
 				uni.navigateTo({
 					url: '/pages/test/index'
+				})
+			},
+			testInstance: function() {
+				uni.navigateTo({
+					url: '/pages/SyntaxCase/instanceTest'
 				})
 			},
 			testGetResourcePath: function() {
