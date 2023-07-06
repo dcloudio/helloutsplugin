@@ -74,6 +74,5 @@
 	"uniStatistics": {
 		"enable": false
 	},
-	"vueVersion": "3",
-	"uni-app-x": {}
+	"vueVersion": "3"
 }
