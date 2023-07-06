@@ -257,7 +257,7 @@ class DemoActivity  extends Activity{
 		 let recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
 		 let layoutManager = LinearLayoutManager(this);
 		 recyclerView.setLayoutManager(layoutManager);
-		 let fruitAdapter = FruitAdapter(arrayListOf("香蕉","苹果","大鸭梨"));
+		 let fruitAdapter = FruitAdapter(utsArrayOf("香蕉","苹果","大鸭梨"));
 		 recyclerView.setAdapter(fruitAdapter);
 	}
 	
