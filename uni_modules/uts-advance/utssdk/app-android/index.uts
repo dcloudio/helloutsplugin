@@ -447,6 +447,16 @@ export function logFunctionTest(){
 	console.log(testFun)
 }
 
+
+export function logDateTest(){
+	console.log(new Date())
+}
+
+export function logDateCombineTest(){
+	console.log("现在的日期是",new Date()," 以上是日期信息")
+}
+
+
 /**
  * 
  */

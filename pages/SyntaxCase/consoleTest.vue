@@ -4,6 +4,8 @@
 	<button @click="logInt">打印整数</button>
 	<button @click="logObject">打印对象</button>
 	<button @click="logFunction">打印函数</button>
+	<button @click="logDate">打印日期</button>
+	<button @click="logDateCombine">组合打印日期</button>
 </template>
 
 <script>
@@ -12,7 +14,9 @@
 		logIntTest,
 		logFloatTest,
 		logObjectTest,
-		logFunctionTest
+		logFunctionTest,
+		logDateTest,
+		logDateCombineTest
 	} from '@/uni_modules/uts-advance'
 
 
@@ -38,6 +42,12 @@
 			},
 			logFunction() {
 				logFunctionTest()
+			},
+			logDate() {
+				logDateTest()
+			},
+			logDateCombine() {
+				logDateCombineTest()
 			},
 
 		}
