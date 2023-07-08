@@ -38,6 +38,8 @@
 				<uni-list>
 					<uni-list-item @tap="gotoResourceDemo" title="图片加载示例" :clickable="true" link>
 					</uni-list-item>
+					<uni-list-item @tap="gotoFileReadDemo" title="文件读取示例" :clickable="true" link>
+					</uni-list-item>
 				</uni-list>
 			</uni-collapse-item>
 			<uni-collapse-item title="组件开发示例" :border="false">
@@ -147,6 +149,11 @@
 			gotoResourceDemo: function() {
 				uni.navigateTo({
 					url: '/pages/resource/resource'
+				})
+			},
+			gotoFileReadDemo: function() {
+				uni.navigateTo({
+					url: '/pages/resource/fileRead'
 				})
 			},
 			gotoDecorView: function() {

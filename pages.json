@@ -84,7 +84,13 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
-
+		},
+		{
+			"path": "pages/resource/fileRead",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 		},
 		{
 			"path": "pages/advance/android/decorview",
