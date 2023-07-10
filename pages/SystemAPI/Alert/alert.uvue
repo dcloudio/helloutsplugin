@@ -23,7 +23,7 @@
 			testShowAlert(){
 				showAlert("提示框","这是一个提示框", (index)=> {
 					
-					var title = null
+					let title:string
 					if (index == 0) {
 						title = "点击了确认"
 					} else{

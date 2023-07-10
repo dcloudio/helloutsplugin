@@ -10,10 +10,10 @@
         <view>测试return：{{ format(testUtsSyncWithCallbackResult.return) }}</view>
         <view>测试success：{{ format(testUtsSyncWithCallbackResult.success) }}</view>
         <view>测试complete：{{ format(testUtsSyncWithCallbackResult.complete) }}</view>
-        <button @click="testUtsAsync">点击测试uts异步方法</button>
+        <!-- <button @click="testUtsAsync">点击测试uts异步方法</button>
         <view>测试return：{{ format(testUtsAsyncResult.return) }}</view>
         <view>测试success：{{ format(testUtsAsyncResult.success) }}</view>
-        <view>测试complete：{{ format(testUtsAsyncResult.complete) }}</view>
+        <view>测试complete：{{ format(testUtsAsyncResult.complete) }}</view> -->
         <button @click="testUtsClassConstructor">点击测试uts class构造函数</button>
         <view>测试callback：{{ format(testUtsClassConstructorResult.callback) }}</view>
         <button @click="testUtsClassStaticProp">点击测试uts class静态属性</button>
@@ -24,10 +24,10 @@
         <view>测试return：{{ format(testUtsClassStaticSyncWithCallbackResult.return) }}</view>
         <view>测试success：{{ format(testUtsClassStaticSyncWithCallbackResult.success) }}</view>
         <view>测试complete：{{ format(testUtsClassStaticSyncWithCallbackResult.complete) }}</view>
-        <button @click="testUtsClassStaticAsync">点击测试uts class静态异步方法</button>
+        <!-- <button @click="testUtsClassStaticAsync">点击测试uts class静态异步方法</button>
         <view>测试return：{{ format(testUtsClassStaticAsyncResult.return) }}</view>
         <view>测试success：{{ format(testUtsClassStaticAsyncResult.success) }}</view>
-        <view>测试complete：{{ format(testUtsClassStaticAsyncResult.complete) }}</view>
+        <view>测试complete：{{ format(testUtsClassStaticAsyncResult.complete) }}</view> -->
         <button @click="testUtsClassProp">点击测试uts class实例属性</button>
         <view>测试value：{{ format(testUtsClassPropResult) }}</view>
         <button @click="testUtsClassSyncWithCallback">
@@ -36,10 +36,10 @@
         <view>测试return：{{ format(testUtsClassSyncWithCallbackResult.return) }}</view>
         <view>测试success：{{ format(testUtsClassSyncWithCallbackResult.success) }}</view>
         <view>测试complete：{{ format(testUtsClassSyncWithCallbackResult.complete) }}</view>
-        <button @click="testUtsClassAsync">点击测试uts class实例异步方法</button>
+        <!-- <button @click="testUtsClassAsync">点击测试uts class实例异步方法</button>
         <view>测试return：{{ format(testUtsClassAsyncResult.return) }}</view>
         <view>测试success：{{ format(testUtsClassAsyncResult.success) }}</view>
-        <view>测试complete：{{ format(testUtsClassAsyncResult.complete) }}</view>
+        <view>测试complete：{{ format(testUtsClassAsyncResult.complete) }}</view> -->
         <button @click="testUtsClassInstance">点击测试uts方法返回类实例</button>
         <view>测试prop：{{ format(testUtsClassInstanceResult.prop) }}</view>
         <view>测试return：{{ format(testUtsClassInstanceResult.return) }}</view>
@@ -49,7 +49,7 @@
         <button @click="testAll">点击测试所有</button>
     </view>
 </template>
-<script>
+<script lang="ts">
     import {
         MAX,
         testSync,
@@ -57,87 +57,106 @@
         testAsync,
         Test,
         request,
+        AsyncOptions,
+        TestOptions,
+        SyncOptions
     } from "../../uni_modules/uts-syntaxcase";
+    
+    const TRUE = 'true'
+    const FALSE = 'false'
+    const NULL = 'null'
 
-    let test
+    let test: Test | null = null 
     let id = 0
+
+    type TestResult = {
+        return ?: string,
+        success ?: string,
+        fail ?: string,
+        complete ?: string,
+        callback?: string,
+        prop?: string,
+    }
+    
     export default {
         data() {
             return {
-                testUtsSyncResult: null,
+                // 'null' | 'true' | 'false'
+                testUtsSyncResult: 'null',
                 testUtsSyncWithCallbackResult: {
-                    return: null,
-                    success: null,
-                    fail: null,
-                    complete: null,
-                },
+                    return: 'null',
+                    success: 'null',
+                    fail: 'null',
+                    complete: 'null',
+                } as TestResult,
                 testUtsAsyncResult: {
-                    return: null,
-                    success: null,
-                    fail: null,
-                    complete: null,
-                },
+                    return: 'null',
+                    success: 'null',
+                    fail: 'null',
+                    complete: 'null',
+                } as TestResult,
                 testUtsClassConstructorResult: {
-                    callback: null
-                },
-                testUtsClassStaticPropResult: null,
+                    callback: 'null'
+                } as TestResult,
+                testUtsClassStaticPropResult: 'null',
                 testUtsClassStaticSyncWithCallbackResult: {
-                    return: null,
-                    success: null,
-                    fail: null,
-                    complete: null,
-                },
+                    return: 'null',
+                    success: 'null',
+                    fail: 'null',
+                    complete: 'null',
+                } as TestResult,
                 testUtsClassStaticAsyncResult: {
-                    return: null,
-                    success: null,
-                    fail: null,
-                    complete: null,
-                },
-                testUtsClassPropResult: null,
+                    return: 'null',
+                    success: 'null',
+                    fail: 'null',
+                    complete: 'null',
+                } as TestResult,
+                testUtsClassPropResult: 'null',
                 testUtsClassSyncWithCallbackResult: {
-                    return: null,
-                    success: null,
-                    fail: null,
-                    complete: null,
-                },
+                    return: 'null',
+                    success: 'null',
+                    fail: 'null',
+                    complete: 'null',
+                } as TestResult,
                 testUtsClassAsyncResult: {
-                    return: null,
-                    success: null,
-                    fail: null,
-                    complete: null,
-                },
+                    return: 'null',
+                    success: 'null',
+                    fail: 'null',
+                    complete: 'null',
+                } as TestResult,
                 testUtsClassInstanceResult: {
-                    prop: null,
-                    return: null,
-                    success: null,
-                    fail: null,
-                    complete: null,
-                    callback: null
-                }
+                    prop: 'null',
+                    return: 'null',
+                    success: 'null',
+                    fail: 'null',
+                    complete: 'null',
+                    callback: 'null'
+                } as TestResult
             }
         },
         methods: {
-            format(v) {
-                return v == null ? "--" : v ? "通过" : "未通过";
+            format(v: string | null) : string {
+                return v === "null" || v == null ? "--" : v === 'true' ? "通过" : "未通过";
             },
             testAll() {
                 this.testUtsSync();
                 this.testUtsSyncWithCallback();
-                this.testUtsAsync();
+                // this.testUtsAsync();
                 this.testUtsClassConstructor();
                 this.testUtsClassStaticProp();
                 this.testUtsClassStaticSyncWithCallback();
-                this.testUtsClassStaticAsync();
+                // this.testUtsClassStaticAsync();
                 this.testUtsClassProp();
                 this.testUtsClassSyncWithCallback();
-                this.testUtsClassAsync();
+                // this.testUtsClassAsync();
                 this.testUtsClassInstance();
             },
             testUtsSync() {
-                this.testUtsSyncResult = false;
+                this.testUtsSyncResult = FALSE;
                 try {
-                    if (testSync("dcloud").msg === "hello dcloud") {
-                        this.testUtsSyncResult = true;
+                    console.log('testSync("dcloud").msg', testSync("dcloud").msg)
+                    if (testSync("dcloud").msg == "hello dcloud") {
+                        this.testUtsSyncResult = TRUE;
                     }
                 } catch (e) {
                     console.error("testUtsSync", e);
@@ -145,227 +164,231 @@
             },
             testUtsSyncWithCallback() {
                 try {
-                    this.testUtsSyncWithCallbackResult.return = false;
-                    this.testUtsSyncWithCallbackResult.success = false;
-                    // testUtsSyncWithCallbackResult.fail = false;
-                    this.testUtsSyncWithCallbackResult.complete = false;
+                    this.testUtsSyncWithCallbackResult.return = FALSE;
+                    this.testUtsSyncWithCallbackResult.success = FALSE;
+                    // testUtsSyncWithCallbackResult.fail = FALSE;
+                    this.testUtsSyncWithCallbackResult.complete = FALSE;
                     if (
                         testSyncWithCallback({
                             type: "success",
                             success: (res) => {
                                 console.log("testSyncWithCallback.success.callback", res);
-                                this.testUtsSyncWithCallbackResult.success = true;
+                                this.testUtsSyncWithCallbackResult.success = TRUE;
                             },
                             fail: (res) => {
                                 console.log("testSyncWithCallback.fail.callback", res);
-                                // testUtsSyncWithCallbackResult.fail = true;
+                                // testUtsSyncWithCallbackResult.fail = TRUE;
                             },
                             complete: (res) => {
                                 console.log("testSyncWithCallback.complete.callback", res);
-                                this.testUtsSyncWithCallbackResult.complete = true;
+                                this.testUtsSyncWithCallbackResult.complete = TRUE;
                             },
-                        }).name === "testSyncWithCallback"
+                        } as AsyncOptions).name === "testSyncWithCallback"
                     ) {
-                        this.testUtsSyncWithCallbackResult.return = true;
+                        this.testUtsSyncWithCallbackResult.return = TRUE;
                     }
-                } catch (e) {}
+                } catch (e) { }
             },
-            async testUtsAsync() {
-                this.testUtsAsyncResult.return = false;
-                this.testUtsAsyncResult.success = false;
-                // testUtsAsyncResult.fail = false;
-                this.testUtsAsyncResult.complete = false;
-                try {
-                    const res = await testAsync({
-                        type: "success",
-                        success: (res) => {
-                            console.log("testAsync.success.callback", res);
-                            this.testUtsAsyncResult.success = true;
-                        },
-                        fail: (res) => {
-                            console.log("testAsync.fail.callback", res);
-                        },
-                        complete: (res) => {
-                            console.log("testAsync.complete.callback", res);
-                            this.testUtsAsyncResult.complete = true;
-                        },
-                    });
-                    if (res.name === "testAsync") {
-                        this.testUtsAsyncResult.return = true;
-                    }
-                } catch (e) {}
-            },
+            // TODO uvue 暂不支持 async await
+            // async testUtsAsync() {
+            //     this.testUtsAsyncResult.return = FALSE;
+            //     this.testUtsAsyncResult.success = FALSE;
+            //     // testUtsAsyncResult.fail = FALSE;
+            //     this.testUtsAsyncResult.complete = FALSE;
+            //     try {
+            //         const res = await testAsync({
+            //             type: "success",
+            //             success: (res) => {
+            //                 console.log("testAsync.success.callback", res);
+            //                 this.testUtsAsyncResult.success = TRUE;
+            //             },
+            //             fail: (res) => {
+            //                 console.log("testAsync.fail.callback", res);
+            //             },
+            //             complete: (res) => {
+            //                 console.log("testAsync.complete.callback", res);
+            //                 this.testUtsAsyncResult.complete = TRUE;
+            //             },
+            //         } as AsyncOptions);
+            //         if (res.name === "testAsync") {
+            //             this.testUtsAsyncResult.return = TRUE;
+            //         }
+            //     } catch (e) {}
+            // },
             testUtsClassConstructor() {
-                this.testUtsClassConstructorResult.callback = false
+                this.testUtsClassConstructorResult.callback = FALSE
                 id++
                 test = new Test(id, {
                     name: 'name' + id,
                     callback: (res) => {
                         console.log(res)
-                        this.testUtsClassConstructorResult.callback = true
+                        this.testUtsClassConstructorResult.callback = TRUE
                     }
-                })
+                } as TestOptions)
             },
             testUtsClassStaticProp() {
-                this.testUtsClassStaticPropResult = false
+                this.testUtsClassStaticPropResult = FALSE
                 if (Test.type === 'Test') {
-                    this.testUtsClassStaticPropResult = true
+                    this.testUtsClassStaticPropResult = TRUE
                 }
             },
             testUtsClassStaticSyncWithCallback() {
                 try {
-                    this.testUtsClassStaticSyncWithCallbackResult.return = false;
-                    this.testUtsClassStaticSyncWithCallbackResult.success = false;
-                    // testUtsClassStaticSyncWithCallbackResult.fail = false;
-                    this.testUtsClassStaticSyncWithCallbackResult.complete = false;
+                    this.testUtsClassStaticSyncWithCallbackResult.return = FALSE;
+                    this.testUtsClassStaticSyncWithCallbackResult.success = FALSE;
+                    // testUtsClassStaticSyncWithCallbackResult.fail = FALSE;
+                    this.testUtsClassStaticSyncWithCallbackResult.complete = FALSE;
                     if (
                         Test.testClassStaticSyncWithCallback({
                             type: "success",
                             success: (res) => {
                                 console.log("testStaticSyncWithCallback.success.callback", res);
-                                this.testUtsClassStaticSyncWithCallbackResult.success = true;
+                                this.testUtsClassStaticSyncWithCallbackResult.success = TRUE;
                             },
                             fail: (res) => {
                                 console.log("testStaticSyncWithCallback.fail.callback", res);
-                                // testUtsClassStaticSyncWithCallbackResult.fail = true;
+                                // testUtsClassStaticSyncWithCallbackResult.fail = TRUE;
                             },
                             complete: (res) => {
                                 console.log("testStaticSyncWithCallback.complete.callback", res);
-                                this.testUtsClassStaticSyncWithCallbackResult.complete = true;
+                                this.testUtsClassStaticSyncWithCallbackResult.complete = TRUE;
                             },
-                        }).name === "testSyncWithCallback"
+                        } as AsyncOptions).name === "testSyncWithCallback"
                     ) {
-                        this.testUtsClassStaticSyncWithCallbackResult.return = true;
+                        this.testUtsClassStaticSyncWithCallbackResult.return = TRUE;
                     }
-                } catch (e) {}
+                } catch (e) { }
             },
-            async testUtsClassStaticAsync() {
-                this.testUtsClassStaticAsyncResult.return = false;
-                this.testUtsClassStaticAsyncResult.success = false;
-                // testUtsClassStaticAsyncResult.fail = false;
-                this.testUtsClassStaticAsyncResult.complete = false;
-                try {
-                    const res = await Test.testClassStaticAsync({
-                        type: "success",
-                        success: (res) => {
-                            console.log("testAsync.success.callback", res);
-                            this.testUtsClassStaticAsyncResult.success = true;
-                        },
-                        fail: (res) => {
-                            console.log("testAsync.fail.callback", res);
-                        },
-                        complete: (res) => {
-                            console.log("testAsync.complete.callback", res);
-                            this.testUtsClassStaticAsyncResult.complete = true;
-                        },
-                    });
-                    if (res.name === "testAsync") {
-                        this.testUtsClassStaticAsyncResult.return = true;
-                    }
-                } catch (e) {}
-            },
+            
+            // async testUtsClassStaticAsync() {
+            //     this.testUtsClassStaticAsyncResult.return = FALSE;
+            //     this.testUtsClassStaticAsyncResult.success = FALSE;
+            //     // testUtsClassStaticAsyncResult.fail = FALSE;
+            //     this.testUtsClassStaticAsyncResult.complete = FALSE;
+            //     try {
+            //         const res = await Test.testClassStaticAsync({
+            //             type: "success",
+            //             success: (res) => {
+            //                 console.log("testAsync.success.callback", res);
+            //                 this.testUtsClassStaticAsyncResult.success = TRUE;
+            //             },
+            //             fail: (res) => {
+            //                 console.log("testAsync.fail.callback", res);
+            //             },
+            //             complete: (res) => {
+            //                 console.log("testAsync.complete.callback", res);
+            //                 this.testUtsClassStaticAsyncResult.complete = TRUE;
+            //             },
+            //         });
+            //         if (res.name === "testAsync") {
+            //             this.testUtsClassStaticAsyncResult.return = TRUE;
+            //         }
+            //     } catch (e) {}
+            // },
             testUtsClassProp() {
-                if (!test) {
+                if (test != null) {
                     this.testUtsClassConstructor()
                 }
-                this.testUtsClassPropResult = false
-                if (test.id > 0) {
-                    this.testUtsClassPropResult = true
+                this.testUtsClassPropResult = FALSE
+                if (test!.id > 0) {
+                    this.testUtsClassPropResult = TRUE
                 }
             },
             testUtsClassSyncWithCallback() {
-                if (!test) {
+                if (test != null) {
                     this.testUtsClassConstructor()
                 }
                 try {
-                    this.testUtsClassSyncWithCallbackResult.return = false;
-                    this.testUtsClassSyncWithCallbackResult.success = false;
-                    // testUtsClassSyncWithCallbackResult.fail = false;
-                    this.testUtsClassSyncWithCallbackResult.complete = false;
+                    this.testUtsClassSyncWithCallbackResult.return = FALSE;
+                    this.testUtsClassSyncWithCallbackResult.success = FALSE;
+                    // testUtsClassSyncWithCallbackResult.fail = FALSE;
+                    this.testUtsClassSyncWithCallbackResult.complete = FALSE;
                     if (
-                        test.testClassSyncWithCallback({
+                        test!.testClassSyncWithCallback({
                             type: "success",
                             success: (res) => {
                                 console.log("testSyncWithCallback.success.callback", res);
-                                this.testUtsClassSyncWithCallbackResult.success = true;
+                                this.testUtsClassSyncWithCallbackResult.success = TRUE;
                             },
                             fail: (res) => {
                                 console.log("testSyncWithCallback.fail.callback", res);
-                                // testUtsClassSyncWithCallbackResult.fail = true;
+                                // testUtsClassSyncWithCallbackResult.fail = TRUE;
                             },
                             complete: (res) => {
                                 console.log("testSyncWithCallback.complete.callback", res);
-                                this.testUtsClassSyncWithCallbackResult.complete = true;
+                                this.testUtsClassSyncWithCallbackResult.complete = TRUE;
                             },
-                        }).name === "testSyncWithCallback"
+                        } as AsyncOptions).name === "testSyncWithCallback"
                     ) {
-                        this.testUtsClassSyncWithCallbackResult.return = true;
+                        this.testUtsClassSyncWithCallbackResult.return = TRUE;
                     }
-                } catch (e) {}
+                } catch (e) { }
             },
-            async testUtsClassAsync() {
-                if (!test) {
-                    this.testUtsClassConstructor()
-                }
-                this.testUtsClassAsyncResult.return = false;
-                this.testUtsClassAsyncResult.success = false;
-                // testUtsClassAsyncResult.fail = false;
-                this.testUtsClassAsyncResult.complete = false;
-                try {
-                    const res = await test.testClassAsync({
-                        type: "success",
-                        success: (res) => {
-                            console.log("testAsync.success.callback", res);
-                            this.testUtsClassAsyncResult.success = true;
-                        },
-                        fail: (res) => {
-                            console.log("testAsync.fail.callback", res);
-                        },
-                        complete: (res) => {
-                            console.log("testAsync.complete.callback", res);
-                            this.testUtsClassAsyncResult.complete = true;
-                        },
-                    });
-                    console.log('res', res)
-                    if (res.name === "testAsync") {
-                        this.testUtsClassAsyncResult.return = true;
-                    }
-                } catch (e) {
-                    console.error(e)
-                }
-            },
+            // async testUtsClassAsync() {
+            //     if (test != null) {
+            //         this.testUtsClassConstructor()
+            //     }
+            //     this.testUtsClassAsyncResult.return = FALSE;
+            //     this.testUtsClassAsyncResult.success = FALSE;
+            //     // testUtsClassAsyncResult.fail = FALSE;
+            //     this.testUtsClassAsyncResult.complete = FALSE;
+            //     try {
+            //         const res = await test.testClassAsync({
+            //             type: "success",
+            //             success: (res) => {
+            //                 console.log("testAsync.success.callback", res);
+            //                 this.testUtsClassAsyncResult.success = TRUE;
+            //             },
+            //             fail: (res) => {
+            //                 console.log("testAsync.fail.callback", res);
+            //             },
+            //             complete: (res) => {
+            //                 console.log("testAsync.complete.callback", res);
+            //                 this.testUtsClassAsyncResult.complete = TRUE;
+            //             },
+            //         });
+            //         console.log('res', res)
+            //         if (res.name === "testAsync") {
+            //             this.testUtsClassAsyncResult.return = TRUE;
+            //         }
+            //     } catch (e) {
+            //         console.error(e)
+            //     }
+            // },
             testUtsClassInstance() {
-                this.testUtsClassInstanceResult.prop = false;
-                this.testUtsClassInstanceResult.return = false;
-                this.testUtsClassInstanceResult.success = false;
-                // testUtsClassAsyncResult.fail = false;
-                this.testUtsClassInstanceResult.complete = false;
-                this.testUtsClassInstanceResult.callback = false;
+                this.testUtsClassInstanceResult.prop = FALSE;
+                this.testUtsClassInstanceResult.return = FALSE;
+                this.testUtsClassInstanceResult.success = FALSE;
+                // testUtsClassAsyncResult.fail = FALSE;
+                this.testUtsClassInstanceResult.complete = FALSE;
+                this.testUtsClassInstanceResult.callback = FALSE;
                 const url = 'https://dcloud.io/'
                 const task = request(url)
-                if (task.url === url && task.abort().url === url) {
-                    this.testUtsClassInstanceResult.prop = true;
-                }
-                task.onCallback((res) => {
-                    if (res === 'onCallback') {
-                        this.testUtsClassInstanceResult.callback = true;
+                if (task != null) {
+                    if (task.url === url && task.abort().url === url) {
+                        this.testUtsClassInstanceResult.prop = TRUE;
                     }
-                })
-                const res = task.sync({
-                    success: (res) => {
-                        console.log("task.sync.success.callback", res);
-                        this.testUtsClassInstanceResult.success = true;
-                    },
-                    fail: (res) => {
-                        console.log("task.sync.fail.callback", res);
-                    },
-                    complete: (res) => {
-                        console.log("task.sync.complete.callback", res);
-                        this.testUtsClassInstanceResult.complete = true;
-                    },
-                })
-                if (res === 'sync') {
-                    this.testUtsClassInstanceResult.return = true;
+                    task.onCallback((res) => {
+                        if (res === 'onCallback') {
+                            this.testUtsClassInstanceResult.callback = TRUE;
+                        }
+                    })
+                    const res = task.sync({
+                        success: (res) => {
+                            console.log("task.sync.success.callback", res);
+                            this.testUtsClassInstanceResult.success = TRUE;
+                        },
+                        fail: (res) => {
+                            console.log("task.sync.fail.callback", res);
+                        },
+                        complete: (res) => {
+                            console.log("task.sync.complete.callback", res);
+                            this.testUtsClassInstanceResult.complete = TRUE;
+                        },
+                    } as SyncOptions)
+                    if (res === 'sync') {
+                        this.testUtsClassInstanceResult.return = TRUE;
+                    }
                 }
             }
         }

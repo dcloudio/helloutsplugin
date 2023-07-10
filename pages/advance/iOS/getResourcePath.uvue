@@ -5,16 +5,16 @@
 	</view>
 </template>
 <script>
-import { getResourcePath } from '@/uni_modules/uts-advance'
-import { removeExampleImageView } from '@/uni_modules/uts-advance'
+// import { getResourcePath } from '@/uni_modules/uts-advance'
+// import { removeExampleImageView } from '@/uni_modules/uts-advance'
 	
 	export default {
 		onUnload() {
-			removeExampleImageView()
+			// removeExampleImageView()
 		},
 		methods:{
 			getResourcePath(){
-				getResourcePath("/static/logo.png")
+				// getResourcePath("/static/logo.png")
 			}
 		}
 	}

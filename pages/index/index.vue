@@ -10,7 +10,7 @@
 	</view>
 </template>
 <script>
-	import * as UTSHello from "../../uni_modules/uts-helloworld";
+	import { callWithJSONParam, callWithStringParam, callWithoutParam } from "../../uni_modules/uts-helloworld";
 	
 	export default {
 		data() {
@@ -27,7 +27,7 @@
 			 */
 			testDoSthWithCallback: function () {
 				
-				UTSHello.callWithoutParam(
+				callWithoutParam(
 					()=>{
 						uni.showToast({
 							title:'成功调用uts插件uts-helloworld的callWithoutParam',
@@ -41,7 +41,7 @@
 			 */
 			testDoSthWithString: function () {
 				
-				UTSHello.callWithStringParam(
+				callWithStringParam(
 					this.stringParam,
 					function(response){
 						uni.showToast({
@@ -60,7 +60,7 @@
 					errCode:0
 				}
 				
-				UTSHello.callWithJSONParam({
+				callWithJSONParam({
 					input:inputObject,
 					success:function(response){
 						uni.showToast({

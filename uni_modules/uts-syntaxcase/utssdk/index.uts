@@ -1,11 +1,15 @@
 import { RequestTask, SyncOptions } from "./interface.uts";
 import { log } from "./utils.uts";
-type AsyncOptions = {
+export type AsyncOptions = {
     type : string;
     success : (res : string) => void;
     fail : (res : string) => void;
     complete : (res : string) => void;
 };
+
+export type {
+  SyncOptions
+} from "./interface.uts";
 
 type SyntaxResult = {
     name : string
@@ -80,7 +84,7 @@ export async function testAsync(opts : AsyncOptions) : Promise<SyntaxResult> {
     // return { name: "testAsync" };
 }
 
-type TestOptions = {
+export type TestOptions = {
     name : string;
     callback : (res : string) => void;
 };

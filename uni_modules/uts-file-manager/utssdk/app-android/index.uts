@@ -4,6 +4,8 @@ import File from "java.io.File"
 import UTSAndroid from 'io.dcloud.uts.UTSAndroid';
 import Base64 from "android.util.Base64"
 import Environment from 'android.os.Environment';
+
+export { ReadFileOptions, WriteFileOptions } from "../interface.uts"
 /**
  * 获取文件内容
  */
