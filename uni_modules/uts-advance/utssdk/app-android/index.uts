@@ -26,6 +26,7 @@ import {
 	UTSAndroid
 } from "io.dcloud.uts";
 import array from 'android.R.array';
+import File from 'java.io.File';
 
 
 
@@ -447,6 +448,11 @@ export function logFunctionTest(){
 	console.log(testFun)
 }
 
+
+
+export function logFileTest(){
+	console.log(new File("/sdcard/temp/1.txt"))
+}
 
 export function logDateTest(){
 	console.log(new Date())
