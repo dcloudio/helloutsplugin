@@ -34,8 +34,8 @@
 			let that = this;
 			initAppLifecycle(function(eventLog){
 				// 展示捕捉到的声明周期日志
-				that.text = that.text += eventLog;
-				that.text = that.text += '\n';
+				that.text += eventLog;
+				that.text += '\n';
 			});
 		},
 		methods:{

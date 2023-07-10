@@ -33,7 +33,7 @@ import File from 'java.io.File';
 /**
  * 定时任务参数封装
  */
-type TimerOptions = {
+export type TimerOptions = {
 	/**
 	 * 定时任务开始的回调
 	 * @res 回调参数
@@ -46,39 +46,57 @@ type TimerOptions = {
 	work : (res : string) => void;
 };
 
+export type TimerResult = {
+	name : string;
+	taskId ?: number;
+};
 
 /**
  * 执行延时任务
  */
-export function doTimerTask(opts : TimerOptions) {
+export function doTimerTask(opts : TimerOptions): TimerResult {
 	opts.start('doTimerTask start');
 	setTimeout(function () {
 		opts.work("doTimerTask work");
 	}, 2000);
 
-	return { name: "doTimerTask" };
+  const result: TimerResult = { 
+    name: "doTimerTask" 
+  }
+
+	return result
 }
 
 /**
  * 执行周期任务
  */
-export function doIntervalTask(opts : TimerOptions) {
+export function doIntervalTask(opts : TimerOptions): TimerResult {
 
 	let taskRet = setInterval(function () {
 		opts.work("doIntervalTask work");
 	}, 2000);
 	opts.start('doIntervalTask start');
 
-	return { name: "doIntervalTask", taskId: taskRet };
+  const result: TimerResult = { 
+    name: "doIntervalTask",
+    taskId: taskRet
+  }
+
+	return result
 }
 
 /**
  * 清除周期任务
  */
-export function clearIntervalTask(taskId : number) {
+export function clearIntervalTask(taskId : number): TimerResult {
 
 	clearInterval(taskId);
-	return { name: "clearIntervalTask" };
+
+  const result: TimerResult = { 
+    name: "clearIntervalTask" 
+  }
+
+	return result
 }
 
 
