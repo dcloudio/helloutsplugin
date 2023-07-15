@@ -1,18 +1,21 @@
 import { ReadFileSuccessResult, ReadFileFailResult, ReadFile,ReadFileOptions } from "../interface.uts"
 import { WriteFileSuccessResult, WriteFileFailResult, WriteFile,WriteFileOptions } from "../interface.uts"
+import { GetFileSystemManager,FileSystemManager} from "../interface.uts"
+
 import File from "java.io.File" 
 import UTSAndroid from 'io.dcloud.uts.UTSAndroid';
 import Base64 from "android.util.Base64"
 import Environment from 'android.os.Environment';
 
 export { ReadFileOptions, WriteFileOptions } from "../interface.uts"
-/**
- * 获取文件内容
- */
-export const readFile : ReadFile = function (options : ReadFileOptions) {
+
+
+class AndroidFileSystemManager implements FileSystemManager{
+	
+	public readFile(options : ReadFileOptions) {
 		
 		// 判断type 是否合法
-		if(options.type != 'base64' && options.type != 'text'){
+		if(options.encoding != 'base64' && options.encoding != 'utf-8'){
 			let ret : ReadFileFailResult = {
 				errCode: -1,
 				errMsg: "type error.",
@@ -28,7 +31,7 @@ export const readFile : ReadFile = function (options : ReadFileOptions) {
 		 */
 		UTSAndroid.dispatchAsync('io',function(_){
 			
-			let filePath = UTSAndroid.convert2AbsFullPath(options.path)
+			let filePath = UTSAndroid.convert2AbsFullPath(options.filePath)
 			let targetFile = new File(filePath)
 			if (!targetFile.exists()) {
 				let ret : ReadFileFailResult = {
@@ -67,7 +70,7 @@ export const readFile : ReadFile = function (options : ReadFileOptions) {
 			}
 			
 			
-			if(options.type == 'base64'){
+			if(options.encoding == 'base64'){
 				// base64
 				let byteArray = targetFile.readBytes()
 				let base64Content = Base64.encodeToString(byteArray,Base64.NO_WRAP)
@@ -91,20 +94,12 @@ export const readFile : ReadFile = function (options : ReadFileOptions) {
 			
 		},null)
 		
-		
-		
-}
-
-
-
-/**
- * 获取文件内容
- */
-export const writeFile : WriteFile = function (options : WriteFileOptions) {
-		
+	}
+	
+	
+	public writeFile(options : WriteFileOptions) {
 		// 判断type 是否合法
-		let nextFile = new File(UTSAndroid.getAppContext()?.getFilesDir(),options.path)
-		console.log(nextFile.getPath())
+		let nextFile = new File(UTSAndroid.getAppContext()?.getFilesDir(),options.filePath)
 		if(nextFile.exists() && nextFile.isDirectory()){
 			// 出错了，目标文件已存在，并且是个目录
 			let ret : WriteFileFailResult = {
@@ -132,7 +127,7 @@ export const writeFile : WriteFile = function (options : WriteFileOptions) {
 				nextFile.createNewFile()
 			}
 			// 写入文本，暂时只支持覆盖写入
-			nextFile.writeText(options.content)
+			nextFile.writeText(options.data)
 			
 			let ret : WriteFileSuccessResult = {
 				filePath: nextFile.getPath()
@@ -140,5 +135,9 @@ export const writeFile : WriteFile = function (options : WriteFileOptions) {
 			options.success?.(ret)
 			options.complete?.(ret)
 		},null)
-		
+	}
 }
+
+export const getFileSystemManager:GetFileSystemManager = function ():FileSystemManager {
+	return new AndroidFileSystemManager()
+};

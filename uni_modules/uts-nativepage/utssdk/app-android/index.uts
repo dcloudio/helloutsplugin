@@ -277,7 +277,7 @@ export function gotoDemoActivity():boolean {
 	try{
 		let packageManager = UTSAndroid.getUniActivity()!.getPackageManager();
 		let intent = new Intent(UTSAndroid.getUniActivity(),DemoActivity().javaClass);
-		let resolveInfo = packageManager.queryIntentActivities(intent,0) as Array<ResolveInfo>;
+		let resolveInfo = packageManager.queryIntentActivities(intent,0);
 		console.log(resolveInfo.size)
 		if(resolveInfo.size == 0){
 			hasXActivityIntegration = false;

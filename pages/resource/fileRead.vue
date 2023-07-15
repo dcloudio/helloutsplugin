@@ -8,9 +8,7 @@
 	</view>
 </template>
 <script>
-	
-	import { readFile,writeFile } from '../../uni_modules/uts-file-manager'
-	
+	import {getFileSystemManager} from '@/uni_modules/uts-file-manager'
 	
 	export default {
 		
@@ -24,9 +22,10 @@
 		methods: {
 			
 			getImageBase64:function(e){
-				readFile({
-					type:'base64',
-					path:'static/logo.png',
+				let fileManager = getFileSystemManager()
+				fileManager.readFile({
+					encoding:'base64',
+					filePath:'static/logo.png',
 					success:function(res){
 						console.log("success")
 						console.log(res)
@@ -42,13 +41,14 @@
 				})
 			},
 			getFileText:function(e){
-				writeFile({
-					path:'/test/1.txt',
-					content:'锄禾日当午，汗滴禾下土，谁知盘中餐，粒粒皆辛苦',
+				let fileManager = getFileSystemManager()
+				fileManager.writeFile({
+					filePath:'/test/1.txt',
+					data:'锄禾日当午，汗滴禾下土，谁知盘中餐，粒粒皆辛苦',
 					success:function(res){
-						readFile({
-							type:'text',
-							path:res.filePath,
+						fileManager.readFile({
+							encoding:'utf-8',
+							filePath:res.filePath,
 							success:function(res){
 								console.log("success")
 								console.log(res)

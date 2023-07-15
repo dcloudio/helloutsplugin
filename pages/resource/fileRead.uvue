@@ -8,9 +8,7 @@
 	</view>
 </template>
 <script>
-	
-	import { readFile,writeFile, ReadFileOptions, WriteFileOptions } from '../../uni_modules/uts-file-manager'
-	
+	import {getFileSystemManager} from '@/uni_modules/uts-file-manager'
 	
 	export default {
 		
@@ -23,10 +21,11 @@
 
 		methods: {
 			
-			getImageBase64:function(){
-				readFile({
-					type:'base64',
-					path:'static/logo.png',
+			getImageBase64:function(e){
+				let fileManager = getFileSystemManager()
+				fileManager.readFile({
+					encoding:'base64',
+					filePath:'static/logo.png',
 					success:function(res){
 						console.log("success")
 						console.log(res)
@@ -39,39 +38,36 @@
 						console.log("complete")
 						console.log(res)
 					}
-				} as ReadFileOptions)
+				})
 			},
-			getFileText:function(){
-				writeFile({
-					path:'/test/1.txt',
-					content:'锄禾日当午，汗滴禾下土，谁知盘中餐，粒粒皆辛苦',
+			getFileText:function(e){
+				let fileManager = getFileSystemManager()
+				fileManager.writeFile({
+					filePath:'/test/1.txt',
+					data:'锄禾日当午，汗滴禾下土，谁知盘中餐，粒粒皆辛苦',
 					success:function(res){
-						readFile({
-							type:'text',
-							path:res.filePath,
+						fileManager.readFile({
+							encoding:'utf-8',
+							filePath:res.filePath,
 							success:function(res){
 								console.log("success")
 								console.log(res)
 							},
 							fail:function(res){
 								console.log('fail')
-                                console.log(res)
 							},
 							complete:function(res){
 								console.log("complete")
-                                console.log(res)
 							}
-						} as ReadFileOptions)
+						})
 					},
 					fail:function(res){
 						console.log('fail')
-                        console.log(res)
 					},
 					complete:function(res){
 						console.log("complete")
-                        console.log(res)
 					}
-				} as WriteFileOptions)
+				})
 			}
 		}
 	}
