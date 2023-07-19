@@ -1,6 +1,6 @@
 
 export type ReadFileSuccessResult = {
-	content : string
+	data : string
 }
 
 export type ReadFileFailResult = {

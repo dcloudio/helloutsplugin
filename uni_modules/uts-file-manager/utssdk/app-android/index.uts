@@ -76,7 +76,7 @@ class AndroidFileSystemManager implements FileSystemManager{
 				let base64Content = Base64.encodeToString(byteArray,Base64.NO_WRAP)
 				
 				let ret : ReadFileSuccessResult = {
-					content: base64Content,
+					data: base64Content,
 				}
 				options.success?.(ret)
 				options.complete?.(ret)
@@ -85,7 +85,7 @@ class AndroidFileSystemManager implements FileSystemManager{
 				let text = targetFile.readText()
 				
 				let ret : ReadFileSuccessResult = {
-					content: text
+					data: text
 				}
 				options.success?.(ret)
 				options.complete?.(ret)
