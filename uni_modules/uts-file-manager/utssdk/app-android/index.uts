@@ -5,7 +5,6 @@ import { GetFileSystemManager,FileSystemManager} from "../interface.uts"
 import File from "java.io.File" 
 import UTSAndroid from 'io.dcloud.uts.UTSAndroid';
 import Base64 from "android.util.Base64"
-import Environment from 'android.os.Environment';
 
 export { ReadFileOptions, WriteFileOptions } from "../interface.uts"
 
@@ -26,71 +25,70 @@ class AndroidFileSystemManager implements FileSystemManager{
 			return
 		}
 		
+		let filePath = UTSAndroid.convert2AbsFullPath(options.filePath)
+		let targetFile = new File(filePath)
+		if (!targetFile.exists()) {
+			let ret : ReadFileFailResult = {
+				errCode: -2,
+				errMsg: "file not found.",
+				errSubject: "uni-getFileContent"
+			}
+			options.fail?.(ret)
+			options.complete?.(ret)
+			return
+		}
+		
+		if (targetFile.isDirectory()) {
+			let ret : ReadFileFailResult = {
+				errCode: -3,
+				errMsg: "error:file is a Directory.",
+				errSubject: "uni-getFileContent"
+			}
+			options.fail?.(ret)
+			options.complete?.(ret)
+			return
+		}
+		
+		/**
+		 * 文件超过16M，会超过应用内存  
+		 */
+		if (targetFile.length() > 16 * 1024 * 1024) {
+			let ret : ReadFileFailResult = {
+				errCode: -3,
+				errMsg: "error:file is bigger than 16M",
+				errSubject: "uni-getFileContent"
+			}
+			options.fail?.(ret)
+			options.complete?.(ret)
+			return
+		}
+		
+		let currentDispatcher = UTSAndroid.getDispatcher()
 		/**
 		 * 执行真正的加载行为，为了避免阻塞分发到 io任务序列
 		 */
 		UTSAndroid.dispatchAsync('io',function(_){
 			
-			let filePath = UTSAndroid.convert2AbsFullPath(options.filePath)
-			let targetFile = new File(filePath)
-			if (!targetFile.exists()) {
-				let ret : ReadFileFailResult = {
-					errCode: -2,
-					errMsg: "file not found.",
-					errSubject: "uni-getFileContent"
-				}
-				options.fail?.(ret)
-				options.complete?.(ret)
-				return
+			let ret : ReadFileSuccessResult = {
+				data : ""
 			}
-			
-			if (targetFile.isDirectory()) {
-				let ret : ReadFileFailResult = {
-					errCode: -3,
-					errMsg: "error:file is a Directory.",
-					errSubject: "uni-getFileContent"
-				}
-				options.fail?.(ret)
-				options.complete?.(ret)
-				return
-			}
-			
-			/**
-			 * 文件超过16M，会超过应用内存  
-			 */
-			if (targetFile.length() > 16 * 1024 * 1024) {
-				let ret : ReadFileFailResult = {
-					errCode: -3,
-					errMsg: "error:file is bigger than 16M",
-					errSubject: "uni-getFileContent"
-				}
-				options.fail?.(ret)
-				options.complete?.(ret)
-				return
-			}
-			
 			
 			if(options.encoding == 'base64'){
 				// base64
 				let byteArray = targetFile.readBytes()
 				let base64Content = Base64.encodeToString(byteArray,Base64.NO_WRAP)
+				ret.data = base64Content
 				
-				let ret : ReadFileSuccessResult = {
-					data: base64Content,
-				}
-				options.success?.(ret)
-				options.complete?.(ret)
 			}else{
 				// text
 				let text = targetFile.readText()
-				
-				let ret : ReadFileSuccessResult = {
-					data: text
-				}
-				options.success?.(ret)
-				options.complete?.(ret)
+				ret.data = text
 			}
 			
+			currentDispatcher.async(function(_){
+				options.success?.(ret)
+				options.complete?.(ret)
+			})
 			
 		},null)
 		
@@ -113,7 +111,7 @@ class AndroidFileSystemManager implements FileSystemManager{
 		}
 		
 		
-		
+		let currentDispatcher = UTSAndroid.getDispatcher()
 		UTSAndroid.dispatchAsync('io',function(_){
 			
 			/**
@@ -132,8 +130,11 @@ class AndroidFileSystemManager implements FileSystemManager{
 			let ret : WriteFileSuccessResult = {
 				filePath: nextFile.getPath()
 			}
-			options.success?.(ret)
-			options.complete?.(ret)
+			
+			currentDispatcher.async(function(_){
+				options.success?.(ret)
+				options.complete?.(ret)
+			})
 		},null)
 	}
 }
