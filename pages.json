@@ -123,50 +123,7 @@
 				"enablePullDownRefresh": false
 			}
 
-		},
-
-		{
-			"path": "pages/SyntaxCase/index",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		},
-
-		{
-			"path": "pages/SyntaxCase/paramTest",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		},
-		{
-			"path": "pages/SyntaxCase/consoleTest",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		},
-		{
-			"path": "pages/SyntaxCase/instanceTest",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		},
-    {
-      "path" : "pages/SyntaxCase/basicTest",
-      "style" :                                                                                    
-      {
-          "navigationBarTitleText": "",
-          "enablePullDownRefresh": false
-      }
-    }
-
+		}
 
 	],
 	"tabBar": {

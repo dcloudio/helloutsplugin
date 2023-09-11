@@ -53,26 +53,6 @@
                         }]
                     },
                     {
-                        name: "语法示例",
-                        open: false,
-                        pages: [{
-                            name: "进阶语法示例",
-                            url: "SyntaxCase/index"
-                        }, {
-                            name: "参数传递示例",
-                            url: "SyntaxCase/paramTest"
-                        }, {
-                            name: "日志打印示例",
-                            url: "SyntaxCase/consoleTest"
-                        },{
-                            name: "实例测试示例",
-                            url: "SyntaxCase/instanceTest"
-                        }, {
-                            name: "基础语法测试例",
-                            url: "SyntaxCase/basicTest"
-                        }]
-                    },
-                    {
                         name: "资源加载示例",
                         open: false,
                         pages: [{
