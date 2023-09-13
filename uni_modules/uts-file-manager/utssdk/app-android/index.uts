@@ -111,6 +111,19 @@ class AndroidFileSystemManager implements FileSystemManager{
 			return
 		}
 		
+		if(nextFile.parentFile == null){
+			// 出错了，目标文件已存在，并且是个目录
+			let ret : WriteFileFailResult = {
+				errCode: -3,
+				errMsg: "file parentFile is null.",
+				errSubject: "uni-writeFile"
+			}
+			options.fail?.(ret)
+			options.complete?.(ret)
+			return
+		}
+		
+		
 		
 		let currentDispatcher = UTSAndroid.getDispatcher()
 		let ioDispatcher = UTSAndroid.getDispatcher('io')
@@ -119,8 +132,8 @@ class AndroidFileSystemManager implements FileSystemManager{
 			/**
 			 * 如果上一级目录不存在，创建之
 			 */
-			if(!nextFile.parentFile.exists()){
-				nextFile.parentFile.mkdirs()
+			if(!nextFile.parentFile!.exists()){
+				nextFile.parentFile!.mkdirs()
 			}
 			
 			if(!nextFile.exists()){
