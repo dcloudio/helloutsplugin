@@ -64,10 +64,11 @@ class AndroidFileSystemManager implements FileSystemManager{
 		}
 		
 		let currentDispatcher = UTSAndroid.getDispatcher()
+		let ioDispatcher = UTSAndroid.getDispatcher('io')
 		/**
 		 * 执行真正的加载行为，为了避免阻塞分发到 io任务序列
 		 */
-		UTSAndroid.dispatchAsync('io',function(_){
+		ioDispatcher.async(function(_){
 			
 			let ret : ReadFileSuccessResult = {
 				data : ""
@@ -110,15 +111,29 @@ class AndroidFileSystemManager implements FileSystemManager{
 			return
 		}
 		
+		if(nextFile.parentFile == null){
+			// 出错了，目标文件已存在，并且是个目录
+			let ret : WriteFileFailResult = {
+				errCode: -3,
+				errMsg: "file parentFile is null.",
+				errSubject: "uni-writeFile"
+			}
+			options.fail?.(ret)
+			options.complete?.(ret)
+			return
+		}
+		
+		
 		
 		let currentDispatcher = UTSAndroid.getDispatcher()
-		UTSAndroid.dispatchAsync('io',function(_){
+		let ioDispatcher = UTSAndroid.getDispatcher('io')
+		ioDispatcher.async(function(_){
 			
 			/**
 			 * 如果上一级目录不存在，创建之
 			 */
-			if(!nextFile.parentFile.exists()){
-				nextFile.parentFile.mkdirs()
+			if(!nextFile.parentFile!.exists()){
+				nextFile.parentFile!.mkdirs()
 			}
 			
 			if(!nextFile.exists()){
