@@ -1,6 +1,7 @@
-import { ReadFileSuccessResult, ReadFileFailResult, ReadFile,ReadFileOptions } from "../interface.uts"
-import { WriteFileSuccessResult, WriteFileFailResult, WriteFile,WriteFileOptions } from "../interface.uts"
+import { ReadFileSuccessResult, ReadFile,ReadFileOptions } from "../interface.uts"
+import { WriteFileSuccessResult, WriteFile,WriteFileOptions } from "../interface.uts"
 import { GetFileSystemManager,FileSystemManager} from "../interface.uts"
+import { UniErrorSubject, UniErrors } from "../unierror.uts"
 
 import File from "java.io.File" 
 import UTSAndroid from 'io.dcloud.uts.UTSAndroid';
@@ -15,37 +16,25 @@ class AndroidFileSystemManager implements FileSystemManager{
 		
 		// 判断type 是否合法
 		if(options.encoding != 'base64' && options.encoding != 'utf-8'){
-			let ret : ReadFileFailResult = {
-				errCode: -1,
-				errMsg: "type error.",
-				errSubject: "uni-getFileContent"
-			}
-			options.fail?.(ret)
-			options.complete?.(ret)
+			let err = new UniError(UniErrorSubject, 1200002, UniErrors.get(1200002)!);
+			options.fail?.(err)
+			options.complete?.(err)
 			return
 		}
 		
 		let filePath = UTSAndroid.convert2AbsFullPath(options.filePath)
 		let targetFile = new File(filePath)
 		if (!targetFile.exists()) {
-			let ret : ReadFileFailResult = {
-				errCode: -2,
-				errMsg: "file not found.",
-				errSubject: "uni-getFileContent"
-			}
-			options.fail?.(ret)
-			options.complete?.(ret)
+			let err = new UniError(UniErrorSubject, 1300002, UniErrors.get(1300002)! + filePath);
+			options.fail?.(err)
+			options.complete?.(err)
 			return
 		}
 		
 		if (targetFile.isDirectory()) {
-			let ret : ReadFileFailResult = {
-				errCode: -3,
-				errMsg: "error:file is a Directory.",
-				errSubject: "uni-getFileContent"
-			}
-			options.fail?.(ret)
-			options.complete?.(ret)
+			let err = new UniError(UniErrorSubject,1301003,UniErrors.get(1301003)!);
+			options.fail?.(err)
+			options.complete?.(err)
 			return
 		}
 		
@@ -53,22 +42,17 @@ class AndroidFileSystemManager implements FileSystemManager{
 		 * 文件超过16M，会超过应用内存  
 		 */
 		if (targetFile.length() > 16 * 1024 * 1024) {
-			let ret : ReadFileFailResult = {
-				errCode: -3,
-				errMsg: "error:file is bigger than 16M",
-				errSubject: "uni-getFileContent"
-			}
-			options.fail?.(ret)
-			options.complete?.(ret)
+			let err = new UniError(UniErrorSubject,1300202,UniErrors.get(1300202)!);
+			options.fail?.(err)
+			options.complete?.(err)
 			return
 		}
 		
 		let currentDispatcher = UTSAndroid.getDispatcher()
-		let ioDispatcher = UTSAndroid.getDispatcher('io')
 		/**
 		 * 执行真正的加载行为，为了避免阻塞分发到 io任务序列
 		 */
-		ioDispatcher.async(function(_){
+		UTSAndroid.dispatchAsync('io',function(_){
 			
 			let ret : ReadFileSuccessResult = {
 				data : ""
@@ -101,39 +85,21 @@ class AndroidFileSystemManager implements FileSystemManager{
 		let nextFile = new File(UTSAndroid.getAppContext()?.getFilesDir(),options.filePath)
 		if(nextFile.exists() && nextFile.isDirectory()){
 			// 出错了，目标文件已存在，并且是个目录
-			let ret : WriteFileFailResult = {
-				errCode: -2,
-				errMsg: "file exist and is a directory.",
-				errSubject: "uni-writeFile"
-			}
-			options.fail?.(ret)
-			options.complete?.(ret)
+			let err = new UniError(UniErrorSubject,1301003,UniErrors.get(1301003)!);
+			options.fail?.(err)
+			options.complete?.(err)
 			return
 		}
-		
-		if(nextFile.parentFile == null){
-			// 出错了，目标文件已存在，并且是个目录
-			let ret : WriteFileFailResult = {
-				errCode: -3,
-				errMsg: "file parentFile is null.",
-				errSubject: "uni-writeFile"
-			}
-			options.fail?.(ret)
-			options.complete?.(ret)
-			return
-		}
-		
 		
 		
 		let currentDispatcher = UTSAndroid.getDispatcher()
-		let ioDispatcher = UTSAndroid.getDispatcher('io')
-		ioDispatcher.async(function(_){
+		UTSAndroid.dispatchAsync('io',function(_){
 			
 			/**
 			 * 如果上一级目录不存在，创建之
 			 */
-			if(!nextFile.parentFile!.exists()){
-				nextFile.parentFile!.mkdirs()
+			if(!nextFile.parentFile.exists()){
+				nextFile.parentFile.mkdirs()
 			}
 			
 			if(!nextFile.exists()){
